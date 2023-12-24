@@ -2,9 +2,12 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from .library.helpers import *
+
+from app import rogers_pass_bc
 
 app = FastAPI()
+
+app.include_router(rogers_pass_bc.router)
 
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -18,10 +21,3 @@ async def home(request: Request):
     return templates.TemplateResponse("page.html", {"request": request, "data": data})
 
 
-# Get rogers pass data
-@app.get("/rogers-pass", response_class=HTMLResponse)
-async def rogers_pass(request: Request):
-    data = {
-        
-    }
-    return templates.TemplateResponse("page.html", {"request": request, "data": data})
