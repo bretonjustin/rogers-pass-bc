@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% endblock %}
 </head>
 <body>
@@ -19,16 +21,16 @@
                     class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/">Weather</a></li>
-                <li class="nav-item"><a class="nav-link" href="/">Avalanche</a></li>
-                <li class="nav-item"><a class="nav-link" href="/">Road</a></li>
-                <li class="nav-item"><a class="nav-link" href="/">Webcam</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{data.router_prefix}}/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{data.router_prefix}}/weather">Weather</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{data.router_prefix}}/avalanche">Avalanche</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{data.router_prefix}}/roads">Road</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{data.router_prefix}}/webcams">Webcam</a></li>
             </ul>
         </div>
     </div>
 </nav>
-    <div class="container-fluid">
+    <div class="container-fluid mt-5 pt-3">
         {% block page_content %}{% endblock %}
     </div>
 

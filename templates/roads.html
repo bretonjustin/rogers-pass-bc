@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %}Roads{% endblock %}
+{% block head %}
+{{ super() }}
+
+{% endblock %}
+
+{% block page_content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1>Road Events</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+{% for event in data.events %}
+
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+  <div>
+    {{event.headline}}
+      <br>
+      {{event.description}}
+  </div>
+</div>
+
+{% endfor %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+{{ super() }}
+
+{% endblock %}
+
