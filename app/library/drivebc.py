@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.library.helpers import get_xml_response
+from app.library.helpers import get_xml_response, get_json_response
 
 
 @dataclass
@@ -17,9 +17,9 @@ class RoadEvent:
 
 
 def get_major_drivebc_events(url: str) -> list:
-    data = get_xml_response(url)
+    data = get_json_response(url)
     events = []
-    for event in data["open511"]["events"]["event"]:
+    for event in data["events"]:
         events.append(
             RoadEvent(
                 headline=event["headline"],

@@ -4,6 +4,7 @@ from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
 from app.library import drivebc
+from app.library.avalanche_canada import get_avalanche_forecast
 from app.library.webcams import Webcam
 
 AVALANCHE_LINK = "https://api.avalanche.ca/forecasts/:lang/products/point?lat=51.29998&long=-117.51866"
@@ -59,3 +60,19 @@ async def rogers_pass_roads(request: Request):
         "router_prefix": get_router_prefix(),
     }
     return templates.TemplateResponse("roads.html", {"request": request, "data": data})
+
+
+# get avalanche forecast
+@router.get("/avalanche", response_class=HTMLResponse)
+async def rogers_pass_avalanche(request: Request):
+    data = {
+        "router_prefix": get_router_prefix(),
+        "avalanche_web_link": get_avalanche_forecast(AVALANCHE_LINK),
+    }
+    return templates.TemplateResponse("avalanche.html", {"request": request, "data": data})
+
+
+@router.get("/avalanche_canada", response_class=HTMLResponse)
+async def rogers_pass_avalanche_canada(request: Request):
+    modified_content = get_avalanche_forecast(AVALANCHE_LINK)
+    return HTMLResponse(content=modified_content)
