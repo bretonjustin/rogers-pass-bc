@@ -67,7 +67,6 @@ async def rogers_pass_roads(request: Request):
 async def rogers_pass_avalanche(request: Request):
     data = {
         "router_prefix": get_router_prefix(),
-        "avalanche_web_link": get_avalanche_forecast(AVALANCHE_LINK),
     }
     return templates.TemplateResponse("avalanche.html", {"request": request, "data": data})
 
