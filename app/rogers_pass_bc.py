@@ -5,6 +5,7 @@ from starlette.templating import Jinja2Templates
 
 from app.library import drivebc
 from app.library.avalanche_canada import get_avalanche_forecast
+from app.library.canada_park import get_backcountry_access_map
 from app.library.webcams import Webcam
 
 AVALANCHE_LINK = "https://api.avalanche.ca/forecasts/:lang/products/point?lat=51.29998&long=-117.51866"
@@ -13,6 +14,8 @@ DRIVE_LINK = "https://api.open511.gov.bc.ca/events?area_id=drivebc.ca/3"
 #DRIVE_LINK = "https://api.open511.gov.bc.ca/events?area_id=drivebc.ca/3&severity=MAJOR"
 
 SPOTWX_LINK = "https://spotwx.com/products/grib_index.php?model=gem_glb_15km&lat=51.27545&lon=-117.52779&tz=America/Vancouver&label="
+
+AREA_MAP = "https://www.pc.gc.ca/apps/rogers-pass/print?lang=en"
 
 WEBCAMS = [
     Webcam("Rogers Pass Summit", 1.1, 2.2, 1330, "https://images.drivebc.ca/bchighwaycam/pub/cameras/101.jpg"),
@@ -74,4 +77,17 @@ async def rogers_pass_avalanche(request: Request):
 @router.get("/avalanche_canada", response_class=HTMLResponse)
 async def rogers_pass_avalanche_canada(request: Request):
     modified_content = get_avalanche_forecast(AVALANCHE_LINK)
+    return HTMLResponse(content=modified_content)
+
+@router.get("/backcountry-access", response_class=HTMLResponse)
+async def rogers_pass_backcountry_access(request: Request):
+    data = {
+        "router_prefix": get_router_prefix(),
+    }
+    return templates.TemplateResponse("backcountry_access.html", {"request": request, "data": data})
+
+
+@router.get("/backcountry-access-map", response_class=HTMLResponse)
+async def rogers_pass_backcountry_access_map(request: Request):
+    modified_content = get_backcountry_access_map(AREA_MAP)
     return HTMLResponse(content=modified_content)
