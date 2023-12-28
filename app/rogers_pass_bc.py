@@ -82,6 +82,7 @@ async def rogers_pass_avalanche_canada(request: Request):
     modified_content = get_avalanche_forecast(AVALANCHE_LINK)
     return HTMLResponse(content=modified_content)
 
+
 @router.get("/backcountry-access", response_class=HTMLResponse)
 async def rogers_pass_backcountry_access(request: Request):
     is_valid, parking_areas, unrestricted_areas, restricted_areas, prohibited_areas, valid_from, valid_until = (
@@ -97,3 +98,12 @@ async def rogers_pass_backcountry_access(request: Request):
         "is_valid": is_valid,
     }
     return templates.TemplateResponse("backcountry_access.html", {"request": request, "data": data})
+
+@router.get("/weather", response_class=HTMLResponse)
+async def rogers_pass_weather(request: Request):
+    avalanche_canada_weather = get_avalanche_canada_weather_forecast(AVALANCHE_LINK)
+    environment_canada_weather = get_environment_canada_weather_forecast(WEATHER_LINK)
+    data = {
+        "router_prefix": get_router_prefix(),
+    }
+    return templates.TemplateResponse("weather.html", {"request": request, "data": data})
