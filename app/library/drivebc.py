@@ -14,12 +14,22 @@ class RoadEvent:
     subtype: str
     latitude: float
     longitude: float
+    severity: str = ""
+
+
+def custom_sort(event):
+    severity_order = {"MAJOR": 0, "MINOR": 1}
+    return (severity_order.get(event["severity"], float('inf')), event["severity"])
 
 
 def get_major_drivebc_events(url: str) -> list:
     data = get_json_response(url)
     events = []
-    for event in data["events"]:
+
+    # Sort events using the custom sorting function
+    sorted_events = sorted(data["events"], key=custom_sort)
+
+    for event in sorted_events:
         events.append(
             RoadEvent(
                 headline=event["headline"],
@@ -31,8 +41,12 @@ def get_major_drivebc_events(url: str) -> list:
                 subtype="",
                 latitude=0,
                 longitude=0,
+                severity=event["severity"]
             )
         )
+
+    # Order by severity MAJOR first, then MINOR, then everything else
+    events = sorted(events, key=lambda x: x.severity, reverse=True)
     return events
 
 

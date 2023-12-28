@@ -43,8 +43,6 @@ def get_backcountry_access(url: str):
     # add date to url
     url = url + date
 
-    url = "https://www.pc.gc.ca/apps/rogers-pass/data/publish-2023-12-29"
-
     parking_areas = []
     restricted_areas = []
     unrestricted_areas = []

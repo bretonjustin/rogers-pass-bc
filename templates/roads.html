@@ -8,7 +8,7 @@
 
 {% block page_content %}
 
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col-12">
             <h1>Road Events</h1>
@@ -16,10 +16,19 @@
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container">
 {% for event in data.events %}
 
-<div class="alert alert-danger d-flex align-items-center" role="alert">
+    {% if event.severity == "MINOR" %}
+        <div class="alert alert-warning d-flex align-items-center" role="alert">
+    {% elif event.severity == "MAJOR" %}
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+    {% elif event.severity == "EXTREME" %}
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+    {% else %}
+        <div class="alert alert-info d-flex align-items-center" role="alert">
+    {% endif %}
+
     <i class="bi bi-exclamation-triangle-fill me-2"></i>
   <div>
     {{event.headline}}
