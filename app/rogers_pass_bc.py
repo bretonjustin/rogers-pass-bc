@@ -60,8 +60,7 @@ async def rogers_pass(request: Request):
         "router_name": ROUTER_NAME,
         "avalanche_forecast": avalanche_forecast,
         "major_events": major_events,
-        "restricted_areas": backcountry_access.restricted_areas,
-        "parkings": backcountry_access.parking_areas,
+        "backcountry_access": backcountry_access,
         "road_webcam": ROGERS_PASS_SUMMIT_DRIVE_WEBCAM,
     }
     return templates.TemplateResponse("summary.html", {"request": request, "data": data})

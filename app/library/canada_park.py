@@ -45,7 +45,7 @@ def get_time_from_json_data(data: dict):
     # convert to datetime object
     date = datetime.strptime(str_date[:-6], "%Y-%m-%dT%H:%M:%S")
     # format date as YYYY-MM-DD HH:MM (PST)
-    return date.strftime('%Y-%m-%d %H:%M (PST)')
+    return date.strftime('%Y-%m-%d')
 
 
 def get_backcountry_access(url: str):

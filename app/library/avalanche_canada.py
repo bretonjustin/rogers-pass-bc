@@ -1,6 +1,8 @@
 from dataclasses import dataclass
+from datetime import datetime
 from urllib.parse import urljoin
 
+import pytz
 import requests
 import json
 from bs4 import BeautifulSoup
@@ -34,12 +36,26 @@ class AvalancheForecast:
     validUntil: str
 
 
+def utc_to_pst(utc_datetime: str):
+    utc_timezone = pytz.timezone("UTC")
+    utc_datetime_obj = datetime.strptime(utc_datetime, '%Y-%m-%dT%H:%M:%SZ')
+    utc_datetime = utc_timezone.localize(utc_datetime_obj)
+
+    # Convert to PST (Pacific Standard Time)
+    pst_timezone = pytz.timezone("Canada/Pacific")
+    pst_datetime = utc_datetime.astimezone(pst_timezone)
+
+    return pst_datetime.strftime("%Y-%m-%d %H:%M")
+
+
 def get_avalanche_forecast_data(url: str) -> AvalancheForecast:
     json_response = get_json_response(url)
     summary = json_response["report"]["highlights"]
     travel_advice = json_response["report"]["terrainAndTravelAdvice"]
-    date_issued = json_response["report"]["dateIssued"]
-    valid_until = json_response["report"]["validUntil"]
+
+    date_issued = utc_to_pst(json_response["report"]["dateIssued"])
+    valid_until = utc_to_pst(json_response["report"]["validUntil"])
+
     confidence = json_response["report"]["confidence"]["rating"]["value"]
     weather_summary = ""
     summaries = json_response["report"]["summaries"]

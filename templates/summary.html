@@ -63,7 +63,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h3>Avalanche Forecast</h3>
+                <h3>Avalanche Forecast <span class="badge bg-secondary">Valid until {{data.avalanche_forecast.validUntil}} PST</span></h3>
             </div>
             <div class="col-lg-4">
                 {% if data.avalanche_forecast.forecasts[0] is defined %}
@@ -139,7 +139,8 @@
     <div class="container mb-4">
         <div class="row">
             <div class="col-12">
-                <h3>Backcountry Access</h3>
+                <h3>Backcountry Access <span class="badge bg-secondary">Valid for {{data.backcountry_access.valid_from}}</span></h3>
+                <h5></h5>
             </div>
             <div class="col-lg-6">
                 <div class="table-responsive">
@@ -151,7 +152,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for ski_area in data.restricted_areas %}
+                        {% for ski_area in data.backcountry_access.restricted_areas %}
                         {% if ski_area.isOpen == True %}
                         <tr class="table-success">
                             {% else %}
@@ -181,7 +182,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for parking in data.parkings %}
+                        {% for parking in data.backcountry_access.parking_areas %}
                         {% if parking.isOpen == True %}
                         <tr class="table-success">
                             {% else %}
@@ -209,7 +210,7 @@
     <div class="container mb-4">
         <div class="row">
             <div class="col-12">
-                <h3>Weather Forecast</h3>
+                <h3>Weather Forecast <span class="badge bg-secondary">Issued {{data.avalanche_forecast.dateIssued}} PST</span></h3>
                 {{data.avalanche_forecast.weather_summary | safe}}
             </div>
         </div>
