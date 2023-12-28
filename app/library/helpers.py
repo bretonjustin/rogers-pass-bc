@@ -1,7 +1,6 @@
 import os.path
 import markdown
 import requests
-import json
 import xmltodict
 
 default_headers = {

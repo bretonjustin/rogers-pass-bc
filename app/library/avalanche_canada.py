@@ -4,9 +4,8 @@ from urllib.parse import urljoin
 
 import pytz
 import requests
-import json
 from bs4 import BeautifulSoup
-from app.library.helpers import get_json_response, get_response, default_headers
+from app.library.helpers import get_json_response, default_headers
 
 
 @dataclass

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.library.helpers import get_xml_response, get_json_response
+from app.library.helpers import get_json_response
 
 
 @dataclass
