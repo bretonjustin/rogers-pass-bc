@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from urllib.parse import urljoin
 
 import requests
@@ -71,4 +72,13 @@ def get_avalanche_forecast(link: str):
     except Exception as e:
         print(e)
         return 'Internal Server Error', 500
+
+
+def get_avalanche_canada_weather_forecast(url: str):
+    json_response = get_json_response(url)
+    summaries = json_response["report"]["summaries"]
+
+    for summary in summaries:
+        if summary["type"]["value"] == "weather-summary":
+            return summary["content"]
 

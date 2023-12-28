@@ -1,10 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %}{{data.router_name}} - Weather{% endblock %}
+{% block head %}
+{{ super() }}
+
+{% endblock %}
+
+{% block page_content %}
+
+<div class="container">
+    <h2>Avalanche Canada Weather Forecast</h2>
+    {{data.avalanche_canada_weather | safe}}
+</div>
+
+<div class="container">
+    <h2>Environment Canada Weather Forecast</h2>
+    {{data.environment_canada_weather | safe}}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+{{ super() }}
+
+
+{% endblock %}
