@@ -4,8 +4,11 @@ from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
 from app.library import drivebc
-from app.library.avalanche_canada import get_avalanche_forecast, get_avalanche_canada_weather_forecast
+from app.library.avalanche_canada import get_avalanche_forecast, get_avalanche_canada_weather_forecast, \
+    get_avalanche_forecast_data
 from app.library.canada_park import get_backcountry_access
+from app.library.drivebc import get_major_drivebc_events
+from app.library.environement_canada import get_ec_weather_forecast
 from app.library.webcams import Webcam
 
 AVALANCHE_LINK = "https://api.avalanche.ca/forecasts/:lang/products/point?lat=51.29998&long=-117.51866"
@@ -41,14 +44,22 @@ router.mount("/static", StaticFiles(directory="static"), name="static")
 def get_router_prefix():
     return router.prefix
 
+
 # Get rogers pass data
 @router.get("/", response_class=HTMLResponse)
 async def rogers_pass(request: Request):
+    # display weather forecast, avalanche for today, any major road events and backcountry access
+    # also display two webcams
+    avalanche_forecast = get_avalanche_forecast_data(AVALANCHE_LINK)
+    major_events = get_major_drivebc_events(DRIVE_LINK)
+
     data = {
         "router_prefix": get_router_prefix(),
         "router_name": ROUTER_NAME,
+        "avalanche_forecast": avalanche_forecast,
+        "major_events": major_events,
     }
-    return templates.TemplateResponse("page.html", {"request": request, "data": data})
+    return templates.TemplateResponse("summary.html", {"request": request, "data": data})
 
 
 # Get rogers pass webcams
@@ -91,29 +102,29 @@ async def rogers_pass_avalanche_canada(request: Request):
 
 @router.get("/backcountry-access", response_class=HTMLResponse)
 async def rogers_pass_backcountry_access(request: Request):
-    is_valid, parking_areas, unrestricted_areas, restricted_areas, prohibited_areas, valid_from, valid_until = (
-        get_backcountry_access(BACKCOUNTRY_AREA_DATA))
+    backcountry_access = get_backcountry_access(BACKCOUNTRY_AREA_DATA)
     data = {
         "router_name": ROUTER_NAME,
         "router_prefix": get_router_prefix(),
-        "parkings": parking_areas,
-        "restricted_areas": restricted_areas,
-        "unrestricted_areas": unrestricted_areas,
-        "prohibited_areas": prohibited_areas,
-        "valid_from": valid_from,
-        "valid_until": valid_until,
-        "is_valid": is_valid,
+        "parkings": backcountry_access.parking_areas,
+        "restricted_areas": backcountry_access.restricted_areas,
+        "unrestricted_areas": backcountry_access.unrestricted_areas,
+        "prohibited_areas": backcountry_access.prohibited_areas,
+        "valid_from": backcountry_access.valid_from,
+        "valid_until": backcountry_access.valid_to,
+        "is_valid": backcountry_access.is_valid,
     }
     return templates.TemplateResponse("backcountry_access.html", {"request": request, "data": data})
+
 
 @router.get("/weather", response_class=HTMLResponse)
 async def rogers_pass_weather(request: Request):
     avalanche_canada_weather = get_avalanche_canada_weather_forecast(AVALANCHE_LINK)
-    #environment_canada_weather = get_environment_canada_weather_forecast(WEATHER_LINK)
+    environment_canada_weather = get_ec_weather_forecast(WEATHER_LINK)
     data = {
         "router_name": ROUTER_NAME,
         "router_prefix": get_router_prefix(),
         "avalanche_canada_weather": avalanche_canada_weather,
-        #"environment_canada_weather": environment_canada_weather,
+        "environment_canada_weather": environment_canada_weather,
     }
     return templates.TemplateResponse("weather_forecast.html", {"request": request, "data": data})

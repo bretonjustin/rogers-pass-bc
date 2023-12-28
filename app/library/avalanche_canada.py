@@ -7,6 +7,36 @@ from bs4 import BeautifulSoup
 from app.library.helpers import get_json_response, get_response, default_headers
 
 
+@dataclass
+class DailyAvalancheRating:
+    date: str
+    alpine_danger_rating: str
+    treeline_danger_rating: str
+    below_treeline_danger_rating: str
+
+
+@dataclass
+class AvalancheProblems:
+    summary: str
+
+
+@dataclass
+class AvalancheForecast:
+    forecasts: list[DailyAvalancheRating]
+    problems: list[AvalancheProblems]
+    summary: str
+    travel_advice: str
+    avalanche_summary: str
+    snowpack_summary: str
+    weather_summary: str
+    confidence: str
+
+
+def get_avalanche_forecast_data(url: str) -> AvalancheForecast:
+    avalanche_forecast = AvalancheForecast([], [], "", "", "", "", "", "")
+    return avalanche_forecast
+
+
 # Inside the /embedded-page route
 def extract_external_stylesheets(original_content, base_url):
     soup = BeautifulSoup(original_content, 'html.parser')
@@ -81,4 +111,6 @@ def get_avalanche_canada_weather_forecast(url: str):
     for summary in summaries:
         if summary["type"]["value"] == "weather-summary":
             return summary["content"]
+
+
 

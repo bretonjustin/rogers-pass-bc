@@ -28,6 +28,17 @@ class ParkingArea:
     group: str
 
 
+@dataclass
+class BackcountryAccess:
+    is_valid: bool
+    parking_areas: list[ParkingArea]
+    unrestricted_areas: list[SkiArea]
+    restricted_areas: list[SkiArea]
+    prohibited_areas: list[SkiArea]
+    valid_from: str
+    valid_to: str
+
+
 def get_time_from_json_data(data: dict):
     str_date = data["PST"]
     # the format of the date is 2023-12-27T07:19:31-08:00
@@ -89,4 +100,13 @@ def get_backcountry_access(url: str):
 
             parking_areas.append(parking_area)
 
-    return is_valid, parking_areas, unrestricted_areas, restricted_areas, prohibited_areas, valid_from, valid_to
+    backcountry_access = BackcountryAccess(
+        is_valid,
+        parking_areas,
+        unrestricted_areas,
+        restricted_areas,
+        prohibited_areas,
+        valid_from,
+        valid_to)
+
+    return backcountry_access

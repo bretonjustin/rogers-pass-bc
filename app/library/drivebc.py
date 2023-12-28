@@ -22,7 +22,18 @@ def custom_sort(event):
     return (severity_order.get(event["severity"], float('inf')), event["severity"])
 
 
-def get_major_drivebc_events(url: str) -> list:
+def get_major_drivebc_events(url: str):
+    events = get_drivebc_events(url)
+    major_events = []
+
+    for event in events:
+        if event.severity is "MAJOR":
+            major_events.append(event)
+
+    return major_events
+
+
+def get_drivebc_events(url: str) -> list[RoadEvent]:
     data = get_json_response(url)
     events = []
 
@@ -34,7 +45,7 @@ def get_major_drivebc_events(url: str) -> list:
             RoadEvent(
                 headline=event["headline"],
                 description=event["description"],
-                link="",
+                link="https://drivebc.ca/mobile/pub/events/id/" + str(event["id"]).split('/')[-1] + ".html",
                 created=event["created"],
                 updated=event["updated"],
                 type=event["event_type"],

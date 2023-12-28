@@ -15,7 +15,27 @@
 
 <div class="container">
     <h2>Environment Canada Weather Forecast</h2>
-    {{data.environment_canada_weather | safe}}
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-light">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col" class="w-25">Period</th>
+                <th scope="col">Summary</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for forecast in data.environment_canada_weather %}
+            <tr>
+                <td><img src="{{forecast.icon_url}}" alt="{{forecast.icon_alt}}" width="50px"></td>
+                <td>{{forecast.forecast_period}}</td>
+                <td>{{forecast.text_summary}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
 </div>
 
 {% endblock %}
