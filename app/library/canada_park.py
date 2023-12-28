@@ -1,19 +1,94 @@
+from dataclasses import dataclass
+from datetime import datetime
 from urllib.parse import urljoin
 
+import pytz
 import requests
 import json
 from bs4 import BeautifulSoup
 from app.library.helpers import get_json_response, get_response, default_headers
 
 
-def get_backcountry_access_map(url: str):
-    # load page and wait to load
-    response = get_response(url, default_headers)
-    soup = BeautifulSoup(response.text, 'html.parser')
+@dataclass
+class SkiArea:
+    name: str
+    isOpen: bool
+    comment: str
+    geometry_link: str
+    group: str
 
-    # hide id "controls"
-    controls = soup.find(id="controls")
-    controls['style'] = "display:none"
 
-    # return the modified html
-    return str(soup)
+@dataclass
+class ParkingArea:
+    name: str
+    isOpen: bool
+    comment: str
+    latitude: float
+    longitude: float
+    group: str
+
+
+def get_time_from_json_data(data: dict):
+    str_date = data["PST"]
+    # the format of the date is 2023-12-27T07:19:31-08:00
+    # convert to datetime object
+    date = datetime.strptime(str_date[:-6], "%Y-%m-%dT%H:%M:%S")
+    # format date as YYYY-MM-DD HH:MM (PST)
+    return date.strftime('%Y-%m-%d %H:%M (PST)')
+
+
+def get_backcountry_access(url: str):
+    # current date in YEAR-MONTH-DAY format as of PST time zone
+    date = datetime.now(pytz.timezone('Canada/Pacific')).strftime('%Y-%m-%d')
+    # add date to url
+    url = url + date
+
+    url = "https://www.pc.gc.ca/apps/rogers-pass/data/publish-2023-12-29"
+
+    parking_areas = []
+    restricted_areas = []
+    unrestricted_areas = []
+    prohibited_areas = []
+    valid_from = ""
+    valid_to = ""
+
+    is_valid = True
+    try:
+        response = get_json_response(url)
+    except Exception as e:
+        is_valid = False
+
+    if is_valid:
+        valid_from = get_time_from_json_data(response["validFrom"])
+        valid_to = get_time_from_json_data(response["validUntil"])
+
+        for area in response["areas"]:
+            ski_area = (SkiArea(area['properties']['nameEn'],
+                                area['properties']['isOpen'],
+                                area['properties']['commentEn'],
+                                area['geometry'],
+                                area['properties']['group']))
+
+            soup = BeautifulSoup(ski_area.comment)
+            ski_area.comment = soup.get_text()
+
+            if ski_area.group == 'R':
+                restricted_areas.append(ski_area)
+            elif ski_area.group == 'U':
+                unrestricted_areas.append(ski_area)
+            elif ski_area.group == 'P':
+                prohibited_areas.append(ski_area)
+
+        for area in response["parkingLots"]:
+            parking_area = ParkingArea(area['properties']['nameEn'],
+                                       area['properties']['isOpen'],
+                                       area['properties']['commentEn'],
+                                       area['geometry']['coordinates'][1],
+                                       area['geometry']['coordinates'][0],
+                                       area['properties']['group'])
+            soup = BeautifulSoup(parking_area.comment)
+            parking_area.comment = soup.get_text()
+
+            parking_areas.append(parking_area)
+
+    return is_valid, parking_areas, unrestricted_areas, restricted_areas, prohibited_areas, valid_from, valid_to

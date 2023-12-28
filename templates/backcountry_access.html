@@ -7,9 +7,112 @@
 {% endblock %}
 
 {% block page_content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Backcountry Access</h1>
+            {% if data.is_valid == True %}
+            <h4>Date: {{ data.valid_from }} VALID UNTIL: Midnight (PST) </h4>
+            {% else %}
+            <h4>Information for today has not been posted yet.</h4>
+            {% endif %}
+        </div>
+    </div>
 
-<iframe src="https://www.pc.gc.ca/apps/rogers-pass/print?lang=en" height="90%" width="100%" frameborder="0" style="overflow:hidden;height:90vh;width:100%;"></iframe>
+    <div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col" class="w-25">Winter Restricted Area</th>
+            <th scope="col" >Status</th>
+            <th scope="col" class="w-75">Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ski_area in data.restricted_areas %}
+        {% if ski_area.isOpen == True %}
+        <tr class="table-success">
+            {% else %}
+        <tr class="table-danger">
+            {% endif %}
+            <td>{{ski_area.name}}</td>
+            {% if ski_area.isOpen == True %}
+            <td>Open&nbsp;&nbsp;</td>
+            {% else %}
+            <td>Closed</td>
+            {% endif %}
+            <td>{{ski_area.comment}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
 
+    </table>
+    </div>
+
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col" class="w-25">Parking Lot</th>
+            <th scope="col">Status</th>
+            <th scope="col" class="w-75">Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for parking in data.parkings %}
+        {% if parking.isOpen == True %}
+        <tr class="table-success">
+            {% else %}
+        <tr class="table-danger">
+            {% endif %}
+            <td>{{parking.name}}</td>
+            {% if parking.isOpen == True %}
+            <td>Open&nbsp;&nbsp;</td>
+            {% else %}
+            <td>Closed</td>
+            {% endif %}
+            <td>{{parking.comment}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col" class="w-25">Winter Prohibited Area</th>
+            <th scope="col">Status</th>
+            <th scope="col" class="w-75"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ski_area in data.prohibited_areas %}
+        {% if ski_area.isOpen == True %}
+        <tr class="table-success">
+            {% else %}
+        <tr class="table-danger">
+            {% endif %}
+            <td>{{ski_area.name}}</td>
+            {% if ski_area.isOpen == True %}
+            <td>Open&nbsp;&nbsp;</td>
+            {% else %}
+            <td>Closed</td>
+            {% endif %}
+            <td></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+    </div>
+
+</div>
 {% endblock %}
 
 {% block scripts %}
