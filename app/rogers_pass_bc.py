@@ -22,8 +22,9 @@ SPOTWX_LINK = "https://spotwx.com/products/grib_index.php?model=gem_glb_15km&lat
 
 #AREA_MAP = "https://www.pc.gc.ca/apps/rogers-pass/print?lang=en"
 
+ROGERS_PASS_SUMMIT_DRIVE_WEBCAM = Webcam("Rogers Pass Summit", 1.1, 2.2, 1330, "https://images.drivebc.ca/bchighwaycam/pub/cameras/101.jpg")
 WEBCAMS = [
-    Webcam("Rogers Pass Summit", 1.1, 2.2, 1330, "https://images.drivebc.ca/bchighwaycam/pub/cameras/101.jpg"),
+    ROGERS_PASS_SUMMIT_DRIVE_WEBCAM,
     Webcam("Fidelity Snow Board", 1.1, 2.2, 1910, "https://www.pc.gc.ca/images/remotecamera/sarnif/fidelity/snowstake.jpg"),
     Webcam("Major Rogers snow board", 1.1, 2.2, 1368, "https://www.pc.gc.ca/images/remotecamera/sarnif/MajorRogers/Snowstake.jpg"),
     Webcam("Mount Abbott", 1.1, 2.2, 0, "https://www.pc.gc.ca/images/remotecamera/sarnif/Abbott/landscape.jpg"),
@@ -52,12 +53,16 @@ async def rogers_pass(request: Request):
     # also display two webcams
     avalanche_forecast = get_avalanche_forecast_data(AVALANCHE_LINK)
     major_events = get_major_drivebc_events(DRIVE_LINK)
+    backcountry_access = get_backcountry_access(BACKCOUNTRY_AREA_DATA)
 
     data = {
         "router_prefix": get_router_prefix(),
         "router_name": ROUTER_NAME,
         "avalanche_forecast": avalanche_forecast,
         "major_events": major_events,
+        "restricted_areas": backcountry_access.restricted_areas,
+        "parkings": backcountry_access.parking_areas,
+        "road_webcam": ROGERS_PASS_SUMMIT_DRIVE_WEBCAM,
     }
     return templates.TemplateResponse("summary.html", {"request": request, "data": data})
 
@@ -75,7 +80,7 @@ async def rogers_pass_webcams(request: Request):
 
 @router.get("/roads", response_class=HTMLResponse)
 async def rogers_pass_roads(request: Request):
-    events = drivebc.get_major_drivebc_events(DRIVE_LINK)
+    events = drivebc.get_drivebc_events(DRIVE_LINK)
     data = {
         "events": events,
         "router_prefix": get_router_prefix(),

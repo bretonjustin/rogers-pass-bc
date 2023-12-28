@@ -8,6 +8,213 @@
 
 {% block page_content %}
 
+<style>
+    .table-considerable {
+    --bs-table-color: #000;
+    --bs-table-bg: #d1e7dd;
+    --bs-table-border-color: #bcd0c7;
+    --bs-table-striped-bg: #c7dbd2;
+    --bs-table-striped-color: #000;
+    --bs-table-active-bg: #bcd0c7;
+    --bs-table-active-color: #000;
+    --bs-table-hover-bg: #c1d6cc;
+    --bs-table-hover-color: #000;
+    color: var(--bs-table-color);
+    border-color: var(--bs-table-border-color);
+}
+</style>
+
+<div class="container-fluid pb-4 pt-4">
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-12">
+                <h3>Road Events</h3>
+            </div>
+            <div class="col-lg-8">
+                {% for event in data.major_events %}
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <div>
+                        {{data.major_events.headline}}
+                        <br>
+                        {{data.major_events.description}} <a href="{{data.major_events.link}}" target="_blank">More
+                        Info</a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <div>
+                        No major events
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-4">
+                <img class="img-fluid" src="{{data.road_webcam.web_link}}" alt="{{data.road_webcam.name}}" width="100%">
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="container-fluid pb-4 pt-4 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3>Avalanche Forecast</h3>
+            </div>
+            <div class="col-lg-4">
+                {% if data.avalanche_forecast.forecasts[0] is defined %}
+
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <tbody>
+                        {% if data.avalanche_forecast.forecasts[0].alpine_danger_rating == "low" %}
+                        <tr class="table-success">
+                            {% elif data.avalanche_forecast.forecasts[0].alpine_danger_rating == "moderate" %}
+                        <tr class="table-warning">
+                            {% elif data.avalanche_forecast.forecasts[0].alpine_danger_rating == "considerable" %}
+                        <tr class="table-considerable">
+                            {% elif data.avalanche_forecast.forecasts[0].alpine_danger_rating == "high" %}
+                        <tr class="table-danger">
+                            {% elif data.avalanche_forecast.forecasts[0].alpine_danger_rating == "extreme" %}
+                        <tr class="table-dark">
+                            {% endif %}
+                            <td><b>Alpine</b></td>
+                            <td class="text-uppercase">{{data.avalanche_forecast.forecasts[0].alpine_danger_rating}}
+                            </td>
+                        </tr>
+
+                        {% if data.avalanche_forecast.forecasts[0].treeline_danger_rating == "low" %}
+                        <tr class="table-success">
+                            {% elif data.avalanche_forecast.forecasts[0].treeline_danger_rating == "moderate" %}
+                        <tr class="table-warning">
+                            {% elif data.avalanche_forecast.forecasts[0].treeline_danger_rating == "considerable" %}
+                        <tr class="table-considerable">
+                            {% elif data.avalanche_forecast.forecasts[0].treeline_danger_rating == "high" %}
+                        <tr class="table-danger">
+                            {% elif data.avalanche_forecast.forecasts[0].treeline_danger_rating == "extreme" %}
+                        <tr class="table-dark">
+                            {% endif %}
+                            <td><b>Treeline</b></td>
+                            <td class="text-uppercase">{{data.avalanche_forecast.forecasts[0].treeline_danger_rating}}
+                            </td>
+                        </tr>
+
+                        {% if data.avalanche_forecast.forecasts[0].below_treeline_danger_rating == "low" %}
+                        <tr class="table-success">
+                            {% elif data.avalanche_forecast.forecasts[0].below_treeline_danger_rating == "moderate" %}
+                        <tr class="table-warning">
+                            {% elif data.avalanche_forecast.forecasts[0].below_treeline_danger_rating == "considerable"
+                            %}
+                        <tr class="table-considerable">
+                            {% elif data.avalanche_forecast.forecasts[0].below_treeline_danger_rating == "high" %}
+                        <tr class="table-danger">
+                            {% elif data.avalanche_forecast.forecasts[0].below_treeline_danger_rating == "extreme" %}
+                        <tr class="table-dark">
+                            {% endif %}
+                            <td><b>Below Treeline</b></td>
+                            <td class="text-uppercase">
+                                {{data.avalanche_forecast.forecasts[0].below_treeline_danger_rating}}
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-8">
+                {{data.avalanche_forecast.summary | safe}}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pb-4 pt-4">
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-12">
+                <h3>Backcountry Access</h3>
+            </div>
+            <div class="col-lg-6">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="w-75">Winter Restricted Area</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for ski_area in data.restricted_areas %}
+                        {% if ski_area.isOpen == True %}
+                        <tr class="table-success">
+                            {% else %}
+                        <tr class="table-danger">
+                            {% endif %}
+                            <td>{{ski_area.name}}</td>
+                            {% if ski_area.isOpen == True %}
+                            <td>Open&nbsp;&nbsp;</td>
+                            {% else %}
+                            <td>Closed</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="w-75">Parking Lot</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for parking in data.parkings %}
+                        {% if parking.isOpen == True %}
+                        <tr class="table-success">
+                            {% else %}
+                        <tr class="table-danger">
+                            {% endif %}
+                            <td>{{parking.name}}</td>
+                            {% if parking.isOpen == True %}
+                            <td>Open&nbsp;&nbsp;</td>
+                            {% else %}
+                            <td>Closed</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pb-4 pt-4 bg-light">
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-12">
+                <h3>Weather Forecast</h3>
+                {{data.avalanche_forecast.weather_summary | safe}}
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}

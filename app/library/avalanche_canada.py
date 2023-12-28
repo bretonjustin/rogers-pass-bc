@@ -30,10 +30,40 @@ class AvalancheForecast:
     snowpack_summary: str
     weather_summary: str
     confidence: str
+    dateIssued: str
+    validUntil: str
 
 
 def get_avalanche_forecast_data(url: str) -> AvalancheForecast:
-    avalanche_forecast = AvalancheForecast([], [], "", "", "", "", "", "")
+    json_response = get_json_response(url)
+    summary = json_response["report"]["highlights"]
+    travel_advice = json_response["report"]["terrainAndTravelAdvice"]
+    date_issued = json_response["report"]["dateIssued"]
+    valid_until = json_response["report"]["validUntil"]
+    confidence = json_response["report"]["confidence"]["rating"]["value"]
+    weather_summary = ""
+    summaries = json_response["report"]["summaries"]
+    for summary_ in summaries:
+        if summary_["type"]["value"] == "weather-summary":
+            weather_summary = summary_["content"]
+        if summary_["type"]["value"] == "avalanche-summary":
+            avalanche_summary = summary_["content"]
+        if summary_["type"]["value"] == "snowpack-summary":
+            snowpack_summary = summary_["content"]
+
+    daily_avalanche_ratings = []
+
+    for daily_avalanche_rating in json_response["report"]["dangerRatings"]:
+        date = daily_avalanche_rating["date"]["display"]
+        alpine_danger_rating = daily_avalanche_rating["ratings"]["alp"]["rating"]["value"]
+        treeline_danger_rating = daily_avalanche_rating["ratings"]["tln"]["rating"]["value"]
+        below_treeline_danger_rating = daily_avalanche_rating["ratings"]["btl"]["rating"]["value"]
+        daily_avalanche_ratings.append(
+            DailyAvalancheRating(date, alpine_danger_rating, treeline_danger_rating, below_treeline_danger_rating))
+
+    avalanche_forecast = AvalancheForecast(daily_avalanche_ratings, [], summary, travel_advice, avalanche_summary,
+                                           snowpack_summary, weather_summary, confidence, date_issued, valid_until)
+
     return avalanche_forecast
 
 

@@ -20,95 +20,95 @@
     </div>
 
     <div class="table-responsive">
-    <table class="table table-bordered">
-        <thead class="table-light">
-        <tr>
-            <th scope="col" class="w-25">Winter Restricted Area</th>
-            <th scope="col" >Status</th>
-            <th scope="col" class="w-75">Comment</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for ski_area in data.restricted_areas %}
-        {% if ski_area.isOpen == True %}
-        <tr class="table-success">
-            {% else %}
-        <tr class="table-danger">
-            {% endif %}
-            <td>{{ski_area.name}}</td>
+        <table class="table table-bordered">
+            <thead class="table-light">
+            <tr>
+                <th scope="col" class="w-25">Winter Restricted Area</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="w-75">Comment</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ski_area in data.restricted_areas %}
             {% if ski_area.isOpen == True %}
-            <td>Open&nbsp;&nbsp;</td>
-            {% else %}
-            <td>Closed</td>
-            {% endif %}
-            <td>{{ski_area.comment}}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
+            <tr class="table-success">
+                {% else %}
+            <tr class="table-danger">
+                {% endif %}
+                <td>{{ski_area.name}}</td>
+                {% if ski_area.isOpen == True %}
+                <td>Open&nbsp;&nbsp;</td>
+                {% else %}
+                <td>Closed</td>
+                {% endif %}
+                <td>{{ski_area.comment}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
 
-    </table>
+        </table>
     </div>
 
 
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <thead class="table-light">
-        <tr>
-            <th scope="col" class="w-25">Parking Lot</th>
-            <th scope="col">Status</th>
-            <th scope="col" class="w-75">Comment</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for parking in data.parkings %}
-        {% if parking.isOpen == True %}
-        <tr class="table-success">
-            {% else %}
-        <tr class="table-danger">
-            {% endif %}
-            <td>{{parking.name}}</td>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-light">
+            <tr>
+                <th scope="col" class="w-25">Parking Lot</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="w-75">Comment</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for parking in data.parkings %}
             {% if parking.isOpen == True %}
-            <td>Open&nbsp;&nbsp;</td>
-            {% else %}
-            <td>Closed</td>
-            {% endif %}
-            <td>{{parking.comment}}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
+            <tr class="table-success">
+                {% else %}
+            <tr class="table-danger">
+                {% endif %}
+                <td>{{parking.name}}</td>
+                {% if parking.isOpen == True %}
+                <td>Open&nbsp;&nbsp;</td>
+                {% else %}
+                <td>Closed</td>
+                {% endif %}
+                <td>{{parking.comment}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
 
-    </table>
+        </table>
 
-</div>
+    </div>
 
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <thead class="table-light">
-        <tr>
-            <th scope="col" class="w-25">Winter Prohibited Area</th>
-            <th scope="col">Status</th>
-            <th scope="col" class="w-75"></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for ski_area in data.prohibited_areas %}
-        {% if ski_area.isOpen == True %}
-        <tr class="table-success">
-            {% else %}
-        <tr class="table-danger">
-            {% endif %}
-            <td>{{ski_area.name}}</td>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-light">
+            <tr>
+                <th scope="col" class="w-25">Winter Prohibited Area</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="w-75"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ski_area in data.prohibited_areas %}
             {% if ski_area.isOpen == True %}
-            <td>Open&nbsp;&nbsp;</td>
-            {% else %}
-            <td>Closed</td>
-            {% endif %}
-            <td></td>
-        </tr>
-        {% endfor %}
-        </tbody>
+            <tr class="table-success">
+                {% else %}
+            <tr class="table-danger">
+                {% endif %}
+                <td>{{ski_area.name}}</td>
+                {% if ski_area.isOpen == True %}
+                <td>Open&nbsp;&nbsp;</td>
+                {% else %}
+                <td>Closed</td>
+                {% endif %}
+                <td></td>
+            </tr>
+            {% endfor %}
+            </tbody>
 
-    </table>
+        </table>
 
     </div>
 

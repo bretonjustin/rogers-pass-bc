@@ -27,7 +27,7 @@ def get_major_drivebc_events(url: str):
     major_events = []
 
     for event in events:
-        if event.severity is "MAJOR":
+        if event.severity == "MAJOR":
             major_events.append(event)
 
     return major_events
