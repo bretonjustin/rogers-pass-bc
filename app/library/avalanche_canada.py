@@ -23,6 +23,7 @@ class AvalancheProblems:
 
 @dataclass
 class AvalancheForecast:
+    id_: str
     forecasts: list[DailyAvalancheRating]
     problems: list[AvalancheProblems]
     summary: str
@@ -33,6 +34,7 @@ class AvalancheForecast:
     confidence: str
     dateIssued: str
     validUntil: str
+    official_link: str
 
 
 def utc_to_pst(utc_datetime: str):
@@ -68,6 +70,9 @@ def get_avalanche_forecast_data(url: str) -> AvalancheForecast:
 
     daily_avalanche_ratings = []
 
+    id_ = json_response["report"]["id"]
+    official_link = "https://www.avalanche.ca/forecasts/" + id_
+
     for daily_avalanche_rating in json_response["report"]["dangerRatings"]:
         date = daily_avalanche_rating["date"]["display"]
         alpine_danger_rating = daily_avalanche_rating["ratings"]["alp"]["rating"]["value"]
@@ -76,8 +81,9 @@ def get_avalanche_forecast_data(url: str) -> AvalancheForecast:
         daily_avalanche_ratings.append(
             DailyAvalancheRating(date, alpine_danger_rating, treeline_danger_rating, below_treeline_danger_rating))
 
-    avalanche_forecast = AvalancheForecast(daily_avalanche_ratings, [], summary, travel_advice, avalanche_summary,
-                                           snowpack_summary, weather_summary, confidence, date_issued, valid_until)
+    avalanche_forecast = AvalancheForecast(id_, daily_avalanche_ratings, [], summary, travel_advice, avalanche_summary,
+                                           snowpack_summary, weather_summary, confidence, date_issued, valid_until,
+                                           official_link)
 
     return avalanche_forecast
 

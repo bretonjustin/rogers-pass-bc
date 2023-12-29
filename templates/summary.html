@@ -58,6 +58,8 @@
             </div>
             <div class="col-lg-4">
                 <img class="img-fluid" src="{{data.road_webcam.web_link}}" alt="{{data.road_webcam.name}}" width="100%">
+                <div class="text-center"><a href="{{data.router_prefix}}/webcams" class="btn btn-primary mt-2" role="button">All webcams</a></div>
+
             </div>
 
         </div>
@@ -135,6 +137,7 @@
             </div>
             <div class="col-lg-8">
                 {{data.avalanche_forecast.summary | safe}}
+                <a href="{{data.avalanche_forecast.official_link}}" class="btn btn-primary" role="button" target="_blank">Full avalanche forecast</a>
             </div>
 
         </div>
@@ -145,8 +148,11 @@
     <div class="container mb-4">
         <div class="row">
             <div class="col-12">
+                {% if data.backcountry_access.restricted_areas[0] is defined %}
                 <h3>Backcountry Access <span class="badge bg-secondary">Valid for {{data.backcountry_access.valid_from}}</span></h3>
-                <h5></h5>
+                {% else %}
+                <h3>Backcountry Access <span class="badge bg-danger">Information for today has not been posted yet.</span></h3>
+                {% endif %}
             </div>
             <div class="col-lg-6">
                 <div class="table-responsive">
