@@ -47,3 +47,13 @@ def get_xml_response(url: str) -> dict:
     }
     content = get_response(url, xml_headers).text
     return dict(xmltodict.parse(content, encoding='utf-8'))
+
+
+def get_disclaimer() -> str:
+    # convert .md file /pages/disclaimer.md to html
+    # read the disclaimer.md file
+    with open("app/pages/disclaimer.md", "r") as f:
+        content = f.read()
+    # convert markdown to html
+    content = markdown.markdown(content)
+    return content

@@ -9,6 +9,7 @@ from app.library.avalanche_canada import get_avalanche_forecast, get_avalanche_c
 from app.library.canada_park import get_backcountry_access
 from app.library.drivebc import get_major_drivebc_events
 from app.library.environement_canada import get_ec_weather_forecast
+from app.library.helpers import get_disclaimer
 from app.library.webcams import Webcam
 
 AVALANCHE_LINK = "https://api.avalanche.ca/forecasts/:lang/products/point?lat=51.29998&long=-117.51866"
@@ -132,3 +133,14 @@ async def rogers_pass_weather(request: Request):
         "environment_canada_weather": environment_canada_weather,
     }
     return templates.TemplateResponse("weather_forecast.html", {"request": request, "data": data})
+
+@router.get("/disclaimer", response_class=HTMLResponse)
+async def disclaimer(request: Request):
+    disclaimer_ = get_disclaimer()
+    data = {
+        "router_name": ROUTER_NAME,
+        "router_prefix": get_router_prefix(),
+        "disclaimer": disclaimer_
+    }
+
+    return templates.TemplateResponse("disclaimer.html", {"request": request, "data": data})

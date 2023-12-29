@@ -51,14 +51,20 @@
                 <div class="alert alert-success d-flex align-items-center" role="alert">
                     <i class="bi bi-check-circle-fill me-2"></i>
                     <div>
-                        No major events
+                        No major road events
                     </div>
                 </div>
                 {% endfor %}
+                <div class="mb-2">
+                    <a href="{{data.router_prefix}}/roads" class="btn btn-primary" role="button">All road events</a>
+                </div>
             </div>
             <div class="col-lg-4">
                 <img class="img-fluid" src="{{data.road_webcam.web_link}}" alt="{{data.road_webcam.name}}" width="100%">
-                <div class="text-center"><a href="{{data.router_prefix}}/webcams" class="btn btn-primary mt-2" role="button">All webcams</a></div>
+                <div class="">
+                    <a href="{{data.router_prefix}}/webcams" class="btn btn-primary mt-2"
+                                            role="button">All webcams</a>
+                </div>
 
             </div>
 
@@ -71,7 +77,8 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h3>Avalanche Forecast <span class="badge bg-secondary">Valid until {{data.avalanche_forecast.validUntil}} PST</span></h3>
+                <h3>Avalanche Forecast <span class="badge bg-secondary">Valid until {{data.avalanche_forecast.validUntil}} PST</span>
+                </h3>
             </div>
             <div class="col-lg-4">
                 {% if data.avalanche_forecast.forecasts[0] is defined %}
@@ -137,7 +144,10 @@
             </div>
             <div class="col-lg-8">
                 {{data.avalanche_forecast.summary | safe}}
-                <a href="{{data.avalanche_forecast.official_link}}" class="btn btn-primary" role="button" target="_blank">Full avalanche forecast</a>
+                <div>
+                    <a href="{{data.avalanche_forecast.official_link}}" class="btn btn-primary" role="button"
+                       target="_blank">Full avalanche forecast</a>
+                </div>
             </div>
 
         </div>
@@ -149,9 +159,11 @@
         <div class="row">
             <div class="col-12">
                 {% if data.backcountry_access.restricted_areas[0] is defined %}
-                <h3>Backcountry Access <span class="badge bg-secondary">Valid for {{data.backcountry_access.valid_from}}</span></h3>
+                <h3>Backcountry Access <span
+                        class="badge bg-secondary">Valid for {{data.backcountry_access.valid_from}}</span></h3>
                 {% else %}
-                <h3>Backcountry Access <span class="badge bg-danger">Information for today has not been posted yet.</span></h3>
+                <h3>Backcountry Access <span
+                        class="badge bg-danger">Information for today has not been posted yet.</span></h3>
                 {% endif %}
             </div>
             <div class="col-lg-6">
@@ -222,8 +234,10 @@
     <div class="container mb-4">
         <div class="row">
             <div class="col-12">
-                <h3>Weather Forecast <span class="badge bg-secondary">Issued {{data.avalanche_forecast.dateIssued}} PST</span></h3>
+                <h3>Weather Forecast <span
+                        class="badge bg-secondary">Issued {{data.avalanche_forecast.dateIssued}} PST</span></h3>
                 {{data.avalanche_forecast.weather_summary | safe}}
+                <a href="{{data.router_prefix}}/weather" class="btn btn-primary" role="button">Full weather forecast</a>
             </div>
         </div>
     </div>

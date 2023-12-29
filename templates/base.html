@@ -50,7 +50,7 @@
         </div>
     </div>
 </nav>
-<div class="mt-5 pt-3">
+<div class="mt-5 pt-4">
     {% block page_content %}{% endblock %}
 </div>
 
@@ -60,11 +60,9 @@
             <span class="mb-3 mb-md-0 text-body-secondary">© 2023 Justin Breton</span>
         </div>
 
-        <!--    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">-->
-        <!--      <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>-->
-        <!--      <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>-->
-        <!--      <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>-->
-        <!--    </ul>-->
+            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+              <li class="ms-3"><a href="{{data.router_prefix}}/disclaimer" class="btn btn-danger" role="button">Disclaimer</a></li>
+            </ul>
     </footer>
 </div>
 
