@@ -36,7 +36,6 @@ app.add_middleware(
 app.include_router(rogers_pass_bc.router)
 
 templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -45,10 +44,10 @@ async def home(request: Request):
     return RedirectResponse(url="/rogers-pass")
 
 
-@app.get("/static/{file_path:path}")
-def get_static_file(file_path: str):
-    file_path = f"static/{file_path}"
-    return FileResponse(file_path, headers={"Cache-Control": "public, max-age=2592000"})  # 2592000 seconds is 30 days
+@app.get("/static/{path:path}")
+def static(path: str):
+    path = f"static/{path}"
+    return FileResponse(path, headers={"Cache-Control": "public, max-age=2592000"})  # 2592000 seconds is 30 days
 
 
 if __name__ == "__main__":
