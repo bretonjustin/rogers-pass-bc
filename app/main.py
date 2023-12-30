@@ -8,6 +8,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.responses import FileResponse
 
 from app import rogers_pass_bc
 
@@ -42,6 +43,12 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def home(request: Request):
     # redirect to rogers pass page
     return RedirectResponse(url="/rogers-pass")
+
+
+@app.get("/static/{file_path:path}")
+def get_static_file(file_path: str):
+    file_path = f"static/{file_path}"
+    return FileResponse(file_path, headers={"Cache-Control": "public, max-age=2592000"})  # 2592000 seconds is 30 days
 
 
 if __name__ == "__main__":
