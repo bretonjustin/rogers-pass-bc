@@ -8,17 +8,20 @@
     <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+          content="Your ultimate guide to backcountry skiing conditions. Real-time updates on weather, avalanche risks, road events, webcams, and access details for prime backcountry ski areas. Plan your adventure wisely.">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/img/favicon.ico') }}">
     {% endblock %}
 </head>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-P0G50F71HV"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-P0G50F71HV');
+    gtag('config', 'G-P0G50F71HV');
 </script>
 
 <body>
@@ -71,9 +74,10 @@
             <span class="mb-3 mb-md-0 text-body-secondary">© 2023 Justin Breton</span>
         </div>
 
-            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-              <li class="ms-3"><a href="{{data.router_prefix}}/disclaimer" class="btn btn-danger" role="button">Disclaimer</a></li>
-            </ul>
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li class="ms-3"><a href="{{data.router_prefix}}/disclaimer" class="btn btn-danger"
+                                role="button">Disclaimer</a></li>
+        </ul>
     </footer>
 </div>
 
