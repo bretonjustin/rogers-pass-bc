@@ -59,6 +59,8 @@ def get_avalanche_forecast_data(url: str) -> AvalancheForecast:
 
     confidence = json_response["report"]["confidence"]["rating"]["value"]
     weather_summary = ""
+    avalanche_summary = ""
+    snowpack_summary = ""
     summaries = json_response["report"]["summaries"]
     for summary_ in summaries:
         if summary_["type"]["value"] == "weather-summary":
@@ -135,8 +137,8 @@ def get_avalanche_forecast(link: str):
         for element in soup.select('.Forecast_Footer__fTwcV'):
             element.decompose()
 
-        for element in soup.select('.Notifications_Set__Zo5NW'):
-            element.decompose()
+        # for element in soup.select('.Notifications_Set__Zo5NW'):
+        #     element.decompose()
 
         # Render the modified content
         modified_content = str(soup)
