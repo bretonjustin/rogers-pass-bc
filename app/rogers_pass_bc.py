@@ -21,7 +21,7 @@ BACKCOUNTRY_AREA_DATA = "https://www.pc.gc.ca/apps/rogers-pass/data/publish-"
 
 SPOTWX_LINK = "https://spotwx.com/products/grib_index.php?model=gem_glb_15km&lat=51.27545&lon=-117.52779&tz=America/Vancouver&label="
 
-#AREA_MAP = "https://www.pc.gc.ca/apps/rogers-pass/print?lang=en"
+BACKCOUNTRY_AREA_MAP = "https://www.pc.gc.ca/apps/rogers-pass/"
 
 ROGERS_PASS_SUMMIT_DRIVE_WEBCAM = Webcam("Rogers Pass Summit", 1.1, 2.2, 1330, "https://images.drivebc.ca/bchighwaycam/pub/cameras/101.jpg")
 WEBCAMS = [
@@ -63,6 +63,7 @@ async def rogers_pass(request: Request):
         "major_events": major_events,
         "backcountry_access": backcountry_access,
         "road_webcam": ROGERS_PASS_SUMMIT_DRIVE_WEBCAM,
+        "backcountry_map_link": BACKCOUNTRY_AREA_MAP,
     }
     return templates.TemplateResponse("summary.html", {"request": request, "data": data})
 

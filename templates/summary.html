@@ -11,16 +11,8 @@
 <style>
     .table-considerable {
     --bs-table-color: #000;
-    --bs-table-bg: #d1e7dd;
-    --bs-table-border-color: #bcd0c7;
-    --bs-table-striped-bg: #c7dbd2;
-    --bs-table-striped-color: #000;
-    --bs-table-active-bg: #bcd0c7;
-    --bs-table-active-color: #000;
-    --bs-table-hover-bg: #c1d6cc;
-    --bs-table-hover-color: #000;
+    --bs-table-bg: #ffac4a;
     color: var(--bs-table-color);
-    border-color: var(--bs-table-border-color);
 }
 </style>
 
@@ -56,13 +48,13 @@
                 </div>
                 {% endfor %}
                 <div class="mb-2">
-                    <a href="{{data.router_prefix}}/roads" class="btn btn-primary" role="button">All road events</a>
+                    <a href="{{data.router_prefix}}/roads" class="btn btn-primary text-wrap" role="button">All road events</a>
                 </div>
             </div>
             <div class="col-lg-4">
                 <img class="img-fluid" src="{{data.road_webcam.web_link}}" alt="{{data.road_webcam.name}}" width="100%">
                 <div class="">
-                    <a href="{{data.router_prefix}}/webcams" class="btn btn-primary mt-2"
+                    <a href="{{data.router_prefix}}/webcams" class="btn btn-primary mt-2 text-wrap"
                                             role="button">All webcams</a>
                 </div>
 
@@ -145,7 +137,7 @@
             <div class="col-lg-8">
                 {{data.avalanche_forecast.summary | safe}}
                 <div>
-                    <a href="{{data.avalanche_forecast.official_link}}" class="btn btn-primary" role="button"
+                    <a href="{{data.avalanche_forecast.official_link}}" class="btn btn-primary text-wrap" role="button"
                        target="_blank">Full avalanche forecast</a>
                 </div>
             </div>
@@ -227,6 +219,8 @@
                 </div>
             </div>
         </div>
+        <a href="{{data.backcountry_map_link}}" class="btn btn-primary text-wrap" role="button" target="_blank">Full backcountry
+            access details</a>
     </div>
 </div>
 
@@ -237,7 +231,7 @@
                 <h3>Weather Forecast <span
                         class="badge bg-secondary text-wrap">Issued {{data.avalanche_forecast.dateIssued}} PST</span></h3>
                 {{data.avalanche_forecast.weather_summary | safe}}
-                <a href="{{data.router_prefix}}/weather" class="btn btn-primary" role="button">Full weather forecast</a>
+                <a href="{{data.router_prefix}}/weather" class="btn btn-primary text-wrap" role="button">Full weather forecast</a>
             </div>
         </div>
     </div>
