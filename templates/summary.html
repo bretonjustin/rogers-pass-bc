@@ -77,7 +77,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h3>Avalanche Forecast <span class="badge bg-secondary">Valid until {{data.avalanche_forecast.validUntil}} PST</span>
+                <h3>Avalanche Forecast <span class="badge bg-secondary text-wrap">Valid until {{data.avalanche_forecast.validUntil}} PST</span>
                 </h3>
             </div>
             <div class="col-lg-4">
@@ -160,10 +160,10 @@
             <div class="col-12">
                 {% if data.backcountry_access.restricted_areas[0] is defined %}
                 <h3>Backcountry Access <span
-                        class="badge bg-secondary">Valid for {{data.backcountry_access.valid_from}}</span></h3>
+                        class="badge bg-secondary text-wrap">Valid for {{data.backcountry_access.valid_from}}</span></h3>
                 {% else %}
                 <h3>Backcountry Access <span
-                        class="badge bg-danger">Information for today has not been posted yet.</span></h3>
+                        class="badge bg-danger text-wrap">Information for today has not been posted yet.</span></h3>
                 {% endif %}
             </div>
             <div class="col-lg-6">
@@ -235,7 +235,7 @@
         <div class="row">
             <div class="col-12">
                 <h3>Weather Forecast <span
-                        class="badge bg-secondary">Issued {{data.avalanche_forecast.dateIssued}} PST</span></h3>
+                        class="badge bg-secondary text-wrap">Issued {{data.avalanche_forecast.dateIssued}} PST</span></h3>
                 {{data.avalanche_forecast.weather_summary | safe}}
                 <a href="{{data.router_prefix}}/weather" class="btn btn-primary" role="button">Full weather forecast</a>
             </div>
