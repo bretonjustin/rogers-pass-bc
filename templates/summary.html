@@ -50,9 +50,6 @@
                 <div class="mb-2">
                     <a href="{{data.router_prefix}}/roads" class="btn btn-primary text-wrap" role="button">All road
                         events</a>
-                    <p class="fw-light fst-italic mt-2">Source: <a href="{{data.roads_link}}"
-                                                                   target="_blank">{{data.roads_source_name}}</a>
-                    </p>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -64,13 +61,17 @@
 
             </div>
 
+            <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.roads_link}}"
+                                                           target="_blank">{{data.roads_source_name}}</a>
+            </p>
+
         </div>
 
     </div>
 </div>
 
 <div class="container-fluid pb-4 pt-4">
-    <div class="container">
+    <div class="container mb-4">
         <div class="row">
             <div class="col-12">
                 <h3>Avalanche Forecast <span class="badge bg-secondary text-wrap">Valid until {{data.avalanche_forecast.validUntil}} PST</span>
@@ -147,7 +148,7 @@
             </div>
 
         </div>
-        <p class="fw-light fst-italic mt-2">Source: <a href="{{data.avalanche_canada_link}}"
+        <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.avalanche_canada_link}}"
                                                        target="_blank">{{data.avalanche_source_name}}</a>
         </p>
     </div>
@@ -230,7 +231,7 @@
         <a href="{{data.backcountry_map_link}}" class="btn btn-primary text-wrap" role="button" target="_blank">Full
             backcountry
             access details</a>
-        <p class="fw-light fst-italic mt-2">Source: <a href="{{data.backcountry_area_source_link}}"
+        <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.backcountry_area_source_link}}"
                                                        target="_blank">{{data.backcountry_area_source_name}}</a>
         </p>
     </div>
@@ -246,7 +247,7 @@
                 {{data.avalanche_forecast.weather_summary | safe}}
                 <a href="{{data.router_prefix}}/weather" class="btn btn-primary text-wrap" role="button">Full weather
                     forecast</a>
-                <p class="fw-light fst-italic mt-2">Source: <a href="{{data.avalanche_canada_link}}"
+                <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.avalanche_canada_link}}"
                                                                target="_blank">{{data.avalanche_source_name}}</a>
                 </p>
             </div>
