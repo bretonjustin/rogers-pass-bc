@@ -15,13 +15,11 @@ from app.library.webcams import Webcam
 AVALANCHE_LINK = "https://api.avalanche.ca/forecasts/:lang/products/point?lat=51.29998&long=-117.51866"
 WEATHER_LINK = "https://dd.weather.gc.ca/citypage_weather/xml/HEF/s0000856_e.xml"
 DRIVE_LINK = "https://api.open511.gov.bc.ca/events?area_id=drivebc.ca/3"
-#DRIVE_LINK = "https://api.open511.gov.bc.ca/events?area_id=drivebc.ca/3&severity=MAJOR"
 
 BACKCOUNTRY_AREA_DATA = "https://www.pc.gc.ca/apps/rogers-pass/data/publish-"
+BACKCOUNTRY_AREA_MAP = "https://www.pc.gc.ca/apps/rogers-pass/"
 
 SPOTWX_LINK = "https://spotwx.com/products/grib_index.php?model=gem_glb_15km&lat=51.27545&lon=-117.52779&tz=America/Vancouver&label="
-
-BACKCOUNTRY_AREA_MAP = "https://www.pc.gc.ca/apps/rogers-pass/"
 
 ROGERS_PASS_SUMMIT_DRIVE_WEBCAM = Webcam("Rogers Pass Summit", 1.1, 2.2, 1330, "https://images.drivebc.ca/bchighwaycam/pub/cameras/101.jpg")
 WEBCAMS = [
@@ -31,6 +29,15 @@ WEBCAMS = [
     Webcam("Mount Abbott", 1.1, 2.2, 0, "https://www.pc.gc.ca/images/remotecamera/sarnif/Abbott/landscape.jpg"),
     Webcam("Mount Macdonald", -117.502752, 51.307452, 0, "https://www.pc.gc.ca/images/remotecamera/sarnif/Macdonald/landscape.jpg"),
 ]
+
+AVALANCHE_SOURCE_NAME = "Avalanche Canada"
+ROADS_SOURCE_NAME = "DriveBC"
+WEATHER_SOURCE_NAME = "Environment Canada"
+BACKCOUNTRY_AREA_SOURCE_NAME = "Parks Canada"
+AVALANCHE_ORG_LINK = "https://www.avalanche.ca"
+DRIVEBC_ORG_LINK = "https://www.drivebc.ca"
+ENVIRONMENT_CANADA_ORG_LINK = "https://weather.gc.ca"
+BACKCOUNTRY_AREA_SOURCE_LINK = "https://www.pc.gc.ca/apps/rogers-pass/"
 
 router = APIRouter(
     prefix="/rogers-pass",
@@ -64,6 +71,14 @@ async def rogers_pass(request: Request):
         "backcountry_access": backcountry_access,
         "road_webcam": ROGERS_PASS_SUMMIT_DRIVE_WEBCAM,
         "backcountry_map_link": BACKCOUNTRY_AREA_MAP,
+        "avalanche_source_name": AVALANCHE_SOURCE_NAME,
+        "roads_source_name": ROADS_SOURCE_NAME,
+        "weather_source_name": WEATHER_SOURCE_NAME,
+        "avalanche_canada_link": AVALANCHE_ORG_LINK,
+        "roads_link": DRIVEBC_ORG_LINK,
+        "environment_canada_link": ENVIRONMENT_CANADA_ORG_LINK,
+        "backcountry_area_source_name": BACKCOUNTRY_AREA_SOURCE_NAME,
+        "backcountry_area_source_link": BACKCOUNTRY_AREA_SOURCE_LINK,
     }
     return templates.TemplateResponse("summary.html", {"request": request, "data": data})
 
