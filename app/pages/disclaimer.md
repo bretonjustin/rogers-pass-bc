@@ -1,4 +1,4 @@
-#### Use of Information
+#### Use of Information:
 
 Backcountry Dashboard gathers information from various sources, including but not limited to road status, parking and ski area opening, avalanche forecast, and weather forecast, through APIs provided by third-party websites. While we make every effort to ensure the accuracy and reliability of the information displayed on our website, we cannot guarantee its completeness, timeliness, or accuracy.
 
