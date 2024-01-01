@@ -18,10 +18,13 @@ DRIVE_LINK = "https://api.open511.gov.bc.ca/events?area_id=drivebc.ca/3"
 
 WEATHER_STATIC_LINK = "https://api.avalanche.ca/weather/stations/98/measurements"
 
+WINDY_LINK = "https://www.windy.com/51.302/-117.520?51.077,-117.377,8"
+
 BACKCOUNTRY_AREA_DATA = "https://www.pc.gc.ca/apps/rogers-pass/data/publish-"
 BACKCOUNTRY_AREA_MAP = "https://www.pc.gc.ca/apps/rogers-pass/"
 
 SPOTWX_LINK = "https://spotwx.com/products/grib_index.php?model=gem_glb_15km&lat=51.27545&lon=-117.52779&tz=America/Vancouver&label="
+SPOTWX_GFS_LINK = "https://spotwx.com/products/grib_index.php?model=gfs_pgrb2_0p25_f&lat=51.30123&lon=-117.52014&tz=America/Vancouver&label=Rogers%20Pass"
 
 ROGERS_PASS_SUMMIT_DRIVE_WEBCAM = Webcam("Rogers Pass Summit", 1.1, 2.2, 1330, "https://images.drivebc.ca/bchighwaycam/pub/cameras/101.jpg")
 WEBCAMS = [
@@ -81,6 +84,8 @@ async def rogers_pass(request: Request):
         "environment_canada_link": ENVIRONMENT_CANADA_ORG_LINK,
         "backcountry_area_source_name": BACKCOUNTRY_AREA_SOURCE_NAME,
         "backcountry_area_source_link": BACKCOUNTRY_AREA_SOURCE_LINK,
+        "spotwx_link": SPOTWX_GFS_LINK,
+        "windy_link": WINDY_LINK,
     }
     return templates.TemplateResponse("summary.html", {"request": request, "data": data})
 
