@@ -78,7 +78,7 @@ def get_backcountry_access(url: str):
                                 area['geometry'],
                                 area['properties']['group']))
 
-            soup = BeautifulSoup(ski_area.comment)
+            soup = BeautifulSoup(ski_area.comment, features="html.parser")
             ski_area.comment = soup.get_text()
 
             if ski_area.group == 'R':
@@ -95,7 +95,7 @@ def get_backcountry_access(url: str):
                                        area['geometry']['coordinates'][1],
                                        area['geometry']['coordinates'][0],
                                        area['properties']['group'])
-            soup = BeautifulSoup(parking_area.comment)
+            soup = BeautifulSoup(parking_area.comment, features="html.parser")
             parking_area.comment = soup.get_text()
 
             parking_areas.append(parking_area)
