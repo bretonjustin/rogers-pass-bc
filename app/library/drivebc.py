@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 
 from app.library.helpers import get_json_response
 
@@ -17,32 +18,21 @@ class RoadEvent:
     severity: str = ""
 
 
+# Custom sorting key function
 def custom_sort(event):
-    severity_order = {"MAJOR": 0, "MINOR": 1}
-    return (severity_order.get(event["severity"], float('inf')), event["severity"])
+    # Parse the updated date in the given format
+    updated_date = datetime.strptime(event.updated, "%Y-%m-%dT%H:%M:%S%z")
+    return updated_date
 
 
-def get_major_drivebc_events(url: str):
-    events = get_drivebc_events(url)
+def get_drivebc_events(url: str) -> {list[RoadEvent], list[RoadEvent]}:
+    data = get_json_response(url)
+
+    events = []
     major_events = []
 
-    for event in events:
-        if event.severity == "MAJOR":
-            major_events.append(event)
-
-    return major_events
-
-
-def get_drivebc_events(url: str) -> list[RoadEvent]:
-    data = get_json_response(url)
-    events = []
-
-    # Sort events using the custom sorting function
-    sorted_events = sorted(data["events"], key=custom_sort)
-
-    for event in sorted_events:
-        events.append(
-            RoadEvent(
+    for event in data["events"]:
+        road_event = RoadEvent(
                 headline=event["headline"],
                 description=event["description"],
                 link="https://drivebc.ca/mobile/pub/events/id/" + str(event["id"]).split('/')[-1] + ".html",
@@ -54,10 +44,19 @@ def get_drivebc_events(url: str) -> list[RoadEvent]:
                 longitude=0,
                 severity=event["severity"]
             )
-        )
 
-    # Order by severity MAJOR first, then MINOR, then everything else
-    events = sorted(events, key=lambda x: x.severity, reverse=True)
-    return events
+        if road_event.severity == "MAJOR":
+            major_events.append(road_event)
+        else:
+            events.append(road_event)
+
+    # Sort the list of events
+    events = sorted(events, key=custom_sort, reverse=True)
+    major_events = sorted(major_events, key=custom_sort, reverse=True)
+
+    # Add the major events back to the list at the beginning
+    events = major_events + events
+
+    return events, major_events
 
 

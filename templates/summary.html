@@ -33,9 +33,9 @@
                 <div class="alert alert-danger d-flex align-items-center" role="alert">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
                     <div>
-                        {{data.major_events.headline}}
+                        <b>{{event.headline}}</b>
                         <br>
-                        {{data.major_events.description}} <a href="{{data.major_events.link}}" target="_blank">More
+                        {{event.description}} <a href="{{event.link}}" target="_blank">More
                         Info</a>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
             </div>
 
             <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.roads_link}}"
-                                                           target="_blank">{{data.roads_source_name}}</a>
+                                                                target="_blank">{{data.roads_source_name}}</a>
             </p>
 
         </div>
@@ -149,7 +149,7 @@
 
         </div>
         <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.avalanche_canada_link}}"
-                                                       target="_blank">{{data.avalanche_source_name}}</a>
+                                                            target="_blank">{{data.avalanche_source_name}}</a>
         </p>
     </div>
 </div>
@@ -232,7 +232,7 @@
             backcountry
             access details</a>
         <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.backcountry_area_source_link}}"
-                                                       target="_blank">{{data.backcountry_area_source_name}}</a>
+                                                            target="_blank">{{data.backcountry_area_source_name}}</a>
         </p>
     </div>
 </div>
@@ -248,7 +248,7 @@
                 <a href="{{data.router_prefix}}/weather" class="btn btn-primary text-wrap" role="button">Full weather
                     forecast</a>
                 <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.avalanche_canada_link}}"
-                                                               target="_blank">{{data.avalanche_source_name}}</a>
+                                                                    target="_blank">{{data.avalanche_source_name}}</a>
                 </p>
             </div>
         </div>
