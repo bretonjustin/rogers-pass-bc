@@ -204,5 +204,9 @@ def get_avalanche_canada_weather_forecast():
     #     if summary["type"]["value"] == "weather-summary":
     #         return summary["content"]
 
+def get_avalanche_canada_min_reports(url: str, area: list):
+    json_response = get_json_response(url)
+    min_reports = json_response["report"]["minReports"]
+
 
 
