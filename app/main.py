@@ -1,6 +1,6 @@
 
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -48,6 +48,13 @@ async def home(request: Request):
 def static(path: str):
     path = f"static/{path}"
     return FileResponse(path, headers={"Cache-Control": "public, max-age=2592000"})  # 2592000 seconds is 30 days
+
+
+# Catch-all route for handling 404 errors
+@app.exception_handler(404)
+async def not_found_exception_handler(request, exc):
+    content = templates.TemplateResponse("404.html", {"request": request})
+    return HTMLResponse(content=content.body, status_code=404)
 
 
 if __name__ == "__main__":
