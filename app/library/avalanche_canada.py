@@ -39,7 +39,7 @@ class AvalancheForecast:
 
 def utc_to_pst(utc_datetime: str):
     utc_timezone = pytz.timezone("UTC")
-    utc_datetime_obj = datetime.strptime(utc_datetime, '%Y-%m-%dT%H:%M:%SZ')
+    utc_datetime_obj = datetime.strptime(utc_datetime[:16], '%Y-%m-%dT%H:%M')
     utc_datetime = utc_timezone.localize(utc_datetime_obj)
 
     # Convert to PST (Pacific Standard Time)
