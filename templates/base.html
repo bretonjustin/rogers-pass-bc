@@ -12,18 +12,19 @@
     <meta name="description"
           content="Your ultimate guide to backcountry skiing conditions. Real-time updates on weather, avalanche risks, road events, webcams, and access details for prime backcountry ski areas. Plan your adventure wisely.">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='img/favicon.ico') }}">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P0G50F71HV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-P0G50F71HV');
+    </script>
+
     {% endblock %}
 </head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-P0G50F71HV"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-P0G50F71HV');
-</script>
 
 <body>
 <!-- Navigation Bar with: Home, Weather, Avalanche, Road, Webcam -->
@@ -90,11 +91,11 @@
 
 <!-- Cookie Banner -->
 <div id="cb-cookie-banner" class="alert alert-dark text-center mb-0" role="alert">
-🍪 This website uses cookies to ensure you get the best experience on our website.
-<a href="https://www.cookiesandyou.com/" target="blank">Learn more</a>
-<button type="button" class="btn btn-primary btn-sm ms-3" onclick="window.cb_hideCookieBanner()">
-I Got It
-</button>
+    🍪 This website uses cookies to ensure you get the best experience on our website.
+    <a href="https://www.cookiesandyou.com/" target="blank">Learn more</a>
+    <button type="button" class="btn btn-primary btn-sm ms-3" onclick="window.cb_hideCookieBanner()">
+        I Got It
+    </button>
 </div>
 <!-- End of Cookie Banner -->
 
