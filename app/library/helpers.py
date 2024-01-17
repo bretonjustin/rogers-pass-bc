@@ -31,9 +31,12 @@ def get_response(url: str, headers: dict):
 
 def get_json_response(url: str) -> dict:
     json_headers = {
-        'User-Agent': 'Mozilla/5.0',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json;charset=utf-8',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Connection': 'keep-alive',
     }
     response = get_response(url, json_headers)
     return response.json()

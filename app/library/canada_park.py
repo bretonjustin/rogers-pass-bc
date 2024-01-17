@@ -49,64 +49,68 @@ def get_time_from_json_data(data: dict):
 
 
 def get_backcountry_access(url: str):
-    # current date in YEAR-MONTH-DAY format as of PST time zone
-    date = datetime.now(pytz.timezone('Canada/Pacific')).strftime('%Y-%m-%d')
-    # add date to url
-    url = url + date
-
-    parking_areas = []
-    restricted_areas = []
-    unrestricted_areas = []
-    prohibited_areas = []
-    valid_from = ""
-    valid_to = ""
-
-    is_valid = True
     try:
-        response = get_json_response(url)
+        # current date in YEAR-MONTH-DAY format as of PST time zone
+        date = datetime.now(pytz.timezone('Canada/Pacific')).strftime('%Y-%m-%d')
+        # add date to url
+        url = url + date
+
+        parking_areas = []
+        restricted_areas = []
+        unrestricted_areas = []
+        prohibited_areas = []
+        valid_from = ""
+        valid_to = ""
+
+        is_valid = True
+        try:
+            response = get_json_response(url)
+        except Exception as e:
+            is_valid = False
+
+        if is_valid:
+            valid_from = get_time_from_json_data(response["validFrom"])
+            valid_to = get_time_from_json_data(response["validUntil"])
+
+            for area in response["areas"]:
+                ski_area = (SkiArea(area['properties']['nameEn'],
+                                    area['properties']['isOpen'],
+                                    area['properties']['commentEn'],
+                                    area['geometry'],
+                                    area['properties']['group']))
+
+                soup = BeautifulSoup(ski_area.comment, features="html.parser")
+                ski_area.comment = soup.get_text()
+
+                if ski_area.group == 'R':
+                    restricted_areas.append(ski_area)
+                elif ski_area.group == 'U':
+                    unrestricted_areas.append(ski_area)
+                elif ski_area.group == 'P':
+                    prohibited_areas.append(ski_area)
+
+            for area in response["parkingLots"]:
+                parking_area = ParkingArea(area['properties']['nameEn'],
+                                           area['properties']['isOpen'],
+                                           area['properties']['commentEn'],
+                                           area['geometry']['coordinates'][1],
+                                           area['geometry']['coordinates'][0],
+                                           area['properties']['group'])
+                soup = BeautifulSoup(parking_area.comment, features="html.parser")
+                parking_area.comment = soup.get_text()
+
+                parking_areas.append(parking_area)
+
+        backcountry_access = BackcountryAccess(
+            is_valid,
+            parking_areas,
+            unrestricted_areas,
+            restricted_areas,
+            prohibited_areas,
+            valid_from,
+            valid_to)
+
+        return backcountry_access
     except Exception as e:
-        is_valid = False
-
-    if is_valid:
-        valid_from = get_time_from_json_data(response["validFrom"])
-        valid_to = get_time_from_json_data(response["validUntil"])
-
-        for area in response["areas"]:
-            ski_area = (SkiArea(area['properties']['nameEn'],
-                                area['properties']['isOpen'],
-                                area['properties']['commentEn'],
-                                area['geometry'],
-                                area['properties']['group']))
-
-            soup = BeautifulSoup(ski_area.comment, features="html.parser")
-            ski_area.comment = soup.get_text()
-
-            if ski_area.group == 'R':
-                restricted_areas.append(ski_area)
-            elif ski_area.group == 'U':
-                unrestricted_areas.append(ski_area)
-            elif ski_area.group == 'P':
-                prohibited_areas.append(ski_area)
-
-        for area in response["parkingLots"]:
-            parking_area = ParkingArea(area['properties']['nameEn'],
-                                       area['properties']['isOpen'],
-                                       area['properties']['commentEn'],
-                                       area['geometry']['coordinates'][1],
-                                       area['geometry']['coordinates'][0],
-                                       area['properties']['group'])
-            soup = BeautifulSoup(parking_area.comment, features="html.parser")
-            parking_area.comment = soup.get_text()
-
-            parking_areas.append(parking_area)
-
-    backcountry_access = BackcountryAccess(
-        is_valid,
-        parking_areas,
-        unrestricted_areas,
-        restricted_areas,
-        prohibited_areas,
-        valid_from,
-        valid_to)
-
-    return backcountry_access
+        print(e)
+        return BackcountryAccess(False, [], [], [], [], "", "")

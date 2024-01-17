@@ -50,44 +50,48 @@ def utc_to_pst(utc_datetime: str):
 
 
 def get_avalanche_forecast_data(url: str) -> AvalancheForecast:
-    json_response = get_json_response(url)
-    summary = json_response["report"]["highlights"]
-    travel_advice = json_response["report"]["terrainAndTravelAdvice"]
+    try:
+        json_response = get_json_response(url)
+        summary = json_response["report"]["highlights"]
+        travel_advice = json_response["report"]["terrainAndTravelAdvice"]
 
-    date_issued = utc_to_pst(json_response["report"]["dateIssued"])
-    valid_until = utc_to_pst(json_response["report"]["validUntil"])
+        date_issued = utc_to_pst(json_response["report"]["dateIssued"])
+        valid_until = utc_to_pst(json_response["report"]["validUntil"])
 
-    confidence = json_response["report"]["confidence"]["rating"]["value"]
-    weather_summary = ""
-    avalanche_summary = ""
-    snowpack_summary = ""
-    summaries = json_response["report"]["summaries"]
-    for summary_ in summaries:
-        if summary_["type"]["value"] == "weather-summary":
-            weather_summary = summary_["content"]
-        if summary_["type"]["value"] == "avalanche-summary":
-            avalanche_summary = summary_["content"]
-        if summary_["type"]["value"] == "snowpack-summary":
-            snowpack_summary = summary_["content"]
+        confidence = json_response["report"]["confidence"]["rating"]["value"]
+        weather_summary = ""
+        avalanche_summary = ""
+        snowpack_summary = ""
+        summaries = json_response["report"]["summaries"]
+        for summary_ in summaries:
+            if summary_["type"]["value"] == "weather-summary":
+                weather_summary = summary_["content"]
+            if summary_["type"]["value"] == "avalanche-summary":
+                avalanche_summary = summary_["content"]
+            if summary_["type"]["value"] == "snowpack-summary":
+                snowpack_summary = summary_["content"]
 
-    daily_avalanche_ratings = []
+        daily_avalanche_ratings = []
 
-    id_ = json_response["report"]["id"]
-    official_link = "https://www.avalanche.ca/forecasts/" + id_
+        id_ = json_response["report"]["id"]
+        official_link = "https://www.avalanche.ca/forecasts/" + id_
 
-    for daily_avalanche_rating in json_response["report"]["dangerRatings"]:
-        date = daily_avalanche_rating["date"]["display"]
-        alpine_danger_rating = daily_avalanche_rating["ratings"]["alp"]["rating"]["value"]
-        treeline_danger_rating = daily_avalanche_rating["ratings"]["tln"]["rating"]["value"]
-        below_treeline_danger_rating = daily_avalanche_rating["ratings"]["btl"]["rating"]["value"]
-        daily_avalanche_ratings.append(
-            DailyAvalancheRating(date, alpine_danger_rating, treeline_danger_rating, below_treeline_danger_rating))
+        for daily_avalanche_rating in json_response["report"]["dangerRatings"]:
+            date = daily_avalanche_rating["date"]["display"]
+            alpine_danger_rating = daily_avalanche_rating["ratings"]["alp"]["rating"]["value"]
+            treeline_danger_rating = daily_avalanche_rating["ratings"]["tln"]["rating"]["value"]
+            below_treeline_danger_rating = daily_avalanche_rating["ratings"]["btl"]["rating"]["value"]
+            daily_avalanche_ratings.append(
+                DailyAvalancheRating(date, alpine_danger_rating, treeline_danger_rating, below_treeline_danger_rating))
 
-    avalanche_forecast = AvalancheForecast(id_, daily_avalanche_ratings, [], summary, travel_advice, avalanche_summary,
-                                           snowpack_summary, weather_summary, confidence, date_issued, valid_until,
-                                           official_link)
+        avalanche_forecast = AvalancheForecast(id_, daily_avalanche_ratings, [], summary, travel_advice, avalanche_summary,
+                                               snowpack_summary, weather_summary, confidence, date_issued, valid_until,
+                                               official_link)
 
-    return avalanche_forecast
+        return avalanche_forecast
+    except Exception as e:
+        print(e)
+        return AvalancheForecast("", [], [], "", "", "", "", "", "", "", "", "")
 
 
 # Inside the /embedded-page route
