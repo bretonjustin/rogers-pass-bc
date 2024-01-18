@@ -57,17 +57,19 @@ ROUTER_NAME = "Rogers Pass"
 templates = Jinja2Templates(directory="templates")
 router.mount("/static", StaticFiles(directory="static"), name="static")
 
-print("Starting Rogers Pass threads")
-# Start a thread to get the latest events from DriveBC
-drivebc_thread = threading.Thread(target=start_drivebc_thread, args=(DRIVE_LINK,))
-drivebc_thread.start()
 
-avalanche_canada_thread = threading.Thread(target=start_avalanche_canada_thread, args=(AVALANCHE_LINK,))
-avalanche_canada_thread.start()
+def start_rogers_pass_threads():
+    print("Starting Rogers Pass threads")
+    # Start a thread to get the latest events from DriveBC
+    drivebc_thread = threading.Thread(target=start_drivebc_thread, args=(DRIVE_LINK,))
+    drivebc_thread.start()
 
-backcountry_access_thread = threading.Thread(target=start_backcountry_access_thread, args=(BACKCOUNTRY_AREA_DATA,))
-backcountry_access_thread.start()
-print("Started Rogers Pass threads")
+    avalanche_canada_thread = threading.Thread(target=start_avalanche_canada_thread, args=(AVALANCHE_LINK,))
+    avalanche_canada_thread.start()
+
+    backcountry_access_thread = threading.Thread(target=start_backcountry_access_thread, args=(BACKCOUNTRY_AREA_DATA,))
+    backcountry_access_thread.start()
+    print("Started Rogers Pass threads")
 
 
 def get_router_prefix():

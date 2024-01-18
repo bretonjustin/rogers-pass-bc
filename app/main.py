@@ -37,6 +37,8 @@ app.include_router(rogers_pass_bc.router)
 
 templates = Jinja2Templates(directory="templates")
 
+start_rogers_pass_thread = rogers_pass_bc.start_rogers_pass_threads()
+
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
