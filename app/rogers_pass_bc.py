@@ -5,12 +5,11 @@ from fastapi.responses import HTMLResponse
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
-from app.library import drivebc
-from app.library.avalanche_canada import get_avalanche_forecast, get_avalanche_canada_weather_forecast, \
-    get_avalanche_forecast_data, get_latest_avalanche_canada_forecast, start_avalanche_canada_thread
-from app.library.canada_park import get_backcountry_access, get_latest_backcountry_access, \
+from app.library.avalanche_canada import get_avalanche_canada_weather_forecast, \
+    get_latest_avalanche_canada_forecast, start_avalanche_canada_thread
+from app.library.canada_park import get_latest_backcountry_access, \
     start_backcountry_access_thread
-from app.library.drivebc import get_drivebc_events, start_drivebc_thread, get_latest_drivebc_events
+from app.library.drivebc import start_drivebc_thread, get_latest_drivebc_events
 from app.library.environement_canada import get_ec_weather_forecast
 from app.library.helpers import get_disclaimer
 from app.library.webcams import Webcam
