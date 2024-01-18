@@ -1,3 +1,5 @@
+import threading
+import time
 from dataclasses import dataclass
 from datetime import datetime
 from urllib.parse import urljoin
@@ -39,6 +41,33 @@ class BackcountryAccess:
     valid_to: str
 
 
+backcountry_access = BackcountryAccess(False, [], [], [], [], "", "")
+mutex = threading.Lock()
+
+
+def start_backcountry_access_thread(url: str):
+    while True:
+        global backcountry_access
+
+        # Get the latest events from DriveBC
+        temp_backcountry_access = get_backcountry_access(url)
+
+        with mutex:
+            if temp_backcountry_access is not None:
+                print("Updating backcountry access for url: " + url)
+                backcountry_access = temp_backcountry_access
+
+        # Wait 30 seconds before checking again
+        time.sleep(30)
+
+
+def get_latest_backcountry_access():
+    global backcountry_access
+
+    with mutex:
+        return backcountry_access
+
+
 def get_time_from_json_data(data: dict):
     str_date = data["PST"]
     # the format of the date is 2023-12-27T07:19:31-08:00
@@ -48,7 +77,7 @@ def get_time_from_json_data(data: dict):
     return date.strftime('%Y-%m-%d')
 
 
-def get_backcountry_access(url: str):
+def get_backcountry_access(url: str) -> BackcountryAccess | None:
     try:
         # current date in YEAR-MONTH-DAY format as of PST time zone
         date = datetime.now(pytz.timezone('Canada/Pacific')).strftime('%Y-%m-%d')
@@ -113,4 +142,4 @@ def get_backcountry_access(url: str):
         return backcountry_access
     except Exception as e:
         print(e)
-        return BackcountryAccess(False, [], [], [], [], "", "")
+        return None

@@ -1,3 +1,5 @@
+import threading
+import time
 from dataclasses import dataclass
 from datetime import datetime
 from urllib.parse import urljoin
@@ -37,6 +39,35 @@ class AvalancheForecast:
     official_link: str
 
 
+avalanche_forecast = AvalancheForecast("", [], [], "", "", "", "", "", "", "", "", "")
+mutex = threading.Lock()
+
+
+def start_avalanche_canada_thread(url: str):
+    while True:
+        global avalanche_forecast
+
+        # Get the latest events from DriveBC
+        temp_avalanche_forecast = get_avalanche_forecast_data(url)
+
+        with mutex:
+            if temp_avalanche_forecast is not None:
+                print("Updating Avalanche Canada forecast for url: " + url)
+                avalanche_forecast = temp_avalanche_forecast
+
+        # Wait 30 seconds before checking again
+        time.sleep(30)
+
+
+
+
+def get_latest_avalanche_canada_forecast():
+    global avalanche_forecast
+
+    with mutex:
+        return avalanche_forecast
+
+
 def utc_to_pst(utc_datetime: str):
     utc_timezone = pytz.timezone("UTC")
     utc_datetime_obj = datetime.strptime(utc_datetime[:16], '%Y-%m-%dT%H:%M')
@@ -49,7 +80,7 @@ def utc_to_pst(utc_datetime: str):
     return pst_datetime.strftime("%Y-%m-%d %H:%M")
 
 
-def get_avalanche_forecast_data(url: str) -> AvalancheForecast:
+def get_avalanche_forecast_data(url: str) -> AvalancheForecast | None:
     try:
         json_response = get_json_response(url)
         summary = json_response["report"]["highlights"]
@@ -91,7 +122,7 @@ def get_avalanche_forecast_data(url: str) -> AvalancheForecast:
         return avalanche_forecast
     except Exception as e:
         print(e)
-        return AvalancheForecast("", [], [], "", "", "", "", "", "", "", "", "")
+        return None
 
 
 # Inside the /embedded-page route
@@ -161,13 +192,14 @@ def get_avalanche_forecast(link: str):
         return 'Internal Server Error', 500
 
 
-def get_avalanche_canada_weather_forecast(url: str):
-    json_response = get_json_response(url)
-    summaries = json_response["report"]["summaries"]
-
-    for summary in summaries:
-        if summary["type"]["value"] == "weather-summary":
-            return summary["content"]
+def get_avalanche_canada_weather_forecast():
+    return get_latest_avalanche_canada_forecast().weather_summary
+    # json_response = get_json_response(url)
+    # summaries = json_response["report"]["summaries"]
+    #
+    # for summary in summaries:
+    #     if summary["type"]["value"] == "weather-summary":
+    #         return summary["content"]
 
 
 

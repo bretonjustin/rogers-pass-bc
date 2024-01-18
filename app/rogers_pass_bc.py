@@ -1,3 +1,5 @@
+import threading
+
 from fastapi import Request, APIRouter
 from fastapi.responses import HTMLResponse
 from starlette.staticfiles import StaticFiles
@@ -5,9 +7,10 @@ from starlette.templating import Jinja2Templates
 
 from app.library import drivebc
 from app.library.avalanche_canada import get_avalanche_forecast, get_avalanche_canada_weather_forecast, \
-    get_avalanche_forecast_data
-from app.library.canada_park import get_backcountry_access
-from app.library.drivebc import get_drivebc_events
+    get_avalanche_forecast_data, get_latest_avalanche_canada_forecast, start_avalanche_canada_thread
+from app.library.canada_park import get_backcountry_access, get_latest_backcountry_access, \
+    start_backcountry_access_thread
+from app.library.drivebc import get_drivebc_events, start_drivebc_thread, get_latest_drivebc_events
 from app.library.environement_canada import get_ec_weather_forecast
 from app.library.helpers import get_disclaimer
 from app.library.webcams import Webcam
@@ -54,6 +57,16 @@ ROUTER_NAME = "Rogers Pass"
 templates = Jinja2Templates(directory="templates")
 router.mount("/static", StaticFiles(directory="static"), name="static")
 
+# Start a thread to get the latest events from DriveBC
+drivebc_thread = threading.Thread(target=start_drivebc_thread, args=(DRIVE_LINK,))
+drivebc_thread.start()
+
+avalanche_canada_thread = threading.Thread(target=start_avalanche_canada_thread, args=(AVALANCHE_LINK,))
+avalanche_canada_thread.start()
+
+backcountry_access_thread = threading.Thread(target=start_backcountry_access_thread, args=(BACKCOUNTRY_AREA_DATA,))
+backcountry_access_thread.start()
+
 
 def get_router_prefix():
     return router.prefix
@@ -64,9 +77,9 @@ def get_router_prefix():
 async def rogers_pass(request: Request):
     # display weather forecast, avalanche for today, any major road events and backcountry access
     # also display two webcams
-    avalanche_forecast = get_avalanche_forecast_data(AVALANCHE_LINK)
-    _, major_events = get_drivebc_events(DRIVE_LINK)
-    backcountry_access = get_backcountry_access(BACKCOUNTRY_AREA_DATA)
+    avalanche_forecast = get_latest_avalanche_canada_forecast()
+    _, major_events = get_latest_drivebc_events()
+    backcountry_access = get_latest_backcountry_access()
 
     data = {
         "router_prefix": get_router_prefix(),
@@ -103,7 +116,7 @@ async def rogers_pass_webcams(request: Request):
 
 @router.get("/roads", response_class=HTMLResponse)
 async def rogers_pass_roads(request: Request):
-    events, _ = drivebc.get_drivebc_events(DRIVE_LINK)
+    events, _ = get_latest_drivebc_events()
     data = {
         "events": events,
         "router_prefix": get_router_prefix(),
@@ -124,13 +137,13 @@ async def rogers_pass_avalanche(request: Request):
 
 @router.get("/avalanche_canada", response_class=HTMLResponse)
 async def rogers_pass_avalanche_canada(request: Request):
-    modified_content = get_avalanche_forecast(AVALANCHE_LINK)
+    modified_content = get_latest_avalanche_canada_forecast()
     return HTMLResponse(content=modified_content)
 
 
 @router.get("/backcountry-access", response_class=HTMLResponse)
 async def rogers_pass_backcountry_access(request: Request):
-    backcountry_access = get_backcountry_access(BACKCOUNTRY_AREA_DATA)
+    backcountry_access = get_latest_backcountry_access()
     data = {
         "router_name": ROUTER_NAME,
         "router_prefix": get_router_prefix(),
@@ -147,7 +160,7 @@ async def rogers_pass_backcountry_access(request: Request):
 
 @router.get("/weather", response_class=HTMLResponse)
 async def rogers_pass_weather(request: Request):
-    avalanche_canada_weather = get_avalanche_canada_weather_forecast(AVALANCHE_LINK)
+    avalanche_canada_weather = get_avalanche_canada_weather_forecast()
     environment_canada_weather = get_ec_weather_forecast(WEATHER_LINK)
     data = {
         "router_name": ROUTER_NAME,
@@ -156,6 +169,7 @@ async def rogers_pass_weather(request: Request):
         "environment_canada_weather": environment_canada_weather,
     }
     return templates.TemplateResponse("weather_forecast.html", {"request": request, "data": data})
+
 
 @router.get("/disclaimer", response_class=HTMLResponse)
 async def disclaimer(request: Request):
