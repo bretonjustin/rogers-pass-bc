@@ -10,7 +10,7 @@ from app.library.avalanche_canada import get_avalanche_canada_weather_forecast, 
 from app.library.canada_park import get_latest_backcountry_access, \
     start_backcountry_access_thread
 from app.library.drivebc import start_drivebc_thread, get_latest_drivebc_events
-from app.library.environement_canada import get_ec_weather_forecast
+from app.library.environement_canada import get_ec_weather_forecast, get_latest_ec_forecast, start_ec_thread
 from app.library.helpers import get_disclaimer
 from app.library.webcams import Webcam
 
@@ -66,6 +66,10 @@ avalanche_canada_thread.start()
 
 backcountry_access_thread = threading.Thread(target=start_backcountry_access_thread, args=(BACKCOUNTRY_AREA_DATA,))
 backcountry_access_thread.start()
+
+environment_canada_thread = threading.Thread(target=start_ec_thread, args=(WEATHER_LINK,))
+environment_canada_thread.start()
+
 print("Started Rogers Pass threads")
 
 
@@ -81,6 +85,7 @@ async def rogers_pass(request: Request):
     avalanche_forecast = get_latest_avalanche_canada_forecast()
     _, major_events = get_latest_drivebc_events()
     backcountry_access = get_latest_backcountry_access()
+    environment_canada_weather = get_latest_ec_forecast()
 
     data = {
         "router_prefix": get_router_prefix(),
@@ -100,6 +105,7 @@ async def rogers_pass(request: Request):
         "backcountry_area_source_link": BACKCOUNTRY_AREA_SOURCE_LINK,
         "spotwx_link": SPOTWX_GFS_LINK,
         "windy_link": WINDY_LINK,
+        "environment_canada_weather": environment_canada_weather,
     }
     return templates.TemplateResponse("summary.html", {"request": request, "data": data})
 

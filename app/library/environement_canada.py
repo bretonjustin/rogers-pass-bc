@@ -1,3 +1,5 @@
+import threading
+import time
 from dataclasses import dataclass
 
 from app.library.helpers import get_xml_response
@@ -10,11 +12,39 @@ class WeatherForecastEC:
     icon_url: str
 
 
+ec_forecast = []
+mutex = threading.Lock()
+
+
+def start_ec_thread(url: str):
+    while True:
+        global ec_forecast
+
+        # Get the latest events from DriveBC
+        temp_ec_forecast = get_ec_weather_forecast(url)
+
+        with mutex:
+            if temp_ec_forecast is not None:
+                print("Updating Environment Canada forecast for url: " + url)
+                ec_forecast = temp_ec_forecast
+
+        # Wait 30 seconds before checking again
+        time.sleep(30)
+
+
+def get_latest_ec_forecast():
+    global ec_forecast
+
+    with mutex:
+        return ec_forecast
+
+
 def get_ec_weather_forecast(url: str):
     try:
         data = get_xml_response(url)
 
         forecasts = data["siteData"]["forecastGroup"]["forecast"]
+        timestamp_pst = data["siteData"]["dateTime"]["dateTime"]
 
         forecast_objects = []
 
