@@ -13,20 +13,23 @@ class WeatherForecastEC:
 
 
 ec_forecast = []
+date_issued_pst = ""
 mutex = threading.Lock()
 
 
 def start_ec_thread(url: str):
     while True:
         global ec_forecast
+        global date_issued_pst
 
         # Get the latest events from DriveBC
-        temp_ec_forecast = get_ec_weather_forecast(url)
+        temp_ec_forecast, date_issued_pst_temp = get_ec_weather_forecast(url)
 
         with mutex:
-            if temp_ec_forecast is not None:
+            if temp_ec_forecast is not None and date_issued_pst_temp is not None:
                 print("Updating Environment Canada forecast for url: " + url)
                 ec_forecast = temp_ec_forecast
+                date_issued_pst = date_issued_pst_temp
 
         # Wait 30 seconds before checking again
         time.sleep(30)
@@ -34,9 +37,10 @@ def start_ec_thread(url: str):
 
 def get_latest_ec_forecast():
     global ec_forecast
+    global date_issued_pst
 
     with mutex:
-        return ec_forecast
+        return ec_forecast, date_issued_pst
 
 
 def get_ec_weather_forecast(url: str):
@@ -44,7 +48,18 @@ def get_ec_weather_forecast(url: str):
         data = get_xml_response(url)
 
         forecasts = data["siteData"]["forecastGroup"]["forecast"]
-        timestamp_pst = data["siteData"]["dateTime"]["dateTime"]
+        timestamps = data["siteData"]["dateTime"]
+
+        pst_time_str = ""
+
+        for timestamp in timestamps:
+            if timestamp["@zone"] == "PST":
+                pst_time = timestamp["timeStamp"]
+                # parse the time in the format 20240119100508 to a datetime object
+                pst_time = time.strptime(pst_time, "%Y%m%d%H%M%S")
+                # format the time as YYYY-MM-DD HH:MM PST
+                pst_time_str = time.strftime("%Y-%m-%d %H:%M", pst_time) + " PST"
+                break
 
         forecast_objects = []
 
@@ -55,7 +70,7 @@ def get_ec_weather_forecast(url: str):
                         + ".gif")
             forecast_objects.append(WeatherForecastEC(forecast_period, text_summary, icon_url))
 
-        return forecast_objects
+        return forecast_objects, pst_time_str
     except Exception as e:
         print(e)
         return None

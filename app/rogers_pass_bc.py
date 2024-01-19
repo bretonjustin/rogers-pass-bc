@@ -85,7 +85,7 @@ async def rogers_pass(request: Request):
     avalanche_forecast = get_latest_avalanche_canada_forecast()
     _, major_events = get_latest_drivebc_events()
     backcountry_access = get_latest_backcountry_access()
-    environment_canada_weather = get_latest_ec_forecast()
+    environment_canada_weather, ec_weather_date_issued_pst = get_latest_ec_forecast()
 
     data = {
         "router_prefix": get_router_prefix(),
@@ -106,6 +106,7 @@ async def rogers_pass(request: Request):
         "spotwx_link": SPOTWX_GFS_LINK,
         "windy_link": WINDY_LINK,
         "environment_canada_weather": environment_canada_weather,
+        "environment_canada_date_issued_pst": ec_weather_date_issued_pst,
     }
     return templates.TemplateResponse("summary.html", {"request": request, "data": data})
 
