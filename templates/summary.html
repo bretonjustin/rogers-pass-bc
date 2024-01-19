@@ -241,30 +241,66 @@
     <div class="container mb-4">
         <div class="row">
             <div class="col-12">
-                <h3>Weather Forecast <span
-                        class="badge bg-secondary text-wrap">Issued {{data.avalanche_forecast.dateIssued}} PST</span>
-                </h3>
-                {{data.avalanche_forecast.weather_summary | safe}}
-                <a href="{{data.router_prefix}}/weather" class="btn btn-primary text-wrap mb-2 mb-md-0" role="button">Full weather
-                    forecast</a>
-                <a href="{{data.spotwx_link}}" class="btn btn-primary text-wrap mb-2 mb-md-0" role="button"
-                   target="_blank">SpotWx</a>
-                <a href="{{data.windy_link}}" class="btn btn-primary text-wrap mb-2 mb-md-0" role="button"
-                   target="_blank">Windy</a>
-                <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.avalanche_canada_link}}"
-                                                                    target="_blank">{{data.avalanche_source_name}}</a>
-                </p>
+                <h3 class="mb-4">Weather Forecast</h3>
+                <div class="row">
+                    <div class="col-12 col-lg-6 mb-4">
+                        <h4>Avalanche Canada <span
+                                class="badge bg-secondary text-wrap">Issued {{data.avalanche_forecast.dateIssued}} PST</span>
+                        </h4>
+                        {{data.avalanche_forecast.weather_summary | safe}}
+
+                        <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.avalanche_canada_link}}"
+                                                                            target="_blank">{{data.avalanche_source_name}}</a>
+                        </p>
+                    </div>
+                    <div class="col-12 col-lg-6 mb-4">
+                        <h4>Environment Canada <span
+                                class="badge bg-secondary text-wrap">Issued {{data.environment_canada_date_issued_pst}}</span>
+                        </h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col" class="w-25">Period</th>
+                                    <th scope="col">Summary</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for forecast in data.environment_canada_weather %}
+                                <tr>
+                                    <td><img src="{{forecast.icon_url}}" alt="{{forecast.icon_alt}}" width="50px"></td>
+                                    <td>{{forecast.forecast_period}}</td>
+                                    <td>{{forecast.text_summary}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.environment_canada_link}}"
+                                                                            target="_blank">{{data.weather_source_name}}</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <a href="{{data.spotwx_link}}" class="btn btn-primary text-wrap mb-2 mb-md-0" role="button"
+                           target="_blank">SpotWx</a>
+                        <a href="{{data.windy_link}}" class="btn btn-primary text-wrap mb-2 mb-md-0" role="button"
+                           target="_blank">Windy</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-{% endblock %}
+    {% endblock %}
 
-{% block scripts %}
+    {% block scripts %}
 
-{{ super() }}
+    {{ super() }}
 
 
-{% endblock %}
+    {% endblock %}
