@@ -48,12 +48,12 @@ def get_ec_weather_forecast(url: str):
         data = get_xml_response(url)
 
         forecasts = data["siteData"]["forecastGroup"]["forecast"]
-        timestamps = data["siteData"]["dateTime"]
+        timestamps = data["siteData"]["forecastGroup"]["dateTime"]
 
         pst_time_str = ""
 
         for timestamp in timestamps:
-            if timestamp["@zone"] == "PST":
+            if timestamp["@zone"] == "PST" and timestamp["@name"] == "forecastIssue":
                 pst_time = timestamp["timeStamp"]
                 # parse the time in the format 20240119100508 to a datetime object
                 pst_time = time.strptime(pst_time, "%Y%m%d%H%M%S")
