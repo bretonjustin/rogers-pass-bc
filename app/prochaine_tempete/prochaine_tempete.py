@@ -125,7 +125,7 @@ model_for_data = "rdps"
 montreal_timezone = pytz.timezone('America/Toronto')
 
 # Create a Jinja2 environment and specify the templates directory
-templates = Environment(loader=FileSystemLoader('app/prochaine_tempete/templates'))
+templates = Environment(loader=FileSystemLoader(os.path.join('app', 'prochaine_tempete', 'templates')))
 
 
 def get_model_for_data(model_str):
@@ -221,10 +221,11 @@ def upload_ftp(file_name):
 def prochaine_tempete():
     while True:
         try:
-            unsorted_mountains = populate_dict_array()
+            # unsorted_mountains = populate_dict_array()
 
-            sorted_mountains = sorted(unsorted_mountains, key=lambda x: float(x["snow"]), reverse=True)
+            # sorted_mountains = sorted(unsorted_mountains, key=lambda x: float(x["snow"]), reverse=True)
 
+            sorted_mountains = []
             file_name = generate_html(sorted_mountains)
 
             print("HTML done...")
