@@ -180,7 +180,7 @@ def populate_dict_array():
 
         print(mountain["name"] + " done...")
 
-        time.sleep(0.5)
+        time.sleep(2)
 
     return mountains
 
@@ -219,6 +219,8 @@ def upload_ftp(file_name):
 
 
 def prochaine_tempete():
+    time.sleep(10)
+    
     while True:
         try:
             unsorted_mountains = populate_dict_array()
