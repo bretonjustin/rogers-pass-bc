@@ -125,7 +125,7 @@ model_for_data = "rdps"
 montreal_timezone = pytz.timezone('America/Toronto')
 
 # Create a Jinja2 environment and specify the templates directory
-templates = Environment(loader=FileSystemLoader('templates'))
+templates = Environment(loader=FileSystemLoader('app/prochaine_tempete/templates'))
 
 
 def get_model_for_data(model_str):
