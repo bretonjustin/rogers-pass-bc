@@ -221,11 +221,10 @@ def upload_ftp(file_name):
 def prochaine_tempete():
     while True:
         try:
-            # unsorted_mountains = populate_dict_array()
+            unsorted_mountains = populate_dict_array()
 
-            # sorted_mountains = sorted(unsorted_mountains, key=lambda x: float(x["snow"]), reverse=True)
+            sorted_mountains = sorted(unsorted_mountains, key=lambda x: float(x["snow"]), reverse=True)
 
-            sorted_mountains = []
             file_name = generate_html(sorted_mountains)
 
             print("HTML done...")
@@ -240,5 +239,5 @@ def prochaine_tempete():
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print("Error: " + str(e) + " " + str(exc_type) + " " + str(fname) + " " + str(exc_tb.tb_lineno))
-            time.sleep(2)
+            time.sleep(10)
 
