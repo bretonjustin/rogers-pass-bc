@@ -1,3 +1,4 @@
+import threading
 
 import uvicorn
 from fastapi import FastAPI, Request, HTTPException
@@ -9,6 +10,8 @@ from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse
+
+from app.prochaine_tempete import prochaine_tempete
 
 from app import rogers_pass_bc
 
@@ -36,6 +39,11 @@ app.add_middleware(
 app.include_router(rogers_pass_bc.router)
 
 templates = Jinja2Templates(directory="templates")
+
+print("Starting prochaine tempete thread")
+prochaine_tempete_thread = threading.Thread(target=prochaine_tempete.prochaine_tempete())
+prochaine_tempete_thread.start()
+print("Started prochaine tempete thread")
 
 
 @app.get("/", response_class=HTMLResponse)
