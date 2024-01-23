@@ -41,10 +41,10 @@ app.include_router(rogers_pass_bc.router)
 
 templates = Jinja2Templates(directory="templates")
 
-print("Starting prochaine tempete thread")
-prochaine_tempete_thread = threading.Thread(target=prochaine_tempete.prochaine_tempete())
-prochaine_tempete_thread.start()
-print("Started prochaine tempete thread")
+# print("Starting prochaine tempete thread")
+# prochaine_tempete_thread = threading.Thread(target=prochaine_tempete.prochaine_tempete())
+# prochaine_tempete_thread.start()
+# print("Started prochaine tempete thread")
 
 
 @app.get("/", response_class=HTMLResponse)
