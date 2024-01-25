@@ -48,6 +48,7 @@ def start_avalanche_canada_thread(url: str):
         global avalanche_forecast
 
         # Get the latest events from DriveBC
+        print("Requesting Avalanche Canada forecast... " + url)
         temp_avalanche_forecast = get_avalanche_forecast_data(url)
 
         with mutex:

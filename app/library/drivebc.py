@@ -32,6 +32,7 @@ def start_drivebc_thread(url: str):
         global major_events
 
         # Get the latest events from DriveBC
+        print("Requesting DriveBC events... " + url)
         temp_events, temp_major_events = get_drivebc_events(url)
 
         with mutex:

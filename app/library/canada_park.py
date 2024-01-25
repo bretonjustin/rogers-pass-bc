@@ -50,6 +50,7 @@ def start_backcountry_access_thread(url: str):
         global backcountry_access
 
         # Get the latest events from DriveBC
+        print("Requesting backcountry access... " + url)
         temp_backcountry_access = get_backcountry_access(url)
 
         with mutex:

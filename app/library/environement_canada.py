@@ -23,6 +23,7 @@ def start_ec_thread(url: str):
         global date_issued_pst
 
         # Get the latest events from DriveBC
+        print("Requesting Environment Canada forecast... " + url)
         temp_ec_forecast, date_issued_pst_temp = get_ec_weather_forecast(url)
 
         with mutex:
