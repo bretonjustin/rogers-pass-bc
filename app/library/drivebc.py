@@ -28,18 +28,22 @@ mutex = threading.Lock()
 
 def start_drivebc_thread(url: str):
     while True:
-        global events
-        global major_events
+        try:
+            global events
+            global major_events
 
-        # Get the latest events from DriveBC
-        print("Requesting DriveBC events... " + url)
-        temp_events, temp_major_events = get_drivebc_events(url)
+            # Get the latest events from DriveBC
+            print("Requesting DriveBC events... " + url)
+            temp_events, temp_major_events = get_drivebc_events(url)
 
-        with mutex:
-            if temp_events is not None and temp_major_events is not None:
-                print("Updating DriveBC events for url: " + url)
-                events = temp_events
-                major_events = temp_major_events
+            with mutex:
+                if temp_events is not None and temp_major_events is not None:
+                    print("Updating DriveBC events for url: " + url)
+                    events = temp_events
+                    major_events = temp_major_events
+
+        except Exception as e:
+            print(e)
 
         # Wait 30 seconds before checking again
         time.sleep(30)

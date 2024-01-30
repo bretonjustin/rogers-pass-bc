@@ -45,21 +45,23 @@ mutex = threading.Lock()
 
 def start_avalanche_canada_thread(url: str):
     while True:
-        global avalanche_forecast
+        try:
+            global avalanche_forecast
 
-        # Get the latest events from DriveBC
-        print("Requesting Avalanche Canada forecast... " + url)
-        temp_avalanche_forecast = get_avalanche_forecast_data(url)
+            # Get the latest events from DriveBC
+            print("Requesting Avalanche Canada forecast... " + url)
+            temp_avalanche_forecast = get_avalanche_forecast_data(url)
 
-        with mutex:
-            if temp_avalanche_forecast is not None:
-                print("Updating Avalanche Canada forecast for url: " + url)
-                avalanche_forecast = temp_avalanche_forecast
+            with mutex:
+                if temp_avalanche_forecast is not None:
+                    print("Updating Avalanche Canada forecast for url: " + url)
+                    avalanche_forecast = temp_avalanche_forecast
+
+        except Exception as e:
+            print(e)
 
         # Wait 30 seconds before checking again
         time.sleep(30)
-
-
 
 
 def get_latest_avalanche_canada_forecast():

@@ -19,18 +19,22 @@ mutex = threading.Lock()
 
 def start_ec_thread(url: str):
     while True:
-        global ec_forecast
-        global date_issued_pst
+        try:
+            global ec_forecast
+            global date_issued_pst
 
-        # Get the latest events from DriveBC
-        print("Requesting Environment Canada forecast... " + url)
-        temp_ec_forecast, date_issued_pst_temp = get_ec_weather_forecast(url)
+            # Get the latest events from DriveBC
+            print("Requesting Environment Canada forecast... " + url)
+            temp_ec_forecast, date_issued_pst_temp = get_ec_weather_forecast(url)
 
-        with mutex:
-            if temp_ec_forecast is not None and date_issued_pst_temp is not None:
-                print("Updating Environment Canada forecast for url: " + url)
-                ec_forecast = temp_ec_forecast
-                date_issued_pst = date_issued_pst_temp
+            with mutex:
+                if temp_ec_forecast is not None and date_issued_pst_temp is not None:
+                    print("Updating Environment Canada forecast for url: " + url)
+                    ec_forecast = temp_ec_forecast
+                    date_issued_pst = date_issued_pst_temp
+
+        except Exception as e:
+            print(e)
 
         # Wait 30 seconds before checking again
         time.sleep(30)
