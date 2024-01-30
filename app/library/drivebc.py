@@ -64,6 +64,26 @@ def custom_sort(event):
     return updated_date
 
 
+def filter_major_events(events: list[RoadEvent]) -> list[RoadEvent]:
+    major_events_filtered = []
+
+    string_array = [
+        "Glacier National Park",
+        "Revelstoke",
+        "Golden",
+        "Illecillewaet Brake Check"
+    ]
+
+    for event in events:
+        if event.severity == "MAJOR":
+            for string in string_array:
+                if string.lower() in event.description.lower():
+                    major_events_filtered.append(event)
+                    break
+
+    return major_events_filtered
+
+
 def get_drivebc_events(url: str) -> {list[RoadEvent], list[RoadEvent]}:
     try:
         data = get_json_response(url)
