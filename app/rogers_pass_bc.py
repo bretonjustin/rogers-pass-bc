@@ -6,7 +6,8 @@ from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
 from app.library.avalanche_canada import get_avalanche_canada_weather_forecast, \
-    get_latest_avalanche_canada_forecast, start_avalanche_canada_thread
+    get_latest_avalanche_canada_forecast, start_avalanche_canada_thread, get_avalanche_canada_min_reports, \
+    start_min_reports_thread, get_latest_avalanche_canada_min_reports
 from app.library.canada_park import get_latest_backcountry_access, \
     start_backcountry_access_thread
 from app.library.drivebc import start_drivebc_thread, get_latest_drivebc_events, filter_major_events
@@ -46,6 +47,12 @@ DRIVEBC_ORG_LINK = "https://www.drivebc.ca"
 ENVIRONMENT_CANADA_ORG_LINK = "https://weather.gc.ca"
 BACKCOUNTRY_AREA_SOURCE_LINK = "https://www.pc.gc.ca/apps/rogers-pass/"
 
+MIN_REPORTS_LINK = "https://avcan-services-api.prod.avalanche.ca/min/en/submissions"
+
+ROGERS_PASS_LAT = 51.301265
+ROGERS_PASS_LON = -117.520997
+RADIUS_KM = 50
+
 router = APIRouter(
     prefix="/rogers-pass",
     tags=["rogers-pass"],
@@ -70,6 +77,9 @@ backcountry_access_thread.start()
 environment_canada_thread = threading.Thread(target=start_ec_thread, args=(WEATHER_LINK,))
 environment_canada_thread.start()
 
+min_reports_thread = threading.Thread(target=start_min_reports_thread, args=(MIN_REPORTS_LINK, ROGERS_PASS_LAT, ROGERS_PASS_LON, RADIUS_KM))
+min_reports_thread.start()
+
 print("Started Rogers Pass threads")
 
 
@@ -87,6 +97,7 @@ async def rogers_pass(request: Request):
     major_events = filter_major_events(major_events)
     backcountry_access = get_latest_backcountry_access()
     environment_canada_weather, ec_weather_date_issued_pst = get_latest_ec_forecast()
+    min_reports = get_latest_avalanche_canada_min_reports()
 
     data = {
         "router_prefix": get_router_prefix(),
@@ -108,6 +119,7 @@ async def rogers_pass(request: Request):
         "windy_link": WINDY_LINK,
         "environment_canada_weather": environment_canada_weather,
         "environment_canada_date_issued_pst": ec_weather_date_issued_pst,
+        "min_reports": min_reports,
     }
     response = templates.TemplateResponse("summary.html", {"request": request, "data": data})
     response.headers["Cache-Control"] = "no-cache"

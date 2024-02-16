@@ -1,3 +1,4 @@
+import math
 import os.path
 import markdown
 import requests
@@ -60,3 +61,26 @@ def get_disclaimer() -> str:
     # convert markdown to html
     content = markdown.markdown(content)
     return content
+
+
+def isLocationInRadius(centerLat: float, centerLon: float, radius: int, locationLat: float, locationLon: float) -> bool:
+    # approximate radius of earth in km
+    R = 6371.0
+
+    lat1 = math.radians(centerLat)
+    lon1 = math.radians(centerLon)
+    lat2 = math.radians(locationLat)
+    lon2 = math.radians(locationLon)
+
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+
+    a = math.sin(dlat / 2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    distance = R * c
+
+    if distance <= radius:
+        return True
+    else:
+        return False

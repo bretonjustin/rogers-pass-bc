@@ -1,13 +1,13 @@
 import threading
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from urllib.parse import urljoin
 
 import pytz
 import requests
 from bs4 import BeautifulSoup
-from app.library.helpers import get_json_response, default_headers
+from app.library.helpers import get_json_response, default_headers, isLocationInRadius
 
 
 @dataclass
@@ -39,6 +39,26 @@ class AvalancheForecast:
     official_link: str
 
 
+@dataclass
+class MinReport:
+    id: str
+    latitude: str
+    longitude: str
+    observations: list[str]
+    title: str
+    username: str
+    url: str
+    date: str
+
+
+@dataclass
+class MinReports:
+    fromDate: str
+    region: str
+    min_report_list: list[MinReport]
+
+
+min_reports = MinReports("", "", [])
 avalanche_forecast = AvalancheForecast("", [], [], "", "", "", "", "", "", "", "", "")
 mutex = threading.Lock()
 
@@ -118,7 +138,8 @@ def get_avalanche_forecast_data(url: str) -> AvalancheForecast | None:
             daily_avalanche_ratings.append(
                 DailyAvalancheRating(date, alpine_danger_rating, treeline_danger_rating, below_treeline_danger_rating))
 
-        avalanche_forecast = AvalancheForecast(id_, daily_avalanche_ratings, [], summary, travel_advice, avalanche_summary,
+        avalanche_forecast = AvalancheForecast(id_, daily_avalanche_ratings, [], summary, travel_advice,
+                                               avalanche_summary,
                                                snowpack_summary, weather_summary, confidence, date_issued, valid_until,
                                                official_link)
 
@@ -204,9 +225,58 @@ def get_avalanche_canada_weather_forecast():
     #     if summary["type"]["value"] == "weather-summary":
     #         return summary["content"]
 
-def get_avalanche_canada_min_reports(url: str, area: list):
+
+def get_latest_avalanche_canada_min_reports():
+    global min_reports
+
+    with mutex:
+        return min_reports
+
+
+def start_min_reports_thread(url: str, lat: float, lon: float, radius: int):
+    while True:
+        try:
+            global min_reports
+
+            # Get the latest events from DriveBC
+            print("Requesting Avalanche Canada min reports... " + url)
+            temp_min_reports = get_avalanche_canada_min_reports(url, lat, lon, radius)
+
+            with mutex:
+                if temp_min_reports is not None:
+                    print("Updating Avalanche Canada min reports for url: " + url)
+                    min_reports = temp_min_reports
+
+        except Exception as e:
+            print(e)
+
+        # Wait 30 seconds before checking again
+        time.sleep(30)
+
+
+def get_avalanche_canada_min_reports(url: str, lat: float, lon: float, radius: int) -> MinReports:
+    min_reports.fromDate = (datetime.now() + timedelta(days=-7)).strftime("%Y-%m-%d")
+    min_reports.region = "Selkirks"
+    page_size = 1000
+    url += f"?fromdate={min_reports.fromDate}&pagesize={page_size}&region={min_reports.region}"
     json_response = get_json_response(url)
-    min_reports = json_response["report"]["minReports"]
+    data = json_response["items"]["data"]
 
+    for report in data:
+        temp_report = MinReport(id=report["id"],
+                                latitude=report["location"]["latitude"],
+                                longitude=report["location"]["longitude"],
+                                title=report["title"],
+                                username=report["username"],
+                                url="https://avalanche.ca/mountain-information-network/submissions/" + report["id"],
+                                date=report["datetime"],
+                                observations=[])
+        temp_report.date = temp_report.date[:10]
+        for key, value in report["observations"].items():
+            if value == 1:
+                temp_report.observations.append(key)
 
+        if isLocationInRadius(lat, lon, radius, float(temp_report.latitude), float(temp_report.longitude)):
+            min_reports.min_report_list.append(temp_report)
 
+    return min_reports
