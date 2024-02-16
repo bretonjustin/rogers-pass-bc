@@ -271,6 +271,10 @@ def get_avalanche_canada_min_reports(url: str, lat: float, lon: float, radius: i
                                 url="https://avalanche.ca/mountain-information-network/submissions/" + report["id"],
                                 date=report["datetime"],
                                 observations=[])
+
+        # convert date to pst timezone
+        temp_report.date = utc_to_pst(temp_report.date)
+
         temp_report.date = temp_report.date[:10]
         for key, value in report["observations"].items():
             if value == 1:

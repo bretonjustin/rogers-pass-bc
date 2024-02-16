@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}{{data.router_name}} - MIN Reports{% endblock %}
+{% block head %}
+{{ super() }}
+
+{% endblock %}
+
+{% block page_content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>MIN Reports (last 7 days)</h1>
+            <p>MIN reports within 50 km of Rogers Pass Discovery Center in the last 7 days.</p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-light">
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Reports</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for min_report in data.min_reports.min_report_list %}
+                <tr>
+                    <td><a href="{{min_report.url}}" target="_blank">{{min_report.title}}</a></td>
+                    <td class="text-nowrap">{{min_report.date}}</td>
+                    <td>{{min_report.username}}</td>
+                    <td>
+                        {% for observation in min_report.observations %}
+                        <span class="badge bg-secondary text-wrap">{{observation}}</span>&nbsp;
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+{{ super() }}
+
+{% endblock %}

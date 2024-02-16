@@ -205,3 +205,14 @@ async def disclaimer(request: Request):
     }
 
     return templates.TemplateResponse("disclaimer.html", {"request": request, "data": data})
+
+
+@router.get("/min-reports", response_class=HTMLResponse)
+async def min_reports(request: Request):
+    min_reports_ = get_latest_avalanche_canada_min_reports()
+    data = {
+        "router_name": ROUTER_NAME,
+        "router_prefix": get_router_prefix(),
+        "min_reports": min_reports_,
+    }
+    return templates.TemplateResponse("min-reports.html", {"request": request, "data": data})
