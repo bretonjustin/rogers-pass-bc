@@ -255,6 +255,7 @@ def start_min_reports_thread(url: str, lat: float, lon: float, radius: int):
 
 
 def get_avalanche_canada_min_reports(url: str, lat: float, lon: float, radius: int) -> MinReports:
+    min_reports.min_report_list = []
     min_reports.fromDate = (datetime.now() + timedelta(days=-7)).strftime("%Y-%m-%d")
     min_reports.region = "Selkirks"
     page_size = 1000
