@@ -158,6 +158,52 @@
     <div class="container mb-4">
         <div class="row">
             <div class="col-12">
+                <h3>MIN Reports
+                </h3>
+            </div>
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-light">
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Observations</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for min_report in data.min_reports.min_report_list %}
+                        {% if loop.index < 10 %}
+                        <tr>
+                            <td><a href="{{min_report.url}}" target="_blank">{{min_report.title}}</a></td>
+                            <td class="text-nowrap">{{min_report.date}}</td>
+                            <td>
+                                {% for observation in min_report.observations %}
+                                <span class="badge bg-secondary text-wrap">{{observation}}</span>&nbsp;
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <a href="{{data.router_prefix}}/min-reports" class="btn btn-primary text-wrap" role="button" target="_blank">Full MIN Reports List</a>
+        <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.avalanche_canada_link}}"
+                                                            target="_blank">{{data.avalanche_source_name}}</a>
+        </p>
+    </div>
+</div>
+
+
+<div class="container-fluid pb-4 pt-4">
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-12">
                 {% if data.backcountry_access.restricted_areas[0] is defined %}
                 <h3>Backcountry Access <span
                         class="badge bg-secondary text-wrap">Valid for {{data.backcountry_access.valid_from}}</span>
@@ -237,7 +283,7 @@
     </div>
 </div>
 
-<div class="container-fluid pb-4 pt-4">
+<div class="container-fluid pb-4 pt-4 bg-light">
     <div class="container mb-4">
         <div class="row">
             <div class="col-12">
@@ -295,30 +341,6 @@
         </div>
     </div>
 </div>
-
-<!--<div class="container-fluid pb-4 pt-4 bg-light">-->
-<!--    <div class="container mb-4">-->
-<!--        <div class="row">-->
-<!--            <div class="col-12">-->
-<!--                <h3 class="mb-4">MIN Reports</h3>-->
-<!--                <p>work in progress...</p>-->
-
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<div class="container-fluid pb-4 pt-4">-->
-<!--    <div class="container mb-4">-->
-<!--        <div class="row">-->
-<!--            <div class="col-12">-->
-<!--                <h3 class="mb-4">Weather Station</h3>-->
-<!--                <p>work in progress...</p>-->
-
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 
 
 {% endblock %}
