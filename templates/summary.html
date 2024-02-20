@@ -83,15 +83,15 @@
                 <div class="table-responsive">
                     <table class="table table-borderless">
                         <tbody>
-                        {% if data.avalanche_forecast.forecasts[0].alpine_danger_rating == "low" %}
+                        {% if "low" in data.avalanche_forecast.forecasts[0].alpine_danger_rating %}
                         <tr class="table-success">
-                            {% elif data.avalanche_forecast.forecasts[0].alpine_danger_rating == "moderate" %}
+                            {% elif "moderate" in data.avalanche_forecast.forecasts[0].alpine_danger_rating %}
                         <tr class="table-warning">
-                            {% elif data.avalanche_forecast.forecasts[0].alpine_danger_rating == "considerable" %}
+                            {% elif "considerable" in data.avalanche_forecast.forecasts[0].alpine_danger_rating  %}
                         <tr class="table-considerable">
-                            {% elif data.avalanche_forecast.forecasts[0].alpine_danger_rating == "high" %}
+                            {% elif "high" in data.avalanche_forecast.forecasts[0].alpine_danger_rating  %}
                         <tr class="table-danger">
-                            {% elif data.avalanche_forecast.forecasts[0].alpine_danger_rating == "extreme" %}
+                            {% elif "extreme" in data.avalanche_forecast.forecasts[0].alpine_danger_rating  %}
                         <tr class="table-dark">
                             {% endif %}
                             <td><b>Alpine</b></td>
@@ -99,15 +99,15 @@
                             </td>
                         </tr>
 
-                        {% if data.avalanche_forecast.forecasts[0].treeline_danger_rating == "low" %}
+                        {% if "low" in data.avalanche_forecast.forecasts[0].treeline_danger_rating  %}
                         <tr class="table-success">
-                            {% elif data.avalanche_forecast.forecasts[0].treeline_danger_rating == "moderate" %}
+                            {% elif "moderate" in data.avalanche_forecast.forecasts[0].treeline_danger_rating %}
                         <tr class="table-warning">
-                            {% elif data.avalanche_forecast.forecasts[0].treeline_danger_rating == "considerable" %}
+                            {% elif "considerable" in data.avalanche_forecast.forecasts[0].treeline_danger_rating  %}
                         <tr class="table-considerable">
-                            {% elif data.avalanche_forecast.forecasts[0].treeline_danger_rating == "high" %}
+                            {% elif "high" in data.avalanche_forecast.forecasts[0].treeline_danger_rating  %}
                         <tr class="table-danger">
-                            {% elif data.avalanche_forecast.forecasts[0].treeline_danger_rating == "extreme" %}
+                            {% elif "extreme" in data.avalanche_forecast.forecasts[0].treeline_danger_rating  %}
                         <tr class="table-dark">
                             {% endif %}
                             <td><b>Treeline</b></td>
@@ -115,16 +115,15 @@
                             </td>
                         </tr>
 
-                        {% if data.avalanche_forecast.forecasts[0].below_treeline_danger_rating == "low" %}
+                        {% if "low" in data.avalanche_forecast.forecasts[0].below_treeline_danger_rating %}
                         <tr class="table-success">
-                            {% elif data.avalanche_forecast.forecasts[0].below_treeline_danger_rating == "moderate" %}
+                            {% elif "moderate" in data.avalanche_forecast.forecasts[0].below_treeline_danger_rating  %}
                         <tr class="table-warning">
-                            {% elif data.avalanche_forecast.forecasts[0].below_treeline_danger_rating == "considerable"
-                            %}
+                            {% elif "considerable" in data.avalanche_forecast.forecasts[0].below_treeline_danger_rating %}
                         <tr class="table-considerable">
-                            {% elif data.avalanche_forecast.forecasts[0].below_treeline_danger_rating == "high" %}
+                            {% elif "high" in data.avalanche_forecast.forecasts[0].below_treeline_danger_rating %}
                         <tr class="table-danger">
-                            {% elif data.avalanche_forecast.forecasts[0].below_treeline_danger_rating == "extreme" %}
+                            {% elif "extreme" in data.avalanche_forecast.forecasts[0].below_treeline_danger_rating %}
                         <tr class="table-dark">
                             {% endif %}
                             <td><b>Below Treeline</b></td>

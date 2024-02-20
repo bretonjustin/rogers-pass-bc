@@ -18,6 +18,15 @@ class DailyAvalancheRating:
     below_treeline_danger_rating: str
 
 
+daily_avalanche_rating_values = {
+    "LOW": "1",
+    "MODERATE": "2",
+    "CONSIDERABLE": "3",
+    "HIGH": "4",
+    "EXTREME": "5"
+}
+
+
 @dataclass
 class AvalancheProblems:
     summary: str
@@ -133,17 +142,23 @@ def get_avalanche_forecast_data(url: str) -> AvalancheForecast | None:
         for daily_avalanche_rating in json_response["report"]["dangerRatings"]:
             date = daily_avalanche_rating["date"]["display"]
             alpine_danger_rating = daily_avalanche_rating["ratings"]["alp"]["rating"]["value"]
+            alpine_danger_rating = daily_avalanche_rating_values[str(alpine_danger_rating).upper()] + " - " + alpine_danger_rating
+
             treeline_danger_rating = daily_avalanche_rating["ratings"]["tln"]["rating"]["value"]
+            treeline_danger_rating = daily_avalanche_rating_values[str(treeline_danger_rating).upper()] + " - " + treeline_danger_rating
+
             below_treeline_danger_rating = daily_avalanche_rating["ratings"]["btl"]["rating"]["value"]
+            below_treeline_danger_rating = daily_avalanche_rating_values[str(below_treeline_danger_rating).upper()] + " - " + below_treeline_danger_rating
+
             daily_avalanche_ratings.append(
                 DailyAvalancheRating(date, alpine_danger_rating, treeline_danger_rating, below_treeline_danger_rating))
 
-        avalanche_forecast = AvalancheForecast(id_, daily_avalanche_ratings, [], summary, travel_advice,
+        avalanche_forecast_ = AvalancheForecast(id_, daily_avalanche_ratings, [], summary, travel_advice,
                                                avalanche_summary,
                                                snowpack_summary, weather_summary, confidence, date_issued, valid_until,
                                                official_link)
 
-        return avalanche_forecast
+        return avalanche_forecast_
     except Exception as e:
         print(e)
         return None
