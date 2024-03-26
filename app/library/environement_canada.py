@@ -58,12 +58,12 @@ def get_ec_weather_forecast(url: str):
         pst_time_str = ""
 
         for timestamp in timestamps:
-            if timestamp["@zone"] == "PST" and timestamp["@name"] == "forecastIssue":
+            if timestamp["@zone"] != "UTC" and timestamp["@name"] == "forecastIssue":
                 pst_time = timestamp["timeStamp"]
                 # parse the time in the format 20240119100508 to a datetime object
                 pst_time = time.strptime(pst_time, "%Y%m%d%H%M%S")
                 # format the time as YYYY-MM-DD HH:MM PST
-                pst_time_str = time.strftime("%Y-%m-%d %H:%M", pst_time) + " PST"
+                pst_time_str = time.strftime("%Y-%m-%d %H:%M", pst_time) + " " + str(timestamp["@zone"])
                 break
 
         forecast_objects = []
