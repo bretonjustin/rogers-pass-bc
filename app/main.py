@@ -19,7 +19,8 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "https://rogers-pass-bc.herokuapp.com",
-    "https://rogers-pass-bc.fly.dev"
+    "https://rogers-pass-bc.fly.dev",
+    "http://127.0.0.1:8080",
 ]
 
 app.add_middleware(
