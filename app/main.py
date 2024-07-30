@@ -9,12 +9,15 @@ from fastapi.responses import RedirectResponse
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 from starlette.responses import FileResponse
 
 from app import rogers_pass_bc
 
 
 app = FastAPI()
+
+app.add_middleware(HTTPSRedirectMiddleware)
 
 origins = [
     "http://localhost",
