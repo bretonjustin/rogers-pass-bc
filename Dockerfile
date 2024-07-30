@@ -1,7 +1,6 @@
-FROM tiangolo/uvicorn-gunicorn:python3.11-slim
+FROM python:3.11-slim
 
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED True
 
 WORKDIR /code
 
@@ -13,4 +12,4 @@ COPY ./app /code/app
 COPY ./templates /code/templates
 COPY ./static /code/static
 
-CMD ["uvicorn", "app.main:app", "--port", "8080"]
+CMD ["uvicorn", "app.main:app", "--host", "::", "--port", "8080"]
