@@ -13,4 +13,4 @@ COPY ./app /code/app
 COPY ./templates /code/templates
 COPY ./static /code/static
 
-CMD ["uvicorn", "app.main:app"]
+CMD ["uvicorn", "app.main:app", "--port", "8080"]
