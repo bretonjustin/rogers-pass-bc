@@ -341,6 +341,32 @@
     </div>
 </div>
 
+<div class="container-fluid pb-4 pt-4">
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-12">
+                <div id="weather_station_chart" class="d-none d-lg-block">
+                </div>
+                <div id="snow_chart" class="d-block d-lg-none">
+                </div>
+                <div id="air_temp_chart" class="d-block d-lg-none">
+                </div>
+                <div id="wind_speed_chart" class="d-block d-lg-none">
+                </div>
+
+                <script src="https://code.highcharts.com/highcharts.js"></script>
+                <script>{{ data.weather_station_chart[0] | safe }}</script>
+                <script>{{ data.weather_station_chart[1] | safe }}</script>
+                <script>{{ data.weather_station_chart[2] | safe }}</script>
+                <script>{{ data.weather_station_chart[3] | safe }}</script>
+
+            </div>
+        </div>
+        <p class="fw-light fst-italic mt-3 mb-0">Source: <a href="{{data.avalanche_canada_link}}"
+                                                                            target="_blank">{{data.avalanche_source_name}}</a>
+                        </p>
+    </div>
+</div>
 
 {% endblock %}
 

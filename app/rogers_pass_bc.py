@@ -13,13 +13,12 @@ from app.library.canada_park import get_latest_backcountry_access, \
 from app.library.drivebc import start_drivebc_thread, get_latest_drivebc_events, filter_major_events
 from app.library.environement_canada import get_ec_weather_forecast, get_latest_ec_forecast, start_ec_thread
 from app.library.helpers import get_disclaimer
+from app.library.weather_station import start_weather_station_thread, get_latest_weather_station_data
 from app.library.webcams import Webcam
 
 AVALANCHE_LINK = "https://api.avalanche.ca/forecasts/:lang/products/point?lat=51.29998&long=-117.51866"
 WEATHER_LINK = "https://dd.weather.gc.ca/citypage_weather/xml/HEF/s0000856_e.xml"
 DRIVE_LINK = "https://api.open511.gov.bc.ca/events?area_id=drivebc.ca/3"
-
-WEATHER_STATIC_LINK = "https://api.avalanche.ca/weather/stations/98/measurements"
 
 WINDY_LINK = "https://www.windy.com/51.302/-117.520?51.077,-117.377,8"
 
@@ -28,6 +27,8 @@ BACKCOUNTRY_AREA_MAP = "https://www.pc.gc.ca/apps/rogers-pass/"
 
 SPOTWX_LINK = "https://spotwx.com/products/grib_index.php?model=gem_glb_15km&lat=51.27545&lon=-117.52779&tz=America/Vancouver&label="
 SPOTWX_GFS_LINK = "https://spotwx.com/products/grib_index.php?model=gfs_pgrb2_0p25_f&lat=51.30123&lon=-117.52014&tz=America/Vancouver&label=Rogers%20Pass"
+
+WEATHER_STATION_LINK = "https://api.avalanche.ca/weather/stations/98/measurements"
 
 ROGERS_PASS_SUMMIT_DRIVE_WEBCAM = Webcam("Rogers Pass Summit", 1.1, 2.2, 1330, "https://images.drivebc.ca/bchighwaycam/pub/cameras/101.jpg")
 WEBCAMS = [
@@ -80,6 +81,9 @@ environment_canada_thread.start()
 min_reports_thread = threading.Thread(target=start_min_reports_thread, args=(MIN_REPORTS_LINK, ROGERS_PASS_LAT, ROGERS_PASS_LON, RADIUS_KM))
 min_reports_thread.start()
 
+weather_station_thread = threading.Thread(target=start_weather_station_thread, args=(WEATHER_STATION_LINK,))
+weather_station_thread.start()
+
 print("Started Rogers Pass threads")
 
 
@@ -98,6 +102,7 @@ async def rogers_pass(request: Request):
     backcountry_access = get_latest_backcountry_access()
     environment_canada_weather, ec_weather_date_issued_pst = get_latest_ec_forecast()
     min_reports = get_latest_avalanche_canada_min_reports()
+    weather_station_plot = get_latest_weather_station_data()
 
     data = {
         "router_prefix": get_router_prefix(),
@@ -120,6 +125,7 @@ async def rogers_pass(request: Request):
         "environment_canada_weather": environment_canada_weather,
         "environment_canada_date_issued_pst": ec_weather_date_issued_pst,
         "min_reports": min_reports,
+        "weather_station_chart": weather_station_plot,
     }
     response = templates.TemplateResponse("summary.html", {"request": request, "data": data})
     response.headers["Cache-Control"] = "no-cache"
