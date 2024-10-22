@@ -26,19 +26,19 @@ origins = [
     "http://127.0.0.1:8080",
 ]
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
-# app.add_middleware(
-#     TrustedHostMiddleware, allowed_hosts=["rogers-pass-bc.herokuapp.com", "localhost"]
-# )
+app.add_middleware(
+    TrustedHostMiddleware, allowed_hosts=["rogers-pass-bc.herokuapp.com", "localhost", "https://bretonjustin.github.io"]
+)
 
 app.include_router(rogers_pass_bc.router)
 
