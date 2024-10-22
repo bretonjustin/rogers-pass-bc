@@ -79,10 +79,26 @@
             <span class="mb-3 mb-md-0 text-body-secondary">© 2024 <a href="https://justinbreton.xyz/" target="_blank">Justin Breton</a></span>
         </div>
         <div class="col-12 col-md-4 d-flex justify-content-center align-items-center mb-3">
-            <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
-                    data-name="bmc-button" data-slug="justinbreton" data-color="#FFDD00" data-emoji="☕"
-                    data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000"
-                    data-font-color="#000000" data-coffee-color="#ffffff"></script>
+            <div id="coffee-button-container"></div>
+            <script>
+                function loadCoffeeButton() {
+                    const coffeeButtonScript = document.createElement('script');
+                    coffeeButtonScript.type = 'text/javascript';
+                    coffeeButtonScript.src = 'https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js'; // Your button script URL
+                    coffeeButtonScript.setAttribute('data-name', 'bmc-button');
+                    coffeeButtonScript.setAttribute('data-slug', 'justinbreton');
+                    coffeeButtonScript.setAttribute('data-color', '#FFDD00');
+                    coffeeButtonScript.setAttribute('data-emoji', '☕');
+                    coffeeButtonScript.setAttribute('data-font', 'Cookie');
+                    coffeeButtonScript.setAttribute('data-text', 'Buy me a coffee');
+                    coffeeButtonScript.setAttribute('data-outline-color', '#000000');
+                    coffeeButtonScript.setAttribute('data-font-color', '#000000');
+                    coffeeButtonScript.setAttribute('data-coffee-color', '#ffffff');
+
+                    // Append the coffee button script to the container
+                    document.getElementById('coffee-button-container').appendChild(coffeeButtonScript);
+                }
+        </script>
         </div>
 
         <ul class="nav col-12 col-md-4 justify-content-center justify-content-md-end list-unstyled d-flex">
