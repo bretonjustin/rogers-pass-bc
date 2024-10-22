@@ -5,14 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rogers Pass - Summary</title>
     <script>
-        // Fetch content for the homepage from Heroku
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('https://rogers-pass-bc-0b1b000bb973.herokuapp.com/rogers-pass/')
+        // Function to fetch HTML content and inject it into the page
+        function fetchAndInjectHTML(url) {
+            fetch(url)
                 .then(response => response.text())
                 .then(html => {
-                    document.getElementById('content').innerHTML = html;
+                    // Create a temporary DOM element to hold the fetched HTML
+                    let tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+
+                    // Inject the content into the page
+                    document.getElementById('content').innerHTML = tempDiv.innerHTML;
+
+                    // Extract and run any scripts from the fetched HTML
+                    let scripts = tempDiv.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        let newScript = document.createElement('script');
+                        newScript.textContent = script.textContent; // Copy script content
+                        document.body.appendChild(newScript);  // Append and run script
+                    });
                 })
                 .catch(err => console.error('Failed to fetch page content:', err));
+        }
+
+        // Example: Fetch the HTML content from the Heroku URL
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchAndInjectHTML('https://rogers-pass-bc-0b1b000bb973.herokuapp.com/rogers-pass/');
         });
     </script>
 </head>
