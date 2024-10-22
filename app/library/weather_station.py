@@ -154,8 +154,8 @@ def plot_weather_station_data(data):
         "legend": {"enabled": False},  # Disable legend
     })
 
-    return (complete_chart.to_js_literal(), snow_chart.to_js_literal(), air_temp_chart.to_js_literal(),
-            wind_speed_chart.to_js_literal())
+    return (complete_chart.to_js_literal(event_listener_enabled=False), snow_chart.to_js_literal(event_listener_enabled=False), air_temp_chart.to_js_literal(event_listener_enabled=False),
+            wind_speed_chart.to_js_literal(event_listener_enabled=False))
 
 
 def get_weather_station_data(url: str):
