@@ -7,16 +7,6 @@
     <meta name="description"
           content="Your ultimate guide to backcountry skiing conditions. Real-time updates on weather, avalanche risks, road events, webcams, and access details for prime backcountry ski areas. Plan your adventure wisely.">
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P0G50F71HV"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-P0G50F71HV');
-    </script>
-
     <script>
         // Function to fetch HTML content and inject it into the page
         function fetchAndInjectHTML(url) {
@@ -54,6 +44,16 @@
         document.addEventListener('DOMContentLoaded', function() {
             fetchAndInjectHTML('https://rogers-pass-bc-0b1b000bb973.herokuapp.com/rogers-pass/');
         });
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P0G50F71HV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-P0G50F71HV');
     </script>
 </head>
 <body>
