@@ -37,7 +37,7 @@ app.add_middleware(
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
 app.add_middleware(
-    TrustedHostMiddleware, allowed_hosts=["rogers-pass-bc.herokuapp.com", "localhost", "https://bretonjustin.github.io"]
+    TrustedHostMiddleware, allowed_hosts=["rogers-pass-bc-0b1b000bb973.herokuapp.com", "localhost", "bretonjustin.github.io"]
 )
 
 app.include_router(rogers_pass_bc.router)
