@@ -345,20 +345,29 @@
     <div class="container mb-4">
         <div class="row">
             <div class="col-12">
-                <div id="weather_station_chart" class="d-none d-lg-block">
+                <div id="snow_chart" class="">
                 </div>
-                <div id="snow_chart" class="d-block d-lg-none">
+                <div id="air_temp_chart" class="">
                 </div>
-                <div id="air_temp_chart" class="d-block d-lg-none">
-                </div>
-                <div id="wind_speed_chart" class="d-block d-lg-none">
+                <div id="wind_speed_chart" class="">
                 </div>
 
                 <script src="https://code.highcharts.com/highcharts.js"></script>
-                <script>{{ data.weather_station_chart[0] | safe }}</script>
-                <script>{{ data.weather_station_chart[1] | safe }}</script>
-                <script>{{ data.weather_station_chart[2] | safe }}</script>
-                <script>{{ data.weather_station_chart[3] | safe }}</script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        {{ data.weather_station_chart[1] | safe }}
+                    });
+                </script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        {{ data.weather_station_chart[2] | safe }}
+                    });
+                </script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        {{ data.weather_station_chart[3] | safe }}
+                    });
+                </script>
 
             </div>
         </div>
