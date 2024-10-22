@@ -103,6 +103,11 @@ async def rogers_pass(request: Request):
     environment_canada_weather, ec_weather_date_issued_pst = get_latest_ec_forecast()
     min_reports = get_latest_avalanche_canada_min_reports()
     weather_station_plot = get_latest_weather_station_data()
+    highchart_js_raw = ""
+
+    #load highchart js from static lib
+    with open("static/js/highcharts.js", "r") as f:
+        highchart_js_raw = f.read()
 
     data = {
         "router_prefix": get_router_prefix(),
@@ -126,6 +131,7 @@ async def rogers_pass(request: Request):
         "environment_canada_date_issued_pst": ec_weather_date_issued_pst,
         "min_reports": min_reports,
         "weather_station_chart": weather_station_plot,
+        "highchart_js_raw": highchart_js_raw,
     }
     response = templates.TemplateResponse("summary.html", {"request": request, "data": data})
     response.headers["Cache-Control"] = "no-cache"
