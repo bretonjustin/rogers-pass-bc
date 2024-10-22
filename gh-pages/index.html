@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rogers Pass - Summary</title>
+    <script>
+        // Fetch content for the homepage from Heroku
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('https://rogers-pass-bc-0b1b000bb973.herokuapp.com/rogers-pass/')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('content').innerHTML = html;
+                })
+                .catch(err => console.error('Failed to fetch page content:', err));
+        });
+    </script>
+</head>
+<body>
+    <div id="content">Loading...</div>
+</body>
+</html>
