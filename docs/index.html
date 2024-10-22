@@ -20,9 +20,18 @@
                     // Extract and run any scripts from the fetched HTML
                     let scripts = tempDiv.querySelectorAll('script');
                     scripts.forEach(script => {
-                        let newScript = document.createElement('script');
-                        newScript.textContent = script.textContent; // Copy script content
-                        document.body.appendChild(newScript);  // Append and run script
+                        // Execute inline scripts
+                        if (script.src) {
+                            // For external scripts, create a new script element
+                            let newScript = document.createElement('script');
+                            newScript.src = script.src; // Set the src for external scripts
+                            document.body.appendChild(newScript);  // Append to run it
+                        } else {
+                            // For inline scripts
+                            let newScript = document.createElement('script');
+                            newScript.textContent = script.textContent; // Copy script content
+                            document.body.appendChild(newScript);  // Append and run script
+                        }
                     });
                 })
                 .catch(err => console.error('Failed to fetch page content:', err));
