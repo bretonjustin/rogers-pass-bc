@@ -7,6 +7,9 @@
     <meta name="description"
           content="Your ultimate guide to backcountry skiing conditions. Real-time updates on weather, avalanche risks, road events, webcams, and access details for prime backcountry ski areas. Plan your adventure wisely.">
 
+    <link rel="stylesheet" as="style" href="{{ url_for('static', path='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" as="style" href="{{ url_for('static', path='icons/font/bootstrap-icons.min.css') }}">
+
     <script>
         // Function to fetch HTML content and inject it into the page
         function fetchAndInjectHTML(url) {
@@ -51,5 +54,7 @@
 </head>
 <body>
     <div id="content">Loading...</div>
+
+    <script src="{{ url_for('static', path='js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>

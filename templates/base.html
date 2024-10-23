@@ -1,9 +1,6 @@
 <!-- app/templates/base.html -->
 {% block head %}
 <title>{% block title %}{% endblock %}</title>
-<link rel="stylesheet preload" as="style" href="{{ url_for('static', path='css/bootstrap.min.css') }}">
-<link rel="stylesheet preload" as="style" href="{{ url_for('static', path='icons/font/bootstrap-icons.min.css') }}">
-<link rel="stylesheet preload" as="style" href="{{ url_for('static', path='css/cookie.css') }}">
 
 {% endblock %}
 
@@ -69,19 +66,8 @@
     </footer>
 </div>
 
-<!-- Cookie Banner -->
-<div id="cb-cookie-banner" class="alert alert-dark text-center mb-0" role="alert">
-    🍪 This website uses cookies to ensure you get the best experience on our website.
-    <a href="https://www.cookiesandyou.com/" target="blank">Learn more</a>
-    <button type="button" class="btn btn-primary btn-sm ms-3" onclick="window.cb_hideCookieBanner()">
-        I Got It
-    </button>
-</div>
-<!-- End of Cookie Banner -->
-
 {% block scripts %}
-<script src="{{ url_for('static', path='js/cookie.js') }}"></script>
-<script src="{{ url_for('static', path='js/bootstrap.bundle.min.js') }}"></script>
+
 
 {% endblock %}
 
