@@ -142,21 +142,24 @@ def get_avalanche_forecast_data(url: str) -> AvalancheForecast | None:
         for daily_avalanche_rating in json_response["report"]["dangerRatings"]:
             date = daily_avalanche_rating["date"]["display"]
             alpine_danger_rating = daily_avalanche_rating["ratings"]["alp"]["rating"]["value"]
-            alpine_danger_rating = daily_avalanche_rating_values[str(alpine_danger_rating).upper()] + " - " + alpine_danger_rating
+            alpine_danger_rating = daily_avalanche_rating_values[
+                                       str(alpine_danger_rating).upper()] + " - " + alpine_danger_rating
 
             treeline_danger_rating = daily_avalanche_rating["ratings"]["tln"]["rating"]["value"]
-            treeline_danger_rating = daily_avalanche_rating_values[str(treeline_danger_rating).upper()] + " - " + treeline_danger_rating
+            treeline_danger_rating = daily_avalanche_rating_values[
+                                         str(treeline_danger_rating).upper()] + " - " + treeline_danger_rating
 
             below_treeline_danger_rating = daily_avalanche_rating["ratings"]["btl"]["rating"]["value"]
-            below_treeline_danger_rating = daily_avalanche_rating_values[str(below_treeline_danger_rating).upper()] + " - " + below_treeline_danger_rating
+            below_treeline_danger_rating = daily_avalanche_rating_values[
+                                               str(below_treeline_danger_rating).upper()] + " - " + below_treeline_danger_rating
 
             daily_avalanche_ratings.append(
                 DailyAvalancheRating(date, alpine_danger_rating, treeline_danger_rating, below_treeline_danger_rating))
 
         avalanche_forecast_ = AvalancheForecast(id_, daily_avalanche_ratings, [], summary, travel_advice,
-                                               avalanche_summary,
-                                               snowpack_summary, weather_summary, confidence, date_issued, valid_until,
-                                               official_link)
+                                                avalanche_summary,
+                                                snowpack_summary, weather_summary, confidence, date_issued, valid_until,
+                                                official_link)
 
         return avalanche_forecast_
     except Exception as e:
@@ -211,9 +214,6 @@ def get_avalanche_forecast(link: str):
         for element in soup.select('.Forecast_Footer__fTwcV'):
             element.decompose()
 
-        # for element in soup.select('.Notifications_Set__Zo5NW'):
-        #     element.decompose()
-
         # Render the modified content
         modified_content = str(soup)
 
@@ -233,12 +233,6 @@ def get_avalanche_forecast(link: str):
 
 def get_avalanche_canada_weather_forecast():
     return get_latest_avalanche_canada_forecast().weather_summary
-    # json_response = get_json_response(url)
-    # summaries = json_response["report"]["summaries"]
-    #
-    # for summary in summaries:
-    #     if summary["type"]["value"] == "weather-summary":
-    #         return summary["content"]
 
 
 def get_latest_avalanche_canada_min_reports():
