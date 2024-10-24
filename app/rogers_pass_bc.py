@@ -35,8 +35,8 @@ WEBCAMS = [
     ROGERS_PASS_SUMMIT_DRIVE_WEBCAM,
     Webcam("Fidelity Snow Board", 1.1, 2.2, 1910, "https://www.pc.gc.ca/images/remotecamera/sarnif/fidelity/snowstake.jpg"),
     Webcam("Major Rogers snow board", 1.1, 2.2, 1368, "https://www.pc.gc.ca/images/remotecamera/sarnif/MajorRogers/Snowstake.jpg"),
-    Webcam("Mount Abbott", 1.1, 2.2, 0, "https://www.pc.gc.ca/images/remotecamera/sarnif/Abbott/landscape.jpg"),
-    Webcam("Mount Macdonald", -117.502752, 51.307452, 0, "https://www.pc.gc.ca/images/remotecamera/sarnif/Macdonald/landscape.jpg"),
+    Webcam("Mount Abbott", 1.1, 2.2, 1950, "https://www.pc.gc.ca/images/remotecamera/sarnif/Abbott/landscape.jpg"),
+    Webcam("Mount Macdonald", -117.502752, 51.307452, 1910, "https://www.pc.gc.ca/images/remotecamera/sarnif/Macdonald/landscape.jpg"),
 ]
 
 AVALANCHE_SOURCE_NAME = "Avalanche Canada"
@@ -63,6 +63,10 @@ ROUTER_NAME = "Rogers Pass"
 
 templates = Jinja2Templates(directory="templates")
 router.mount("/static", StaticFiles(directory="static"), name="static")
+
+# load highchart js from static lib
+with open("static/js/highcharts.js", "r") as f:
+    highchart_js_raw = f.read()
 
 print("Starting Rogers Pass threads")
 # Start a thread to get the latest events from DriveBC
@@ -103,11 +107,6 @@ async def rogers_pass(request: Request):
     environment_canada_weather, ec_weather_date_issued_pst = get_latest_ec_forecast()
     min_reports = get_latest_avalanche_canada_min_reports()
     weather_station_plot = get_latest_weather_station_data()
-    highchart_js_raw = ""
-
-    #load highchart js from static lib
-    with open("static/js/highcharts.js", "r") as f:
-        highchart_js_raw = f.read()
 
     data = {
         "router_prefix": get_router_prefix(),
