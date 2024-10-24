@@ -97,7 +97,10 @@ def plot_weather_station_data(data):
         "legend": {"enabled": True, "layout": "horizontal", "align": "center", "verticalAlign": "bottom"},
         "tooltip": {
             "shared": True,
-        }
+        },
+        "accessibility": {
+            "enabled": False,
+        },
     })
 
     snow_chart = Chart(container='snow_chart', options={
@@ -116,6 +119,9 @@ def plot_weather_station_data(data):
             {"name": "Snow Height", "data": snow_height_array, "tooltip": {"valueSuffix": " cm"}}
         ],
         "legend": {"enabled": False},  # Disable legend
+        "accessibility": {
+            "enabled": False,
+        },
     })
 
     air_temp_chart = Chart(container='air_temp_chart', options={
@@ -134,6 +140,9 @@ def plot_weather_station_data(data):
             {"name": "Air Temp Avg", "data": air_temp_avg_array, "tooltip": {"valueSuffix": " °C"}}
         ],
         "legend": {"enabled": False},  # Disable legend
+        "accessibility": {
+            "enabled": False,
+        },
     })
 
     wind_speed_chart = Chart(container='wind_speed_chart', options={
@@ -152,6 +161,9 @@ def plot_weather_station_data(data):
             {"name": "Wind Speed Avg", "data": wind_speed_avg_array, "tooltip": {"valueSuffix": " km/h"}}
         ],
         "legend": {"enabled": False},  # Disable legend
+        "accessibility": {
+            "enabled": False,
+        },
     })
 
     return (complete_chart.to_js_literal(event_listener_enabled=False), snow_chart.to_js_literal(event_listener_enabled=False), air_temp_chart.to_js_literal(event_listener_enabled=False),
