@@ -55,8 +55,8 @@ ROGERS_PASS_LON = -117.520997
 RADIUS_KM = 50
 
 router = APIRouter(
-    prefix="/rogers-pass",
-    tags=["rogers-pass"],
+    prefix="/rogers-pass-bc",
+    tags=["rogers-pass-bc"],
 )
 
 ROUTER_NAME = "Rogers Pass"
