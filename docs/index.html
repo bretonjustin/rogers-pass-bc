@@ -20,10 +20,43 @@
                     let tempDiv = document.createElement('div');
                     tempDiv.innerHTML = html;
 
-                    // Inject the content into the page
+                    // Inject the HTML content (excluding scripts) into the page
                     document.getElementById('content').innerHTML = tempDiv.innerHTML;
+
+                    // Check if Highcharts is loaded, then execute scripts
+                    loadHighcharts().then(() => {
+                        // Extract and execute scripts from fetched HTML after Highcharts loads
+                        let fetchedScripts = tempDiv.querySelectorAll('script');
+                        fetchedScripts.forEach(script => {
+                            if (script.src) {
+                                if (!document.querySelector(`script[src="${script.src}"]`)) {
+                                    let newScript = document.createElement('script');
+                                    newScript.src = script.src;
+                                    document.body.appendChild(newScript);
+                                }
+                            } else {
+                                let newScript = document.createElement('script');
+                                newScript.textContent = script.textContent;
+                                document.body.appendChild(newScript);
+                            }
+                        });
+                    });
                 })
                 .catch(err => console.error('Failed to fetch page content:', err));
+        }
+
+        // Function to ensure Highcharts is loaded
+        function loadHighcharts() {
+            return new Promise((resolve) => {
+                if (typeof Highcharts !== 'undefined') {
+                    resolve();
+                } else {
+                    let highchartsScript = document.createElement('script');
+                    highchartsScript.src = "https://code.highcharts.com/highcharts.js";
+                    highchartsScript.onload = resolve;
+                    document.body.appendChild(highchartsScript);
+                }
+            });
         }
 
         // Example: Fetch the HTML content from the Heroku URL
@@ -39,27 +72,5 @@
     <div id="content"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Extract and run any scripts from the fetched HTML
-            let scripts = document.querySelectorAll('script');
-            scripts.forEach(script => {
-                // Execute inline scripts
-                if (script.src) {
-                    // For external scripts, create a new script element
-                    let newScript = document.createElement('script');
-                    newScript.src = script.src; // Set the src for external scripts
-                    document.body.appendChild(newScript);  // Append to run it
-                } else {
-                    // For inline scripts
-                    let newScript = document.createElement('script');
-                    newScript.textContent = script.textContent; // Copy script content
-                    document.body.appendChild(newScript);  // Append and run script
-                }
-            });
-        });
-    </script>
 </body>
 </html>
