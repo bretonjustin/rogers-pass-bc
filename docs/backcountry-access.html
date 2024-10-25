@@ -22,23 +22,6 @@
 
                     // Inject the content into the page
                     document.getElementById('content').innerHTML = tempDiv.innerHTML;
-
-                    // Extract and run any scripts from the fetched HTML
-                    let scripts = tempDiv.querySelectorAll('script');
-                    scripts.forEach(script => {
-                        // Execute inline scripts
-                        if (script.src) {
-                            // For external scripts, create a new script element
-                            let newScript = document.createElement('script');
-                            newScript.src = script.src; // Set the src for external scripts
-                            document.body.appendChild(newScript);  // Append to run it
-                        } else {
-                            // For inline scripts
-                            let newScript = document.createElement('script');
-                            newScript.textContent = script.textContent; // Copy script content
-                            document.body.appendChild(newScript);  // Append and run script
-                        }
-                    });
                 })
                 .catch(err => console.error('Failed to fetch page content:', err));
         }
@@ -55,6 +38,28 @@
 <body>
     <div id="content"></div>
 
-    <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Extract and run any scripts from the fetched HTML
+            let scripts = document.querySelectorAll('script');
+            scripts.forEach(script => {
+                // Execute inline scripts
+                if (script.src) {
+                    // For external scripts, create a new script element
+                    let newScript = document.createElement('script');
+                    newScript.src = script.src; // Set the src for external scripts
+                    document.body.appendChild(newScript);  // Append to run it
+                } else {
+                    // For inline scripts
+                    let newScript = document.createElement('script');
+                    newScript.textContent = script.textContent; // Copy script content
+                    document.body.appendChild(newScript);  // Append and run script
+                }
+            });
+        });
+    </script>
 </body>
 </html>

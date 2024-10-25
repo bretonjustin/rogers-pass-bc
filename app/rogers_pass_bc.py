@@ -130,7 +130,7 @@ async def rogers_pass(request: Request):
         "environment_canada_date_issued_pst": ec_weather_date_issued_pst,
         "min_reports": min_reports,
         "weather_station_chart": weather_station_plot,
-        "highchart_js_raw": highchart_js_raw,
+        # "highchart_js_raw": highchart_js_raw,
     }
     response = templates.TemplateResponse("summary.html", {"request": request, "data": data})
     response.headers["Cache-Control"] = "no-cache"
