@@ -73,7 +73,7 @@ def plot_weather_station_data(data):
         wind_speed_gust_array.append(measurement.windSpeedGust)
         wind_direction_array.append(measurement.windDirCompass)
 
-    colors = ["#2caffe", "#544fc5", "#00e272", "#e69138"]
+    colors = ["#2caffe", "#544fc5", "#00e272", "#e69138", "#a64d79"]
     complete_chart = Chart(container='weather_station_chart', options={
         "chart": {"type": "line",
                   "height": 500,  # Set minimum height here
@@ -170,8 +170,52 @@ def plot_weather_station_data(data):
         },
     })
 
-    return (complete_chart.to_js_literal(event_listener_enabled=False), snow_chart.to_js_literal(event_listener_enabled=False), air_temp_chart.to_js_literal(event_listener_enabled=False),
-            wind_speed_chart.to_js_literal(event_listener_enabled=False))
+    # Define a mapping for wind direction to angles
+    direction_to_angle = {
+        "N": 0, "NE": 45, "E": 90, "SE": 135,
+        "S": 180, "SW": 225, "W": 270, "NW": 315
+    }
+
+    # Convert your wind direction data to angles
+    wind_direction_angles = [direction_to_angle[dir] for dir in wind_direction_array]
+
+    # Define the chart with a custom yAxis for wind directions
+    wind_direction_chart = Chart(container='wind_direction_chart', options={
+        "chart": {
+            "type": "line",
+            "height": 500
+        },
+        "title": {"text": "Rogers Pass Weather Station Wind Direction"},
+        "colors": [colors[4]],  # Choose a unique color
+        "xAxis": {"categories": time_array},
+        "yAxis": {
+            "title": {"text": "Wind Direction"},
+            "labels": {
+                "formatter": {
+                    "function": """
+                    function() {
+                        const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+                        return directions[Math.round(this.value / 45) % 8];
+                    }
+                    """
+                }
+            },
+            "tickPositions": [0, 45, 90, 135, 180, 225, 270, 315]  # Position ticks at each 45-degree interval
+        },
+        "series": [
+            {"name": "Wind Direction", "data": wind_direction_angles, "tooltip": {"valueSuffix": "°"}}
+        ],
+        "legend": {"enabled": False},
+        "accessibility": {
+            "enabled": False,
+        },
+    })
+
+    return (complete_chart.to_js_literal(event_listener_enabled=False),
+            snow_chart.to_js_literal(event_listener_enabled=False),
+            air_temp_chart.to_js_literal(event_listener_enabled=False),
+            wind_speed_chart.to_js_literal(event_listener_enabled=False),
+            wind_direction_chart.to_js_literal(event_listener_enabled=False))
 
 
 def get_weather_station_data(url: str):
