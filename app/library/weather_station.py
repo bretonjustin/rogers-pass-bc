@@ -185,7 +185,7 @@ def get_weather_station_data(url: str):
             # cast each field to a measurement object
             measurements.append(WeatherStationMeasurement(
                 station=measurement["stationId"],
-                measurementDateTime=datetime.fromisoformat(measurement["measurementDateTime"]),
+                measurementDateTime=datetime.strptime(measurement["measurementDateTime"], "%Y-%m-%dT%H:%M:%SZ"),
                 hourlyPrecip=measurement["hourlyPrecip"],
                 snowHeight=measurement["snowHeight"],
                 airTempAvg=measurement["airTempAvg"],

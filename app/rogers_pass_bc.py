@@ -64,10 +64,6 @@ ROUTER_NAME = "Rogers Pass"
 templates = Jinja2Templates(directory="templates")
 router.mount("/static", StaticFiles(directory="static"), name="static")
 
-# load highchart js from static lib
-with open("static/js/highcharts.js", "r") as f:
-    highchart_js_raw = f.read()
-
 print("Starting Rogers Pass threads")
 # Start a thread to get the latest events from DriveBC
 drivebc_thread = threading.Thread(target=start_drivebc_thread, args=(DRIVE_LINK,))
