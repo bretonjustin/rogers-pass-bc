@@ -50,19 +50,31 @@
                 .catch(err => console.error('Failed to fetch page content:', err));
         }
 
-        // Function to ensure Highcharts is loaded
-        function loadHighcharts() {
-            return new Promise((resolve) => {
-                    let highchartsScript = document.createElement('script');
-                    highchartsScript.src = "https://code.highcharts.com/highcharts.js";
-                    highchartsScript.onload = resolve;
-                    document.body.appendChild(highchartsScript);
+// Function to ensure Highcharts is loaded
+function loadHighcharts() {
+    return new Promise((resolve) => {
+        if (typeof Highcharts !== 'undefined') {
+            resolve();
+        } else {
+            let scriptsLoaded = 0;
+            const checkAllScriptsLoaded = () => {
+                scriptsLoaded += 1;
+                if (scriptsLoaded === 2) {
+                    resolve();
+                }
+            };
 
-                    let windBarbScript = document.createElement('script');
-                    windBarbScript.src = "https://code.highcharts.com/modules/windbarb.js";
-                    windBarbScript.onload = resolve;
-                    document.body.appendChild(windBarbScript);
-            });
+            let highchartsScript = document.createElement('script');
+            highchartsScript.src = "https://code.highcharts.com/highcharts.js";
+            highchartsScript.onload = checkAllScriptsLoaded;
+            document.body.appendChild(highchartsScript);
+
+            let windBarbScript = document.createElement('script');
+            windBarbScript.src = "https://code.highcharts.com/modules/windbarb.js";
+            windBarbScript.onload = checkAllScriptsLoaded;
+            document.body.appendChild(windBarbScript);
+        }
+    });
         }
 
         // Example: Fetch the HTML content from the Heroku URL
