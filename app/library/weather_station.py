@@ -162,8 +162,8 @@ def plot_weather_station_data(data):
         "yAxis": {"title": {"text": "Wind Speed (km/h)"},
                   "labels": {"format": "{value} km/h"}},
         "series": [
-            {"name": "Wind Speed Avg", "data": wind_speed_avg_array, "tooltip": {"valueSuffix": " km/h"}},
-            {"name": "Wind Speed Gust", "data": wind_speed_gust_array, "tooltip": {"valueSuffix": " km/h"},
+            {"name": "Wind Speed Avg", "data": wind_speed_avg_array, "tooltip": {"valueSuffix": " km/h", "shared": True}},
+            {"name": "Wind Speed Gust", "data": wind_speed_gust_array, "tooltip": {"valueSuffix": " km/h", "shared": True},
              "dashStyle": "ShortDash"}
         ],
         "legend": {"enabled": True},  # Disable legend
@@ -208,7 +208,8 @@ def plot_weather_station_data(data):
                  "radius": 5  # Size of the points
              },
              "tooltip": {
-                 "pointFormatter": f"function() {{ return 'Wind Direction: ' + {json.dumps(wind_direction_labels)}[this.y]; }}"
+                 "pointFormatter": f"function() {{ return 'Wind Direction: ' + {json.dumps(wind_direction_labels)}[this.y]; }}",
+                 "followTouchMove": False,
              }
              }
         ],
