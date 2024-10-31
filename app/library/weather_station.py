@@ -203,8 +203,12 @@ def plot_weather_station_data(data):
             "title": {"text": "Wind Direction"},
             "categories": wind_direction_labels,  # Use string labels for y-axis
             "labels": {
-                "formatter": "function() { return this.value; }"  # Display the label directly
-            }
+            "formatter": "function() { "  # Custom formatter
+            "    return this.value % 45 === 0 ? this.value === 0 ? 'N' : this.value === 45 ? 'NE' : this.value === 90 ? 'E' : "
+            "             this.value === 135 ? 'SE' : this.value === 180 ? 'S' : "
+            "             this.value === 225 ? 'SW' : this.value === 270 ? 'W' : 'NW' : ''; "  # Return empty string if not a multiple of 45
+            "}"
+        }
         },
         "series": [
         {"name": "Wind Direction", "data": wind_direction_angles, "tooltip": {
