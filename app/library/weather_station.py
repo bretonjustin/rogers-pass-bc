@@ -201,15 +201,12 @@ def plot_weather_station_data(data):
         "xAxis": {"categories": time_array},  # Assume time_array is defined
         "yAxis": {
             "title": {"text": "Wind Direction"},
-            "labels": {
-                "formatter": "function() { return this.value ? Highcharts.getOptions().lang.angle[this.value] : ''; }",
-                "useHTML": True
-            },
             "categories": wind_direction_labels  # Use string labels for y-axis
         },
         "series": [
-            {"name": "Wind Direction", "data": wind_direction_angles, "tooltip": {"valueSuffix": ""}}
-            # Tooltip without suffix
+            {"name": "Wind Direction", "data": wind_direction_angles, "tooltip": {
+                "pointFormatter": "function() { return 'Wind Direction: ' + wind_direction_labels[this.y]; }"  # Custom tooltip
+            }}
         ],
         "legend": {"enabled": True},  # Enable legend
         "accessibility": {
