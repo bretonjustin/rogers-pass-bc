@@ -161,9 +161,16 @@ def plot_weather_station_data(data):
         "xAxis": {"categories": time_array},
         "yAxis": {"title": {"text": "Wind Speed (km/h)"},
                   "labels": {"format": "{value} km/h"}},
+        "tooltip": {
+            "shared": True,  # Enable shared tooltip
+            "useHTML": True,  # Optional: Use HTML for better formatting
+            "headerFormat": '<strong>Time: {point.x}</strong><br/>',  # Customize header
+            "pointFormat": '<span style="color:{series.color}">{series.name}: <b>{point.y} km/h</b></span><br/>'
+            # Customize point format
+        },
         "series": [
-            {"name": "Wind Speed Avg", "data": wind_speed_avg_array, "tooltip": {"valueSuffix": " km/h", "shared": True}},
-            {"name": "Wind Speed Gust", "data": wind_speed_gust_array, "tooltip": {"valueSuffix": " km/h", "shared": True},
+            {"name": "Wind Speed Avg", "data": wind_speed_avg_array, "tooltip": {"valueSuffix": " km/h"}},
+            {"name": "Wind Speed Gust", "data": wind_speed_gust_array, "tooltip": {"valueSuffix": " km/h"},
              "dashStyle": "ShortDash"}
         ],
         "legend": {"enabled": True},  # Disable legend
@@ -187,6 +194,7 @@ def plot_weather_station_data(data):
         "chart": {
             "type": "scatter",
             "height": 500,  # Set minimum height here
+            "panning": False,
             "style": {
                 "minHeight": "500px"  # Ensure it's respected across various devices
             }
