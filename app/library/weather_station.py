@@ -19,7 +19,6 @@ mutex = threading.Lock()
 class WeatherStationMeasurement:
     station: int
     measurementDateTime: datetime
-    transmissionDateTime: datetime
     hourlyPrecip: float
     snowHeight: float
     airTempAvg: float
@@ -57,6 +56,8 @@ def plot_weather_station_data(data):
     snow_height_array = []
     air_temp_avg_array = []
     wind_speed_avg_array = []
+    wind_speed_gust_array = []
+    wind_direction_array = []
 
     # order the data by date time
     data.sort(key=lambda x: x.measurementDateTime)
@@ -69,8 +70,10 @@ def plot_weather_station_data(data):
         snow_height_array.append(measurement.snowHeight)
         air_temp_avg_array.append(measurement.airTempAvg)
         wind_speed_avg_array.append(measurement.windSpeedAvg)
+        wind_speed_gust_array.append(measurement.windSpeedGust)
+        wind_direction_array.append(measurement.windDirCompass)
 
-    colors = ["#2caffe", "#544fc5", "#00e272"]
+    colors = ["#2caffe", "#544fc5", "#00e272", "#e69138"]
     complete_chart = Chart(container='weather_station_chart', options={
         "chart": {"type": "line",
                   "height": 500,  # Set minimum height here
@@ -152,15 +155,16 @@ def plot_weather_station_data(data):
                       "minHeight": "500px"  # Ensure it's respected across various devices
                   }
                   },
-        "title": {"text": "Rogers Pass Weather Station Wind Speed Avg"},
-        "colors": [colors[2]],
+        "title": {"text": "Rogers Pass Weather Station Wind Speed"},
+        "colors": [colors[2], colors[3]],
         "xAxis": {"categories": time_array},
-        "yAxis": {"title": {"text": "Wind Speed Avg (km/h)"},
+        "yAxis": {"title": {"text": "Wind Speed (km/h)"},
                   "labels": {"format": "{value} km/h"}},
         "series": [
-            {"name": "Wind Speed Avg", "data": wind_speed_avg_array, "tooltip": {"valueSuffix": " km/h"}}
+            {"name": "Wind Speed Avg", "data": wind_speed_avg_array, "tooltip": {"valueSuffix": " km/h"}},
+            {"name": "Wind Speed Gust", "data": wind_speed_gust_array, "tooltip": {"valueSuffix": " km/h"}, "dashStyle":"ShortDash"}
         ],
-        "legend": {"enabled": False},  # Disable legend
+        "legend": {"enabled": True},  # Disable legend
         "accessibility": {
             "enabled": False,
         },
@@ -180,9 +184,8 @@ def get_weather_station_data(url: str):
         for measurement in json_response:
             # cast each field to a measurement object
             measurements.append(WeatherStationMeasurement(
-                station=measurement["station"],
+                station=measurement["stationId"],
                 measurementDateTime=datetime.fromisoformat(measurement["measurementDateTime"]),
-                transmissionDateTime=datetime.fromisoformat(measurement["transmissionDateTime"]),
                 hourlyPrecip=measurement["hourlyPrecip"],
                 snowHeight=measurement["snowHeight"],
                 airTempAvg=measurement["airTempAvg"],
