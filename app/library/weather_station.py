@@ -181,38 +181,37 @@ def plot_weather_station_data(data):
     # Convert your wind direction data to angles
     wind_direction_angles = [direction_to_angle[dir] for dir in wind_direction_array]
 
-    wind_barb_data = [
-        [time, speed, angle]
-        for time, speed, angle in zip(time_array, wind_speed_avg_array, wind_direction_angles)
-    ]
+    # Create a reverse mapping for y-axis labels
+    angle_to_direction = {v: k for k, v in direction_to_angle.items()}
 
-    # Define the chart with vector series for wind direction arrows
-    # Create a wind barb chart
+    # Prepare the data for the chart
+    wind_direction_labels = list(angle_to_direction.values())
+
+    # Create the wind direction chart
     wind_direction_chart = Chart(container='wind_direction_chart', options={
         "chart": {
-            "type": "windbarb",
-            "height": 500,
+            "type": "line",
+            "height": 500,  # Set minimum height here
             "style": {
-                "minHeight": "500px"
+                "minHeight": "500px"  # Ensure it's respected across various devices
             }
         },
-        "title": {"text": "Rogers Pass Weather Station Wind Barbs"},
-        "xAxis": {
-            "type": "datetime",
-            "title": {"text": "Time"}
-        },
+        "title": {"text": "Rogers Pass Weather Station Wind Direction"},
+        "colors": [colors[4]],  # Specify your colors as needed
+        "xAxis": {"categories": time_array},  # Assume time_array is defined
         "yAxis": {
-            "title": {"text": "Wind Speed (km/h)"},
-            "labels": {"format": "{value} km/h"}
+            "title": {"text": "Wind Direction"},
+            "labels": {
+                "formatter": "function() { return this.value ? Highcharts.getOptions().lang.angle[this.value] : ''; }",
+                "useHTML": True
+            },
+            "categories": wind_direction_labels  # Use string labels for y-axis
         },
-        "series": [{
-            "name": "Wind Barbs",
-            "data": wind_barb_data,
-            "tooltip": {
-                "pointFormat": "Wind Speed: {point.y} km/h<br>Direction: {point.angle}°"
-            }
-        }],
-        "legend": {"enabled": True},
+        "series": [
+            {"name": "Wind Direction", "data": wind_direction_angles, "tooltip": {"valueSuffix": ""}}
+            # Tooltip without suffix
+        ],
+        "legend": {"enabled": True},  # Enable legend
         "accessibility": {
             "enabled": False,
         },
