@@ -178,32 +178,47 @@ def plot_weather_station_data(data):
 
     # Convert your wind direction data to angles
     wind_direction_angles = [direction_to_angle[dir] for dir in wind_direction_array]
+    wind_direction_labels = wind_direction_array  # Keep the original direction labels
 
-    # Define the chart with a custom yAxis for wind directions
+    # Define the chart with vector series for wind direction arrows
     wind_direction_chart = Chart(container='wind_direction_chart', options={
         "chart": {
-            "type": "line",
+            "type": "vector",
             "height": 500
         },
         "title": {"text": "Rogers Pass Weather Station Wind Direction"},
-        "colors": [colors[4]],  # Choose a unique color
-        "xAxis": {"categories": time_array},
+        "colors": [colors[4]],  # Choose a unique color for arrows
+        "xAxis": {"categories": time_array, "title": {"text": "Time"}},
         "yAxis": {
             "title": {"text": "Wind Direction"},
+            "tickPositions": [0, 45, 90, 135, 180, 225, 270, 315],  # Compass direction angles
             "labels": {
                 "formatter": {
                     "function": """
                     function() {
-                        const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-                        return directions[Math.round(this.value / 45) % 8];
+                        const directions = {0: 'N', 45: 'NE', 90: 'E', 135: 'SE', 180: 'S', 225: 'SW', 270: 'W', 315: 'NW'};
+                        return directions[this.value] || '';
                     }
                     """
                 }
-            },
-            "tickPositions": [0, 45, 90, 135, 180, 225, 270, 315]  # Position ticks at each 45-degree interval
+            }
         },
         "series": [
-            {"name": "Wind Direction", "data": wind_direction_angles, "tooltip": {"valueSuffix": "°"}}
+            {
+                "name": "Wind Direction",
+                "type": "vector",
+                "data": [[i, 0, wind_direction_angles[i]] for i in range(len(wind_direction_angles))],
+                # [x, y, direction]
+                "vectorLength": 10,  # Adjust the arrow length
+                "tooltip": {
+                    "pointFormatter": """
+                    function() {
+                        const labels = %s;
+                        return '<b>' + labels[this.index] + '</b> (' + this.point.direction + '°)';
+                    }
+                    """ % wind_direction_labels  # Insert labels as a JSON array
+                }
+            }
         ],
         "legend": {"enabled": False},
         "accessibility": {
