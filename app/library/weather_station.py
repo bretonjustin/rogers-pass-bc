@@ -1,3 +1,4 @@
+import json
 import threading
 import time
 from dataclasses import dataclass
@@ -11,9 +12,9 @@ from app.library.helpers import get_json_response, default_headers, isLocationIn
 
 from highcharts_core.chart import Chart
 
-
 weather_station_measurement_plot = ""
 mutex = threading.Lock()
+
 
 @dataclass
 class WeatherStationMeasurement:
@@ -162,7 +163,8 @@ def plot_weather_station_data(data):
                   "labels": {"format": "{value} km/h"}},
         "series": [
             {"name": "Wind Speed Avg", "data": wind_speed_avg_array, "tooltip": {"valueSuffix": " km/h"}},
-            {"name": "Wind Speed Gust", "data": wind_speed_gust_array, "tooltip": {"valueSuffix": " km/h"}, "dashStyle":"ShortDash"}
+            {"name": "Wind Speed Gust", "data": wind_speed_gust_array, "tooltip": {"valueSuffix": " km/h"},
+             "dashStyle": "ShortDash"}
         ],
         "legend": {"enabled": True},  # Disable legend
         "accessibility": {
@@ -178,49 +180,39 @@ def plot_weather_station_data(data):
 
     # Convert your wind direction data to angles
     wind_direction_angles = [direction_to_angle[dir] for dir in wind_direction_array]
-    wind_direction_labels = wind_direction_array  # Keep the original direction labels
+
+    wind_barb_data = [
+        [time, speed, angle]
+        for time, speed, angle in zip(time_array, wind_speed_avg_array, wind_direction_angles)
+    ]
 
     # Define the chart with vector series for wind direction arrows
+    # Create a wind barb chart
     wind_direction_chart = Chart(container='wind_direction_chart', options={
         "chart": {
-            "type": "vector",
-            "height": 500
+            "type": "windbarb",
+            "height": 500,
+            "style": {
+                "minHeight": "500px"
+            }
         },
-        "title": {"text": "Rogers Pass Weather Station Wind Direction"},
-        "colors": [colors[4]],  # Choose a unique color for arrows
-        "xAxis": {"categories": time_array, "title": {"text": "Time"}},
+        "title": {"text": "Rogers Pass Weather Station Wind Barbs"},
+        "xAxis": {
+            "type": "datetime",
+            "title": {"text": "Time"}
+        },
         "yAxis": {
-            "title": {"text": "Wind Direction"},
-            "tickPositions": [0, 45, 90, 135, 180, 225, 270, 315],  # Compass direction angles
-            "labels": {
-                "formatter": {
-                    "function": """
-                    function() {
-                        const directions = {0: 'N', 45: 'NE', 90: 'E', 135: 'SE', 180: 'S', 225: 'SW', 270: 'W', 315: 'NW'};
-                        return directions[this.value] || '';
-                    }
-                    """
-                }
-            }
+            "title": {"text": "Wind Speed (km/h)"},
+            "labels": {"format": "{value} km/h"}
         },
-        "series": [
-            {
-                "name": "Wind Direction",
-                "type": "vector",
-                "data": [[i, 0, wind_direction_angles[i]] for i in range(len(wind_direction_angles))],
-                # [x, y, direction]
-                "vectorLength": 10,  # Adjust the arrow length
-                "tooltip": {
-                    "pointFormatter": """
-                    function() {
-                        const labels = %s;
-                        return '<b>' + labels[this.index] + '</b> (' + this.point.direction + '°)';
-                    }
-                    """ % wind_direction_labels  # Insert labels as a JSON array
-                }
+        "series": [{
+            "name": "Wind Barbs",
+            "data": wind_barb_data,
+            "tooltip": {
+                "pointFormat": "Wind Speed: {point.y} km/h<br>Direction: {point.angle}°"
             }
-        ],
-        "legend": {"enabled": False},
+        }],
+        "legend": {"enabled": True},
         "accessibility": {
             "enabled": False,
         },
@@ -267,8 +259,3 @@ def get_latest_weather_station_data():
     global weather_station_measurement_plot
     with mutex:
         return weather_station_measurement_plot
-
-
-
-
-

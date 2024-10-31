@@ -53,14 +53,15 @@
         // Function to ensure Highcharts is loaded
         function loadHighcharts() {
             return new Promise((resolve) => {
-                if (typeof Highcharts !== 'undefined') {
-                    resolve();
-                } else {
                     let highchartsScript = document.createElement('script');
                     highchartsScript.src = "https://code.highcharts.com/highcharts.js";
                     highchartsScript.onload = resolve;
                     document.body.appendChild(highchartsScript);
-                }
+
+                    let windBarbScript = document.createElement('script');
+                    windBarbScript.src = "https://code.highcharts.com/modules/windbarb.js";
+                    windBarbScript.onload = resolve;
+                    document.body.appendChild(windBarbScript);
             });
         }
 
