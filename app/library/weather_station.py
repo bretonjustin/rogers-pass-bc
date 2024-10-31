@@ -172,20 +172,15 @@ def plot_weather_station_data(data):
         },
     })
 
-    # Define a mapping for wind direction to angles
-    direction_to_angle = {
-        "N": 0, "NE": 45, "E": 90, "SE": 135,
-        "S": 180, "SW": 225, "W": 270, "NW": 315
-    }
+    # Define the wind direction labels
+    wind_direction_labels = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
 
-    # Convert your wind direction data to angles
-    wind_direction_angles = [direction_to_angle[dir] for dir in wind_direction_array]
+    # Convert your wind direction data to indices
+    # For example, if your angles are [0, 45, 90, 135, 180, 225, 270, 315]:
+    # wind_direction_angles = [0, 45, 90, 135, 180, 225, 270, 315]  # These should correspond to angles
 
-    # Create a reverse mapping for y-axis labels
-    angle_to_direction = {v: k for k, v in direction_to_angle.items()}
-
-    # Prepare the data for the chart
-    wind_direction_labels = list(angle_to_direction.values())
+    # Convert angles to indices based on the labels
+    wind_direction_indices = [wind_direction_labels.index(direction) for direction in wind_direction_array]
 
     # Create the wind direction chart
     wind_direction_chart = Chart(container='wind_direction_chart', options={
@@ -203,18 +198,16 @@ def plot_weather_station_data(data):
             "title": {"text": "Wind Direction"},
             "categories": wind_direction_labels,  # Use string labels for y-axis
             "labels": {
-            "formatter": "function() { "  # Custom formatter
-            "    return this.value % 45 === 0 ? this.value === 0 ? 'N' : this.value === 45 ? 'NE' : this.value === 90 ? 'E' : "
-            "             this.value === 135 ? 'SE' : this.value === 180 ? 'S' : "
-            "             this.value === 225 ? 'SW' : this.value === 270 ? 'W' : 'NW' : ''; "  # Return empty string if not a multiple of 45
-            "}"
-        }
+                "formatter": "function() { return this.value; }"  # Just return the category
+            }
         },
         "series": [
-        {"name": "Wind Direction", "data": wind_direction_angles, "tooltip": {
-            "pointFormatter": f"function() {{ return 'Wind Direction: ' + {json.dumps(wind_direction_labels)}[this.y / 45]; }}"  # Custom tooltip
-        }}
-    ],
+            {"name": "Wind Direction", "data": wind_direction_indices,
+             "tooltip": {
+                 "pointFormatter": f"function() {{ return 'Wind Direction: ' + {json.dumps(wind_direction_labels)}[this.y]; }}"
+             }
+             }
+        ],
         "legend": {"enabled": True},  # Enable legend
         "accessibility": {
             "enabled": False,
