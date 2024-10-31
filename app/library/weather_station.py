@@ -185,7 +185,7 @@ def plot_weather_station_data(data):
     # Create the wind direction chart
     wind_direction_chart = Chart(container='wind_direction_chart', options={
         "chart": {
-            "type": "line",
+            "type": "scatter",
             "height": 500,  # Set minimum height here
             "style": {
                 "minHeight": "500px"  # Ensure it's respected across various devices
@@ -203,12 +203,16 @@ def plot_weather_station_data(data):
         },
         "series": [
             {"name": "Wind Direction", "data": wind_direction_indices,
+             "marker": {
+                 "enabled": True,  # Enable markers
+                 "radius": 5  # Size of the points
+             },
              "tooltip": {
                  "pointFormatter": f"function() {{ return 'Wind Direction: ' + {json.dumps(wind_direction_labels)}[this.y]; }}"
              }
              }
         ],
-        "legend": {"enabled": True},  # Enable legend
+        "legend": {"enabled": False},  # Enable legend
         "accessibility": {
             "enabled": False,
         },
