@@ -201,11 +201,14 @@ def plot_weather_station_data(data):
         "xAxis": {"categories": time_array},  # Assume time_array is defined
         "yAxis": {
             "title": {"text": "Wind Direction"},
-            "categories": wind_direction_labels  # Use string labels for y-axis
+            "categories": wind_direction_labels,  # Use string labels for y-axis
+            "labels": {
+                "formatter": "function() { return this.value; }"  # Display the label directly
+            }
         },
         "series": [
         {"name": "Wind Direction", "data": wind_direction_angles, "tooltip": {
-            "pointFormatter": f"function() {{ return 'Wind Direction: ' + {json.dumps(wind_direction_labels)}[this.y]; }}"  # Custom tooltip
+            "pointFormatter": f"function() {{ return 'Wind Direction: ' + {json.dumps(wind_direction_labels)}[this.y / 45]; }}"  # Custom tooltip
         }}
     ],
         "legend": {"enabled": True},  # Enable legend
