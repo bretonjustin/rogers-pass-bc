@@ -19,6 +19,8 @@ class DailyAvalancheRating:
 
 
 daily_avalanche_rating_values = {
+    "NORATING": "0",
+    "EARLYSEASON": "0",
     "LOW": "1",
     "MODERATE": "2",
     "CONSIDERABLE": "3",

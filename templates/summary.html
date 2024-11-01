@@ -93,6 +93,8 @@
                         <tr class="table-danger">
                             {% elif "extreme" in data.avalanche_forecast.forecasts[0].alpine_danger_rating  %}
                         <tr class="table-dark">
+                            {% else %}
+                        <tr class="table-info">
                             {% endif %}
                             <td><b>Alpine</b></td>
                             <td class="text-uppercase">{{data.avalanche_forecast.forecasts[0].alpine_danger_rating}}
@@ -109,6 +111,8 @@
                         <tr class="table-danger">
                             {% elif "extreme" in data.avalanche_forecast.forecasts[0].treeline_danger_rating  %}
                         <tr class="table-dark">
+                            {% else %}
+                        <tr class="table-info">
                             {% endif %}
                             <td><b>Treeline</b></td>
                             <td class="text-uppercase">{{data.avalanche_forecast.forecasts[0].treeline_danger_rating}}
@@ -125,6 +129,8 @@
                         <tr class="table-danger">
                             {% elif "extreme" in data.avalanche_forecast.forecasts[0].below_treeline_danger_rating %}
                         <tr class="table-dark">
+                            {% else %}
+                        <tr class="table-info">
                             {% endif %}
                             <td><b>Below Treeline</b></td>
                             <td class="text-uppercase">
