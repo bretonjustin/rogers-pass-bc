@@ -34,9 +34,9 @@ ROGERS_PASS_SUMMIT_DRIVE_WEBCAM = Webcam("Rogers Pass Summit", 1.1, 2.2, 1330, "
 WEBCAMS = [
     ROGERS_PASS_SUMMIT_DRIVE_WEBCAM,
     Webcam("Fidelity Snow Board", 1.1, 2.2, 1910, "https://www.pc.gc.ca/images/remotecamera/sarnif/fidelity/snowstake.jpg"),
-    Webcam("Major Rogers snow board", 1.1, 2.2, 1368, "https://www.pc.gc.ca/images/remotecamera/sarnif/MajorRogers/Snowstake.jpg"),
-    Webcam("Mount Abbott", 1.1, 2.2, 1950, "https://www.pc.gc.ca/images/remotecamera/sarnif/Abbott/landscape.jpg"),
-    Webcam("Mount Macdonald", -117.502752, 51.307452, 1910, "https://www.pc.gc.ca/images/remotecamera/sarnif/Macdonald/landscape.jpg"),
+    Webcam("Major Rogers Snow Board", 1.1, 2.2, 1319, "https://www.pc.gc.ca/images/remotecamera/sarnif/MajorRogers/Snowstake.jpg"),
+    Webcam("Mount Abbott", 1.1, 2.2, 2077, "https://www.pc.gc.ca/images/remotecamera/sarnif/Abbott/landscape.jpg"),
+    Webcam("Mount Macdonald", -117.502752, 51.307452, 1928, "https://www.pc.gc.ca/images/remotecamera/sarnif/Macdonald/landscape.jpg"),
 ]
 
 AVALANCHE_SOURCE_NAME = "Avalanche Canada"
