@@ -120,7 +120,7 @@ def plot_weather_station_data(data):
                           "minHeight": "500px"  # Ensure it's respected across various devices
                       }
                       },
-            "title": {"text": "Rogers Pass Weather Station Snow Height"},
+            "title": {"text": "Snow Height"},
             "colors": [colors[0]],
             "xAxis": {"categories": time_array},
             "yAxis": {"title": {"text": "Snow Height (cm)"},
@@ -141,7 +141,7 @@ def plot_weather_station_data(data):
                           "minHeight": "500px"  # Ensure it's respected across various devices
                       }
                       },
-            "title": {"text": "Rogers Pass Weather Station Air Temp Avg"},
+            "title": {"text": "Air Temperature Average"},
             "colors": [colors[1]],
             "xAxis": {"categories": time_array},
             "yAxis": {"title": {"text": "Air Temp Avg (°C)"},
@@ -162,7 +162,7 @@ def plot_weather_station_data(data):
                           "minHeight": "500px"  # Ensure it's respected across various devices
                       }
                       },
-            "title": {"text": "Rogers Pass Weather Station Wind Speed"},
+            "title": {"text": "Wind Speed"},
             "colors": [colors[2], colors[3]],
             "xAxis": {"categories": time_array},
             "yAxis": {"title": {"text": "Wind Speed (km/h)"},
@@ -204,7 +204,7 @@ def plot_weather_station_data(data):
                     "minHeight": "500px"  # Ensure it's respected across various devices
                 }
             },
-            "title": {"text": "Rogers Pass Weather Station Wind Direction"},
+            "title": {"text": "Wind Direction"},
             "colors": [colors[4]],  # Specify your colors as needed
             "xAxis": {"categories": time_array},  # Assume time_array is defined
             "yAxis": {
