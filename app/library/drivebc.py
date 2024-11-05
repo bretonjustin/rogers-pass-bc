@@ -69,8 +69,8 @@ def filter_major_events(events: list[RoadEvent]) -> list[RoadEvent]:
 
     string_array = [
         "Glacier National Park",
-        "Revelstoke",
-        "Golden",
+        "east of Revelstoke",
+        "west of Golden",
         "Illecillewaet Brake Check"
     ]
 
