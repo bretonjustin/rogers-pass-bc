@@ -1,3 +1,5 @@
+***
+
 #### Backcountry Access & Winter Permit System
 - A [Winter Permit](https://parks.canada.ca/pn-np/bc/glacier/visit/hiver-winter/ski) is required for all backcountry users in Glacier National Park.  
 - A national park pass is required to access the park. The pass can be purchased at the Rogers Pass Discovery Centre or online.  
@@ -5,17 +7,21 @@
 
 *Source: [The Winter Permit System (Parks Canada)](https://parks.canada.ca/pn-np/bc/glacier/visit/hiver-winter/ski)*
 
+***
+
 #### Maps & Books
-##### GeoBackcountry Rogers Pass
+##### *GeoBackcountry Rogers Pass*
 [GeoBackcountry Rogers Pass](https://www.geobackcountry.com/ ) is a great resource for backcountry skiing in Rogers Pass. The book is available for purchase online and in local shops. It provides detailed information on the terrain and backcountry routes in the area.
 
-#####  Glacier National Park Winter Terrain Atlas
+#####  *Glacier National Park Winter Terrain Atlas*
 [Low resolution (PDF 15 MB)](https://pcweb2.azureedge.net/-/media/pn-np/bc/glacier/WET4/visit/winter/ski/atlas/en-terrain-atlas-2019-web.pdf)  
 [High resolution (PDF 73 MB)](https://pcweb2.azureedge.net/-/media/pn-np/bc/glacier/WET4/visit/winter/ski/atlas/en-terrain-atlas-2019-large.pdf)  
 
 The Winter Terrain Atlas provides valuable visual terrain information to backcountry users of Mount Revelstoke and Glacier national parks. It is designed to provide a common language for place and run names and to assist with trip planning and rescue situations. The Winter Terrain Atlas also helps backcountry users identify Winter Permit Area boundaries.  
 
 *Source: [Parks Canada](https://parks.canada.ca/pn-np/bc/glacier/visit/hiver-winter/ski/atlas)*
+
+***
 
 #### Avalanche Safety
 Avalanche Canada provides daily avalanche forecasts for the Glacier National Park area. It is important to check the forecast before heading out into the backcountry. Avalanche Forcast can be found on the [Avalanche Canada](https://www.avalanche.ca/) website.
@@ -26,10 +32,14 @@ It is strongly recommended to have at least the Avalanche Skills Training 1 (AST
 
 *Source: [Avalanche Canada](https://avalanche.ca/education)*
 
+***
+
 #### Road Conditions
 Trans-Canada Highway (Highway 1) is the main highway that runs through Glacier National Park. It is important to check the road conditions before heading out into the backcountry. The [DriveBC](https://drivebc.ca/) website provides up-to-date information on road conditions, road closures, and construction along Highway 1.
 
 *Source: [DriveBC](https://drivebc.ca/)*
+
+***
 
 #### Weather Forecast
 The weather in the mountains can change rapidly. It is important to check the weather forecast before heading out into the backcountry.  
@@ -38,6 +48,8 @@ Ressources include:
 - [Environment Canada](https://weather.gc.ca/) : Short-term weather forecasts.
 - [Windy](https://www.windy.com/): Weather forecast and wind map, different weather models available.
 - [SpotWX](https://spotwx.com/): Weather forecast for specific locations, different weather models available.
+
+***
 
 #### Radio Communications
 Cellular service is limited in the backcountry. It is recommended to carry a radio for communication in case of emergency.
