@@ -44,10 +44,11 @@ Trans-Canada Highway (Highway 1) is the main highway that runs through Glacier N
 #### Weather Forecast
 The weather in the mountains can change rapidly. It is important to check the weather forecast before heading out into the backcountry.  
 Ressources include:
-- [Avalanche Canada's Mountain Weather Forecast](https://www.avalanche.ca/weather/forecast): Detailed weather forecast for mountain regions.
-- [Environment Canada](https://weather.gc.ca/) : Short-term weather forecasts.
-- [Windy](https://www.windy.com/): Weather forecast and wind map, different weather models available.
-- [SpotWX](https://spotwx.com/): Weather forecast for specific locations, different weather models available.
+
+- [Avalanche Canada's Mountain Weather Forecast](https://www.avalanche.ca/weather/forecast): Detailed weather forecast for mountain regions.  
+- [Environment Canada](https://weather.gc.ca/) : Short-term weather forecasts.  
+- [Windy](https://www.windy.com/): Weather forecast and wind map, different weather models available.  
+- [SpotWX](https://spotwx.com/): Weather forecast for specific locations, different weather models available.  
 
 ***
 
