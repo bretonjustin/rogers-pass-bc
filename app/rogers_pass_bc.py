@@ -12,7 +12,7 @@ from app.library.canada_park import get_latest_backcountry_access, \
     start_backcountry_access_thread
 from app.library.drivebc import start_drivebc_thread, get_latest_drivebc_events, filter_major_events
 from app.library.environement_canada import get_ec_weather_forecast, get_latest_ec_forecast, start_ec_thread
-from app.library.helpers import get_disclaimer
+from app.library.helpers import get_disclaimer, get_resources
 from app.library.weather_station import start_weather_station_thread, get_latest_weather_station_data
 from app.library.webcams import Webcam
 
@@ -223,3 +223,14 @@ async def min_reports(request: Request):
         "min_reports": min_reports_,
     }
     return templates.TemplateResponse("min-reports.html", {"request": request, "data": data})
+
+
+@router.get("/resources", response_class=HTMLResponse)
+async def resources(request: Request):
+    resources_ = get_resources()
+    data = {
+        "router_name": ROUTER_NAME,
+        "router_prefix": get_router_prefix(),
+        "resources": resources_,
+    }
+    return templates.TemplateResponse("resources.html", {"request": request, "data": data})

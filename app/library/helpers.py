@@ -63,6 +63,16 @@ def get_disclaimer() -> str:
     return content
 
 
+def get_resources() -> str:
+    # convert .md file /pages/resources.md to html
+    # read the resources.md file
+    with open("app/pages/resources.md", "r") as f:
+        content = f.read()
+    # convert markdown to html
+    content = markdown.markdown(content)
+    return content
+
+
 def isLocationInRadius(centerLat: float, centerLon: float, radius: int, locationLat: float, locationLon: float) -> bool:
     # approximate radius of earth in km
     R = 6371.0
