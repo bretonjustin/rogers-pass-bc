@@ -5,6 +5,7 @@
 
 app = 'rogers-pass-bc'
 primary_region = 'yul'
+swap_size_mb = 512
 
 [build]
 
@@ -18,3 +19,4 @@ primary_region = 'yul'
 
 [[vm]]
   size = 'shared-cpu-1x'
+  memory = 256
