@@ -25,6 +25,7 @@ origins = [
     "https://rogers-pass-bc.fly.dev",
     "http://127.0.0.1:8080",
     "https://bretonjustin.github.io",
+    "https://rogers-pass-bc.fly.dev",
 ]
 
 app.add_middleware(
@@ -38,7 +39,7 @@ app.add_middleware(
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
 app.add_middleware(
-    TrustedHostMiddleware, allowed_hosts=["rogers-pass-bc-0b1b000bb973.herokuapp.com", "localhost"]
+    TrustedHostMiddleware, allowed_hosts=["rogers-pass-bc-0b1b000bb973.herokuapp.com", "rogers-pass-bc.fly.dev", "localhost"]
 )
 
 app.include_router(rogers_pass_bc.router)
