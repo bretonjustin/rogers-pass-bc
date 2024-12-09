@@ -50,7 +50,7 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     # redirect to rogers pass page
-    return RedirectResponse(url="/rogers-pass")
+    return RedirectResponse(url="/rogers-pass-bc")
 
 
 @app.get("/static/{path:path}")
