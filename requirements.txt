@@ -2,12 +2,12 @@ uvicorn~=0.25.0
 aiofiles
 python-multipart
 jinja2~=3.1.2
-fastapi~=0.105.0
+fastapi~=0.115.6
 Markdown~=3.5.1
 requests~=2.32.0
 xmltodict~=0.13.0
 pytz~=2023.3.post1
 beautifulsoup4~=4.12.2
-starlette~=0.27.0
+starlette>=0.40.0
 python-dotenv~=1.0.0
 highcharts-core==1.9.4
