@@ -29,14 +29,13 @@ mutex = threading.Lock()
 def start_drivebc_thread(url: str):
     while True:
         try:
-            global events
-            global major_events
-
             # Get the latest events from DriveBC
             print("Requesting DriveBC events... " + url)
             temp_events, temp_major_events = get_drivebc_events(url)
 
             with mutex:
+                global events
+                global major_events
                 if temp_events is not None and temp_major_events is not None:
                     print("Updating DriveBC events for url: " + url)
                     events = temp_events
@@ -50,10 +49,9 @@ def start_drivebc_thread(url: str):
 
 
 def get_latest_drivebc_events():
-    global events
-    global major_events
-
     with mutex:
+        global events
+        global major_events
         return events, major_events
 
 

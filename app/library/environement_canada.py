@@ -20,14 +20,13 @@ mutex = threading.Lock()
 def start_ec_thread(url: str):
     while True:
         try:
-            global ec_forecast
-            global date_issued_pst
-
             # Get the latest events from DriveBC
             print("Requesting Environment Canada forecast... " + url)
             temp_ec_forecast, date_issued_pst_temp = get_ec_weather_forecast(url)
 
             with mutex:
+                global ec_forecast
+                global date_issued_pst
                 if temp_ec_forecast is not None and date_issued_pst_temp is not None:
                     print("Updating Environment Canada forecast for url: " + url)
                     ec_forecast = temp_ec_forecast
@@ -41,10 +40,9 @@ def start_ec_thread(url: str):
 
 
 def get_latest_ec_forecast():
-    global ec_forecast
-    global date_issued_pst
-
     with mutex:
+        global ec_forecast
+        global date_issued_pst
         return ec_forecast, date_issued_pst
 
 

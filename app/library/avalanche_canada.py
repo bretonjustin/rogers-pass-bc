@@ -71,19 +71,19 @@ class MinReports:
 
 min_reports = MinReports("", "", [])
 avalanche_forecast = AvalancheForecast("", [], [], "", "", "", "", "", "", "", "", "")
-mutex = threading.Lock()
+avalanche_mutex = threading.Lock()
+min_mutex = threading.Lock()
 
 
 def start_avalanche_canada_thread(url: str):
     while True:
         try:
-            global avalanche_forecast
-
             # Get the latest events from DriveBC
             print("Requesting Avalanche Canada forecast... " + url)
             temp_avalanche_forecast = get_avalanche_forecast_data(url)
 
-            with mutex:
+            with avalanche_mutex:
+                global avalanche_forecast
                 if temp_avalanche_forecast is not None:
                     print("Updating Avalanche Canada forecast for url: " + url)
                     avalanche_forecast = temp_avalanche_forecast
@@ -96,9 +96,8 @@ def start_avalanche_canada_thread(url: str):
 
 
 def get_latest_avalanche_canada_forecast():
-    global avalanche_forecast
-
-    with mutex:
+    with avalanche_mutex:
+        global avalanche_forecast
         return avalanche_forecast
 
 
@@ -238,22 +237,20 @@ def get_avalanche_canada_weather_forecast():
 
 
 def get_latest_avalanche_canada_min_reports():
-    global min_reports
-
-    with mutex:
+    with min_mutex:
+        global min_reports
         return min_reports
 
 
 def start_min_reports_thread(url: str, lat: float, lon: float, radius: int):
     while True:
         try:
-            global min_reports
-
             # Get the latest events from DriveBC
             print("Requesting Avalanche Canada min reports... " + url)
             temp_min_reports = get_avalanche_canada_min_reports(url, lat, lon, radius)
 
-            with mutex:
+            with min_mutex:
+                global min_reports
                 if temp_min_reports is not None:
                     print("Updating Avalanche Canada min reports for url: " + url)
                     min_reports = temp_min_reports

@@ -48,13 +48,12 @@ mutex = threading.Lock()
 def start_backcountry_access_thread(url: str):
     while True:
         try:
-            global backcountry_access
-
             # Get the latest events from DriveBC
             print("Requesting backcountry access... " + url)
             temp_backcountry_access = get_backcountry_access(url)
 
             with mutex:
+                global backcountry_access
                 if temp_backcountry_access is not None:
                     print("Updating backcountry access for url: " + url)
                     backcountry_access = temp_backcountry_access
@@ -67,9 +66,8 @@ def start_backcountry_access_thread(url: str):
 
 
 def get_latest_backcountry_access():
-    global backcountry_access
-
     with mutex:
+        global backcountry_access
         return backcountry_access
 
 

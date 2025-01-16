@@ -34,8 +34,6 @@ class WeatherStationMeasurement:
 def start_weather_station_thread(url: str):
     while True:
         try:
-            global weather_station_measurement_plot
-
             # Get the latest events from DriveBC
             print("Requesting Weather Station data... " + url)
             temp_weather_station_measurement = get_weather_station_data(url)
@@ -43,6 +41,7 @@ def start_weather_station_thread(url: str):
             temp_weather_station_measurement_plot = plot_weather_station_data(temp_weather_station_measurement)
 
             with mutex:
+                global weather_station_measurement_plot
                 if temp_weather_station_measurement_plot is not None:
                     print("Updating Weather station for url: " + url)
                     weather_station_measurement_plot = temp_weather_station_measurement_plot
@@ -269,6 +268,6 @@ def get_weather_station_data(url: str):
 
 
 def get_latest_weather_station_data():
-    global weather_station_measurement_plot
     with mutex:
+        global weather_station_measurement_plot
         return weather_station_measurement_plot
