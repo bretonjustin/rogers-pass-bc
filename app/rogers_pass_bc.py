@@ -27,6 +27,7 @@ BACKCOUNTRY_AREA_MAP = "https://www.pc.gc.ca/apps/rogers-pass/"
 
 SPOTWX_LINK = "https://spotwx.com/products/grib_index.php?model=gem_glb_15km&lat=51.27545&lon=-117.52779&tz=America/Vancouver&label="
 SPOTWX_GFS_LINK = "https://spotwx.com/products/grib_index.php?model=gfs_pgrb2_0p25_f&lat=51.30123&lon=-117.52014&tz=America/Vancouver&label=Rogers%20Pass"
+SPOTWX_GDPS_LINK = "https://spotwx.com/products/grib_index.php?model=gem_glb_15km&lat=51.29998&lon=-117.51866&tz=America/Vancouver&label=Rogers%20Pass,%20Columbia%20Shuswap,%20British%20Columbia"
 
 WEATHER_STATION_LINK = "https://weather.prod.avalanche.ca/stations/98/measurements"
 
@@ -120,7 +121,8 @@ async def rogers_pass(request: Request):
         "environment_canada_link": ENVIRONMENT_CANADA_ORG_LINK,
         "backcountry_area_source_name": BACKCOUNTRY_AREA_SOURCE_NAME,
         "backcountry_area_source_link": BACKCOUNTRY_AREA_SOURCE_LINK,
-        "spotwx_link": SPOTWX_GFS_LINK,
+        "spotwx_gfs_link": SPOTWX_GFS_LINK,
+        "spotwx_gdps_link": SPOTWX_GDPS_LINK,
         "windy_link": WINDY_LINK,
         "environment_canada_weather": environment_canada_weather,
         "environment_canada_date_issued_pst": ec_weather_date_issued_pst,
