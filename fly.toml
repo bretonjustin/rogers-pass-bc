@@ -4,7 +4,7 @@
 #
 
 app = 'rogers-pass-bc'
-primary_region = 'yul'
+primary_region = 'yyz'
 swap_size_mb = 512
 
 [build]
