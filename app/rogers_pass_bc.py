@@ -17,7 +17,8 @@ from app.library.weather_station import start_weather_station_thread, get_latest
 from app.library.webcams import Webcam
 
 AVALANCHE_LINK = "https://api.avalanche.ca/forecasts/:lang/products/point?lat=51.29998&long=-117.51866"
-WEATHER_LINK = "https://dd.weather.gc.ca/citypage_weather/xml/HEF/s0000856_e.xml"
+WEATHER_LINK = "https://dd.weather.gc.ca/today/citypage_weather/HEF/17/"
+WEATHER_ID_LINK = "s0000856_en.xml"
 DRIVE_LINK = "https://api.open511.gov.bc.ca/events?area_id=drivebc.ca/3"
 
 WINDY_LINK = "https://www.windy.com/51.302/-117.520?51.077,-117.377,8"
@@ -76,7 +77,7 @@ avalanche_canada_thread.start()
 backcountry_access_thread = threading.Thread(target=start_backcountry_access_thread, args=(BACKCOUNTRY_AREA_DATA,))
 backcountry_access_thread.start()
 
-environment_canada_thread = threading.Thread(target=start_ec_thread, args=(WEATHER_LINK,))
+environment_canada_thread = threading.Thread(target=start_ec_thread, args=(WEATHER_LINK,WEATHER_ID_LINK))
 environment_canada_thread.start()
 
 min_reports_thread = threading.Thread(target=start_min_reports_thread, args=(MIN_REPORTS_LINK, ROGERS_PASS_LAT, ROGERS_PASS_LON, RADIUS_KM))

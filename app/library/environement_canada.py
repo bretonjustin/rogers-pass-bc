@@ -2,7 +2,7 @@ import threading
 import time
 from dataclasses import dataclass
 
-from app.library.helpers import get_xml_response
+from app.library.helpers import get_xml_response, get_html_response
 
 
 @dataclass
@@ -17,18 +17,18 @@ date_issued_pst = ""
 mutex = threading.Lock()
 
 
-def start_ec_thread(url: str):
+def start_ec_thread(url: str, weather_id: str):
     while True:
         try:
             # Get the latest events from DriveBC
-            print("Requesting Environment Canada forecast... " + url)
-            temp_ec_forecast, date_issued_pst_temp = get_ec_weather_forecast(url)
+            print("Requesting Environment Canada forecast... " + url + " for weather id: " + weather_id)
+            temp_ec_forecast, date_issued_pst_temp = get_ec_weather_forecast(url, weather_id)
 
             with mutex:
                 global ec_forecast
                 global date_issued_pst
                 if temp_ec_forecast is not None and date_issued_pst_temp is not None:
-                    print("Updating Environment Canada forecast for url: " + url)
+                    print("Updating Environment Canada forecast for url: " + url + " for weather id: " + weather_id)
                     ec_forecast = temp_ec_forecast
                     date_issued_pst = date_issued_pst_temp
 
@@ -46,9 +46,23 @@ def get_latest_ec_forecast():
         return ec_forecast, date_issued_pst
 
 
-def get_ec_weather_forecast(url: str):
+def get_ec_weather_forecast(url: str, weather_id: str):
     try:
-        data = get_xml_response(url)
+        correct_url = ""
+
+        html_response = get_html_response(url)
+
+        # find the link that contains the weather id
+        for line in html_response.splitlines():
+            if weather_id in line and "xml" in line:
+                # extract the url from the line
+                start_index = line.find("href=\"") + 6
+                end_index = line.find(".xml") + 4
+                correct_url = line[start_index:end_index]
+                correct_url = url + correct_url
+                break
+
+        data = get_xml_response(correct_url)
 
         forecasts = data["siteData"]["forecastGroup"]["forecast"]
         timestamps = data["siteData"]["forecastGroup"]["dateTime"]

@@ -42,6 +42,17 @@ def get_json_response(url: str) -> dict:
     response = get_response(url, json_headers)
     return response.json()
 
+def get_html_response(url: str) -> str:
+    html_headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Content-Type': 'text/html;charset=utf-8',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Connection': 'keep-alive',
+    }
+    response = get_response(url, html_headers)
+    return response.text
 
 def get_xml_response(url: str) -> dict:
     xml_headers = {
