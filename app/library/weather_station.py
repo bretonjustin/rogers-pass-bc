@@ -23,12 +23,11 @@ class WeatherStationMeasurement:
     hourlyPrecip: float
     snowHeight: float
     airTempAvg: float
-    airTempMax: float
-    airTempMin: float
     windSpeedAvg: float
     windDirCompass: str
     windSpeedGust: float
     relativeHumidity: float
+    newSnow: float
 
 
 def start_weather_station_thread(url: str):
@@ -252,12 +251,11 @@ def get_weather_station_data(url: str):
                 hourlyPrecip=measurement["hourlyPrecip"],
                 snowHeight=measurement["snowHeight"],
                 airTempAvg=measurement["airTempAvg"],
-                airTempMax=measurement["airTempMax"],
-                airTempMin=measurement["airTempMin"],
                 windSpeedAvg=measurement["windSpeedAvg"],
                 windDirCompass=measurement["windDirCompass"],
                 windSpeedGust=measurement["windSpeedGust"],
-                relativeHumidity=measurement["relativeHumidity"]
+                relativeHumidity=measurement["relativeHumidity"],
+                newSnow=measurement["newSnow"]
             ))
 
         return measurements
