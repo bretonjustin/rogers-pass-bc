@@ -17,7 +17,7 @@ from app.library.weather_station import start_weather_station_thread, get_latest
 from app.library.webcams import Webcam
 
 AVALANCHE_LINK = "https://api.avalanche.ca/forecasts/:lang/products/point?lat=51.29998&long=-117.51866"
-WEATHER_LINK = "https://dd.weather.gc.ca/today/citypage_weather/HEF/17/"
+WEATHER_LINK = "https://dd.weather.gc.ca/today/citypage_weather/HEF/14/"
 WEATHER_ID_LINK = "s0000856_en.xml"
 DRIVE_LINK = "https://api.open511.gov.bc.ca/events?area_id=drivebc.ca/3"
 
