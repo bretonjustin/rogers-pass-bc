@@ -184,7 +184,24 @@ def plot_weather_station_data(data):
         })
 
         # Define the wind direction labels
-        wind_direction_labels = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+        wind_direction_labels = [
+            "N",
+            "NNE",
+            "NE",
+            "ENE",
+            "E",
+            "ESE",
+            "SE",
+            "SSE",
+            "S",
+            "SSW",
+            "SW",
+            "WSW",
+            "W",
+            "WNW",
+            "NW",
+            "NNW"
+        ]
 
         # Convert your wind direction data to indices
         # For example, if your angles are [0, 45, 90, 135, 180, 225, 270, 315]:
