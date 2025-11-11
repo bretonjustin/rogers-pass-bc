@@ -255,7 +255,7 @@ def get_weather_station_data(url: str):
                 windDirCompass=measurement["windDirCompass"],
                 windSpeedGust=measurement["windSpeedGust"],
                 relativeHumidity=measurement["relativeHumidity"],
-                newSnow=measurement["newSnow"]
+                newSnow=measurement.get("newSnow", 0.0)
             ))
 
         return measurements
